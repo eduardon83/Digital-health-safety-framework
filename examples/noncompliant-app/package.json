@@ -1,0 +1,2 @@
+{ "name": "symptompal-example", "private": true,
+  "dependencies": { "react-native-fbsdk-next": "^13.0.0", "@react-native-firebase/analytics": "^21.0.0", "react-native-appsflyer": "^6.15.0", "openai": "^4.70.0", "@react-native-async-storage/async-storage": "^2.0.0" } }

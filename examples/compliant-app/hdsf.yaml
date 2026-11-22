@@ -1,0 +1,48 @@
+# Fictional example: a wellness app that meets HDSF level 3 in its manifest and code.
+hdsf_version: "0.1"
+product:
+  name: Calm Steps (example)
+  version: 2.3.0
+  url: https://example.org/calm-steps
+  maker: Example Wellbeing, Lda.
+  contact: privacy@example.org
+intended_purpose: >
+  Helps adults build habits of walking, sleep and relaxation by logging daily steps, sleep hours and short breathing
+  sessions, and showing simple weekly summaries. It gives general wellbeing information only.
+profiles: [core, W]
+users: [public]
+features: [accounts, wearables, notifications]
+countries: [PT, ES]
+qualification:
+  medical_device: none
+  class: null
+  notified_body: null
+  rationale: docs/qualification.md
+data:
+  dpia: docs/dpia.md
+  retention: "Account and logs until deletion; inactive accounts deleted after 24 months; backups 35 days"
+  purposes:
+    - {name: provide the service, basis: contract, art9: explicit_consent}
+    - {name: service statistics, basis: legitimate_interest, art9: none, health_data: false}
+  rights: {access: in-app history, export: settings/export (JSON), delete: settings/delete-account}
+  storage_regions: [eu-west-1]
+  third_parties:
+    - {name: Cloud hosting, purpose: hosting and database, jurisdiction: IE, receives_health_data: true, dpa: docs/dpa-hosting.md}
+    - {name: Email service, purpose: account emails, jurisdiction: DE, receives_health_data: false, dpa: docs/dpa-email.md}
+  tracking_on_health_screens: false
+  ads: none
+security:
+  policy: SECURITY.md
+  incident_plan: docs/incident-plan.md
+  sbom: ci
+safety:
+  emergency_route: "Help link in the menu; the app says it is not an emergency service"
+  content_review: docs/content-review.md
+ehds:
+  ehr_system: false
+  claims_ehr_interoperability: false
+nis2:
+  status: not_in_scope
+review:
+  last_reviewed: 2026-11-20
+waivers: []

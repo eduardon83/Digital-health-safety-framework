@@ -1,0 +1,23 @@
+# Open discussions and watch list. Rendered at the end of framework/legislation.md.
+watch:
+  - item: EHDS implementing acts
+    watch: "Commission implementing acts due by 26 Mar 2027: European EHR exchange format, labels for wellness applications, testing environments"
+    effect: "Concrete technical steps for E-INT-01, E-INT-02 and W-EHD-01"
+  - item: MDR and IVDR targeted revision
+    watch: "COM(2025) 1023: Parliament and Council positions, trilogue, final software classification rules"
+    effect: "CORE-QUA-02, M-QUA-01 and M-WCH-01 may change; adopted text moves into Level 1 with its dates"
+  - item: AI Act high-risk guidance
+    watch: "Commission guidance and harmonised standards for high-risk AI, ahead of 2 Aug 2028 for medical devices"
+    effect: "Detail for M-AI-01"
+  - item: EDPB Guidelines 1/2026 on scientific research
+    watch: "Final text after the 2026 consultation"
+    effect: "Confirm R-DAT-01 and R-DAT-02"
+  - item: Digital Omnibus (data)
+    watch: "Changes to the definition of personal data and to device-storage consent"
+    effect: "CORE-DAT-11 and CORE-TRK-01 might change; HDSF relies on neither change"
+  - item: EU health app quality label
+    watch: "Follow-up to Label2Enable and use of ISO/TS 82304-2 in national app libraries and reimbursement"
+    effect: "CORE-SAF-02 and CORE-SAF-03 may become stronger"
+  - item: National packs
+    watch: "Portugal (SPMS, INFARMED, CNPD) and other Member States: national app assessment and reimbursement schemes"
+    effect: "National notes on rules; possibly country packs as in CSEF"

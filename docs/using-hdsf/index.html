@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Using HDSF · HDSF</title><meta name="description" content="Using HDSF"><link rel="stylesheet" href="../style.css"></head>
+<body><header class="top"><div class="in"><a class="brand" href="../">HD<span>SF</span></a><nav aria-label="Main"><a href="../">Home</a><a href="../introduction/">Introduction</a><a href="../regulatory-map/">Regulatory map</a><a href="../qualification/">Device question</a><a href="../catalogue/">Rules</a><a href="../using-hdsf/">Use it</a><a href="../legislation/">Sources</a></nav></div></header>
+<main class="in"><article><p class="meta"><span class="pill">HDSF v0.1.0 guide</span></p><h1>Using HDSF</h1>
+<p>Three ways to use HDSF, from lightest to fullest.</p>
+<h2 id="1-read-and-tick">1. Read and tick</h2>
+<p>Read the <a href="../catalogue/core/">core rules</a> and the profiles that fit your product, then tick the <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/self-assessment/core.md" rel="noopener">self-assessment checklist</a>. Keep evidence next to each tick. No tools needed.</p>
+<h2 id="2-describe-your-product">2. Describe your product</h2>
+<p>Copy <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/templates/hdsf.yaml" rel="noopener">templates/hdsf.yaml</a> to the root of your repository and fill it in. It takes about an hour and answers most questions a reviewer, a buyer or an authority will ask first: the intended purpose, the device question, where data goes, who receives health data, and which documents exist.</p>
+<h2 id="3-run-the-scanner">3. Run the scanner</h2>
+<pre><code class=language-bash>git clone https://github.com/eduardon83/Digital-health-safety-framework hdsf
+pip install pyyaml
+python3 hdsf/tooling/scan.py --repo path/to/your/product --level 1 --out-dir hdsf-report --format md,json,sarif</code></pre>
+<p>Without code (for designers, product owners or buyers who have only the documents):</p>
+<pre><code class=language-bash>python3 hdsf/tooling/scan.py --repo path/to/folder-with-hdsf.yaml --description-only</code></pre>
+<h3 id="reading-the-report">Reading the report</h3>
+<div class="tbl"><table><thead><tr><th>Severity</th><th>Meaning</th></tr></thead><tbody><tr><td>BLOCK</td><td>A MUST rule with a strong sign of a problem. Fix it before launch.</td></tr><tr><td>REVIEW</td><td>A MUST rule with a sign that needs a person to decide.</td></tr><tr><td>WARN</td><td>A SHOULD rule with a sign. Fix it or record why not.</td></tr><tr><td>HUMAN</td><td>A rule that applies but only a person can check. Keep the evidence.</td></tr><tr><td>WAIVED</td><td>A finding covered by an inline comment or a dated waiver.</td></tr></tbody></table></div>
+<p>Automated checks find signs, not proof. A clean report does not mean a product is compliant.</p>
+<h3 id="in-ci">In CI</h3>
+<p>Add the scan to your pipeline and fail on blocking findings:</p>
+<pre><code class=language-bash>python3 hdsf/tooling/scan.py --repo . --level 1 --fail-on block --format sarif --out-dir hdsf-report</code></pre>
+<p>Upload <code>hdsf-report/hdsf.sarif</code> to GitHub code scanning to see findings next to the code. Semgrep users can also use <code>tooling/semgrep/hdsf.yml</code>.</p>
+<h3 id="ignoring-a-finding">Ignoring a finding</h3>
+<p>When a finding is wrong, add a comment on the line or the line above, with a reason:</p>
+<pre><code class=language-js>console.log(&quot;condition picker opened&quot;); // hdsf-ignore: CORE-DAT-10 because no health value is logged</code></pre>
+<p>For a whole rule, add a dated waiver in <code>hdsf.yaml</code>:</p>
+<pre><code class=language-yaml>waivers:
+  - {rule: CORE-SEC-05, reason: &quot;SBOM pipeline ships in March&quot;, until: 2027-03-31}</code></pre>
+<h2 id="with-claude">With Claude</h2>
+<p>The <code>skill/hdsf-review/</code> folder is a skill for Claude. It runs the scanner, reads the report with you and drafts the missing documents (qualification record, DPIA outline, AI inventory).</p>
+<h2 id="the-engine">The engine</h2>
+<p>HDSF runs on the Safety Framework Engine (<code>engine/sfe</code>), shared with the <a href="https://csef.kendirstudios.pt" rel="noopener">Child-Safe EdTech Framework</a>. The engine lives in the CSEF repository; HDSF keeps a pinned copy and records the commit in <code>engine/ENGINE.lock</code>.</p></article></main>
+<footer><div class="in">Health Data Safety Framework (HDSF) v0.1.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0. Not legal or regulatory advice. <a href="https://github.com/eduardon83/Digital-health-safety-framework">Repository</a> · Engine sfe 0.1.0, shared with <a href="https://csef.kendirstudios.pt">CSEF</a>.</div></footer></body></html>

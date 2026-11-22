@@ -1,0 +1,1345 @@
+# Health Data Safety Framework (HDSF) rule catalogue.
+#
+# level:    MUST | SHOULD
+# tier:     1 Legal baseline (law in force or adopted) | 2 Forward-compliant (adopted, applying later; guidance;
+#           standards) | 3 Best practice
+# profiles: core (every product) plus W, M, E, R, T (framework/framework.yaml)
+# users:    [all] or some of public, patients, professionals, children
+# features: the rule applies only if the product declares one of them in hdsf.yaml
+# detection.method: static (code) | manifest (hdsf.yaml) | manual (a person checks) | mixed
+#
+# HDSF is not legal or regulatory advice. Whether software is a medical device is the manufacturer's decision under
+# the MDR or IVDR, and often needs a regulatory expert or a notified body.
+version: "0.1.0"
+retired: []
+
+rules:
+  # ======================================================================= qualification
+  - id: CORE-QUA-01
+    title: The intended purpose is written down
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product has one written intended purpose: what it is for, for whom, and what it claims to do. The
+      same text drives the store listing, the website, the onboarding screens and the qualification decision.
+    rationale: >
+      Under the MDR and IVDR, whether software is a medical device depends almost entirely on the intended
+      purpose the manufacturer claims, not on how the software works (MDCG 2019-11 rev. 1). Without one written
+      purpose, nobody can tell which law applies.
+    improvement: Write the intended purpose in hdsf.yaml (intended_purpose) and in docs/qualification.md; reuse it word for word in listings.
+    effort: low
+    sources: [MDR, IVDR, MDCG-2019-11]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: intended_purpose_missing, confidence: high}
+
+  - id: CORE-QUA-02
+    title: The medical device question is answered and recorded
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Before launch, the maker decides whether the product, or any module of it, is medical device software
+      (MDR), in vitro diagnostic software (IVDR), an Annex XVI product, or none of these, and records the
+      reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.
+    rationale: >
+      Placing medical device software on the market without CE marking is illegal; claiming to be a wellness
+      app does not help if the intended purpose is medical. MDCG 2019-11 rev. 1 (June 2025) adds modular
+      software, disease prevention under Rule 11 and AI.
+    improvement: Fill qualification.medical_device and qualification.rationale in hdsf.yaml; use templates/qualification.md. Ask a regulatory expert when in doubt.
+    effort: medium
+    sources: [MDR, IVDR, MDCG-2019-11]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: qualification_missing, confidence: high}
+        - {type: manifest, check: qualification_rationale_missing, confidence: medium}
+
+  - id: CORE-QUA-03
+    title: Claims match the qualification
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a
+      medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting
+      it, or calculating doses.
+    rationale: >
+      Claims define the intended purpose. A wellness app that markets itself as detecting a disease takes on a
+      medical purpose and becomes a medical device without its paperwork. MDCG 2025-4 asks app platforms to keep
+      medical device apps apart from wellness apps, based on what the maker declares.
+    improvement: Review every public text against the intended purpose before release; keep a list of words the team does not use.
+    effort: low
+    sources: [MDR, MDCG-2019-11, MDCG-2025-4]
+    detection:
+      method: mixed
+      patterns:
+        - {type: manifest, check: wellness_purpose_sounds_medical, confidence: medium}
+
+  - id: CORE-QUA-04
+    title: The qualification is checked again when the product changes
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      A new feature, a new claim, a new AI model or a new user group triggers a recorded check of the
+      qualification and the class. The check is part of the release checklist.
+    rationale: >
+      Software changes often, and a small feature (a dose suggestion, a risk score) can change the intended
+      purpose. The proposed MDR and IVDR revision also changes software classification rules.
+    improvement: Add "qualification still right?" to the release checklist and log the answer in docs/qualification.md.
+    effort: low
+    sources: [MDCG-2019-11, MDR-REV]
+    detection:
+      method: manual
+
+  # ======================================================================= data protection
+  - id: CORE-DAT-01
+    title: Health data is identified, including what other data reveals
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The data inventory marks every field that is health, genetic or biometric data, and every field that
+      reveals health when linked to a person: orders of medicines or health products, app use itself (using a
+      diabetes app), step counts or sleep patterns that show a condition, appointments.
+    rationale: >
+      Art. 9 GDPR protects data concerning health. The CJEU held that order data for pharmacy-only medicines are
+      health data, even without a prescription, when a link to an identifiable person can be made; certainty is
+      not needed (C-21/23 Lindenapotheke).
+    improvement: Add a health flag to each field in the data inventory; treat "reveals health" fields like health data.
+    effort: medium
+    sources: [GDPR, CJEU-LINDEN]
+    detection:
+      method: manual
+
+  - id: CORE-DAT-02
+    title: Each use of health data has an Art. 9 condition
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      For each purpose that uses health data, the record names both the Art. 6 legal basis and the Art. 9(2)
+      condition (for example explicit consent, health or social care under professional secrecy, public health,
+      research). Purposes that have no condition are not carried out.
+    rationale: GDPR Art. 9 bans processing of health data unless an Art. 9(2) condition applies. Art. 6 alone is not enough.
+    improvement: Fill data.purposes in hdsf.yaml with basis and art9 for each purpose.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: art9_condition_missing, confidence: high}
+
+  - id: CORE-DAT-03
+    title: A DPIA is done before launch and kept current
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      A data protection impact assessment covers the product before launch and is updated when features,
+      processors or purposes change.
+    rationale: GDPR Art. 35. Large-scale processing of health data is high risk by nature; national lists name it.
+    improvement: Write docs/dpia.md (templates/dpia-health.md) and link it in hdsf.yaml (data.dpia).
+    effort: medium
+    sources: [GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: dpia_missing, confidence: high}
+
+  - id: CORE-DAT-04
+    title: Explicit consent is separate, specific and easy to withdraw
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no
+      pre-ticked box, and can be withdrawn in the app as easily as it was given. Refusing optional uses never
+      blocks the core service.
+    rationale: GDPR Art. 4(11), 7 and 9(2)(a). Explicit consent must be a clear, specific statement.
+    improvement: Show one consent screen per optional purpose and a "your choices" page in settings.
+    effort: medium
+    sources: [GDPR]
+    detection:
+      method: manual
+
+  - id: CORE-DAT-05
+    title: Only the health data the purpose needs is collected
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Each health field has a purpose that needs it. Optional fields are marked optional. Free-text fields are
+      avoided where a choice list works. Raw sensor streams are reduced on the device when the purpose only needs
+      a summary.
+    rationale: GDPR Art. 5(1)(c) and 25 (data protection by design and by default).
+    improvement: Remove fields without a purpose; make the rest optional where possible; summarise on the device.
+    effort: medium
+    sources: [GDPR]
+    detection:
+      method: manual
+
+  - id: CORE-DAT-06
+    title: Retention periods are set and enforced
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Every store of health data has a retention period and a job that deletes or anonymises data when it ends,
+      including backups and processor copies. National rules for clinical records apply where they exist.
+    rationale: GDPR Art. 5(1)(e).
+    improvement: Set data.retention in hdsf.yaml and test the deletion job.
+    effort: medium
+    sources: [GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: retention_missing, confidence: high}
+
+  - id: CORE-DAT-07
+    title: Every processor that receives health data has a contract and is listed
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Each third party (hosting, analytics, support desk, AI provider, crash reporting) is listed with what it
+      receives. Those that receive health data have a data processing agreement that covers it.
+    rationale: GDPR Art. 28 and 30.
+    improvement: List data.third_parties in hdsf.yaml with receives_health_data and a link to the DPA.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: health_processor_without_dpa, confidence: high}
+
+  - id: CORE-DAT-08
+    title: Transfers outside the EEA have a legal tool
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health data is stored in the EEA by default. Any transfer outside it (including support access and AI
+      providers) rests on an adequacy decision or another Chapter V tool, documented with a transfer assessment.
+    rationale: GDPR Chapter V (Art. 44 to 49).
+    improvement: Choose EEA regions; record any non-EEA processor with its transfer tool in hdsf.yaml.
+    effort: medium
+    sources: [GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: transfer_outside_eea, confidence: medium}
+
+  - id: CORE-DAT-09
+    title: People can see, export and delete their data
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      In the product, a person can see their health data, download it in a common machine-readable format and
+      delete their account and data. Data from connected devices is part of the export.
+    rationale: >
+      GDPR Art. 15, 17 and 20. The Data Act gives users of connected products access to the data they generate.
+      The EHDS adds rights over electronic health data from 2027.
+    improvement: Add export (JSON or FHIR) and delete to account settings; link them in hdsf.yaml (data.rights).
+    effort: medium
+    sources: [GDPR, DATA-ACT, EHDS]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: data_rights_missing, confidence: medium}
+
+  - id: CORE-DAT-10
+    title: No health data in logs, crash reports or debug output
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Logs, crash reports, error trackers and debug output never contain health values, symptoms, diagnoses,
+      medications or free text written by the person.
+    rationale: GDPR Art. 5(1)(f), 25 and 32. Logs are copied widely and kept longer than the data they describe.
+    improvement: Log identifiers and event names only; scrub payloads before they reach the crash reporter.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: medium, flags: i, pattern: '(console\.(log|info|debug|warn)|\bprint|Log\.[dviwe]|logger\.(info|debug|warn)|NSLog|captureMessage)\s*\(.*\b(diagnos\w*|symptom\w*|medication\w*|glucose|blood_?pressure|heart_?rate|pregnan\w*|menstrua\w*|mood_?score|condition)\b'}
+
+  - id: CORE-DAT-11
+    title: Analytics and research use pseudonymised data with keys kept apart
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Product analytics and research extracts use random codes instead of identities. The key that links codes
+      to people stays in a separate system with separate access. Recipients that cannot re-identify are named
+      when the data is collected.
+    rationale: >
+      Pseudonymised data are still personal data for whoever can re-identify (EDPB Guidelines 01/2025); for a
+      recipient without the means, they may not be (CJEU C-413/23 P). The Digital Omnibus proposal would change
+      the definition; HDSF does not rely on that change.
+    improvement: Generate product-scoped random codes; keep the mapping in a separate store; document who holds what.
+    effort: medium
+    sources: [EDPB-PSEUDO, CJEU-SRB, GDPR, OMNIBUS-DATA]
+    detection:
+      method: manual
+
+  - id: CORE-DAT-12
+    title: Health data on the device is encrypted
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health data stored on a phone, tablet or browser uses encrypted storage (Keychain, Keystore, encrypted
+      databases). Plain localStorage, AsyncStorage, SharedPreferences or UserDefaults are not used for it.
+    rationale: GDPR Art. 32 (security appropriate to the risk). ISO 27799 applies security controls to health information.
+    improvement: Move health values to encrypted storage; keep only non-health settings in plain storage.
+    effort: medium
+    sources: [GDPR, ISO-27799]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: medium, flags: i, pattern: '(localStorage\.setItem|AsyncStorage\.setItem|getSharedPreferences|UserDefaults\.standard\.set|prefs\.setString)\s*\(\s*[''"][^''"]*(symptom|diagnos|medication|glucose|health|pregnan|cycle|mood|record)'}
+
+  # ======================================================================= tracking and advertising
+  - id: CORE-TRK-01
+    title: No advertising or tracking SDKs without consent, and none where health data is shown
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Advertising, attribution and cross-app tracking SDKs are not loaded before consent, and never run on
+      screens that collect or show health data. Product analytics, if used, is first-party or a processor bound
+      by contract, without advertising identifiers.
+    rationale: >
+      ePrivacy Art. 5(3) covers any access to the device, not only cookies (EDPB Guidelines 2/2023). Studies of
+      health apps found most sending data to large platforms, often without saying so (Huckvale 2019; Tangari 2021).
+    improvement: Remove ad and attribution SDKs from health products; gate any remaining SDK behind consent and keep it off health screens.
+    effort: medium
+    sources: [EPRIV, EDPB-ART53, GDPR, R-HUCKVALE2019, R-TANGARI2021]
+    detection:
+      method: mixed
+      patterns:
+        - {type: dependency, confidence: medium, names: [react-native-fbsdk-next, com.facebook.android:facebook-android-sdk, com.facebook.android:facebook-core, FBSDKCoreKit, FacebookCore, facebook-sdk, '@react-native-firebase/analytics', firebase-analytics, com.google.firebase:firebase-analytics, FirebaseAnalytics, google-mobile-ads, react-native-google-mobile-ads, com.google.android.gms:play-services-ads, Google-Mobile-Ads-SDK, react-native-appsflyer, com.appsflyer:af-android-sdk, AppsFlyerFramework, react-native-adjust, com.adjust.sdk:adjust-android, Adjust, mixpanel, mixpanel-browser, mixpanel-react-native, amplitude-js, '@amplitude/analytics-browser', '@amplitude/analytics-react-native', '@segment/analytics-next', '@segment/analytics-react-native', react-native-branch, io.branch.sdk.android:library, '@hotjar/browser', '@fullstory/browser', logrocket]}
+        - {type: manifest, check: trackers_on_health_screens, confidence: high}
+
+  - id: CORE-TRK-02
+    title: Events sent to analytics do not reveal health
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Event names and properties sent to any analytics or marketing tool do not contain or imply a condition,
+      symptom, medication or result ("insulin_logged", "depression_test_done").
+    rationale: An event name that names a condition is health data about the person behind the device id (GDPR Art. 9; CJEU C-21/23).
+    improvement: Use neutral event names ("entry_saved") and keep health detail in the product's own protected store.
+    effort: low
+    sources: [GDPR, CJEU-LINDEN]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: high, flags: i, pattern: '(logEvent|trackEvent|\.track|\.capture|setUserProperty)\s*\(\s*[''"][^''"]*(symptom|diagnos|medication|insulin|glucose|pregnan|period|fertil|mood|depress|anxiety|hiv|cancer|therapy)'}
+
+  - id: CORE-TRK-03
+    title: No advertising based on health data
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health data, and data that reveals health, is never used to target, measure or sell advertising, inside or
+      outside the product, and is not sold or shared with data brokers.
+    rationale: >
+      GDPR Art. 9 gives no condition for advertising without explicit consent, and such consent is rarely free. Online
+      platforms may not show ads based on profiling with special categories (DSA Art. 26(3)).
+    improvement: Remove health-based audiences and segments; state in the privacy notice that health data is never used for ads.
+    effort: low
+    sources: [GDPR, DSA]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: ads_with_health_data, confidence: high}
+
+  - id: CORE-TRK-04
+    title: Each release is tested for what it actually sends
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Before each release, someone captures the network traffic of a test session and checks that every
+      destination and data item is in the privacy notice and the processor list.
+    rationale: Only 47% of the user data transmissions of health apps matched their privacy policies in a study of 15,838 apps (Tangari 2021).
+    improvement: Add a traffic check (for example with a proxy) to the release checklist; keep the capture with the release.
+    effort: medium
+    sources: [GDPR, R-TANGARI2021, R-HUCKVALE2019]
+    detection:
+      method: manual
+
+  # ======================================================================= security
+  - id: CORE-SEC-01
+    title: A security policy and a way to report vulnerabilities
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product has a published security contact and vulnerability disclosure policy, and a named person who
+      handles reports.
+    rationale: >
+      GDPR Art. 32. The Cyber Resilience Act requires vulnerability handling for products with digital elements
+      (reporting from 11 Sep 2026). NIS2 requires risk management for health entities.
+    improvement: Add SECURITY.md and a security.txt on the website; link it in hdsf.yaml (security.policy).
+    effort: low
+    sources: [GDPR, CRA, NIS2, IEC-82304-1]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: security_policy_missing, confidence: high}
+
+  - id: CORE-SEC-02
+    title: All traffic is encrypted
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: All network traffic uses TLS. No endpoint uses plain http, except local development.
+    rationale: GDPR Art. 32.
+    improvement: Replace http:// endpoints with https://; enable HSTS and block cleartext traffic in the app config.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: medium, pattern: '[''"]http://(?!localhost|127\.0\.0\.1|10\.|192\.168\.|0\.0\.0\.0|schemas\.|www\.w3\.org|ns\.adobe|purl\.org|xmlns)'}
+
+  - id: CORE-SEC-03
+    title: Access to health records needs strong authentication
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Access to stored health data needs a login with protection against guessing. Accounts of health
+      professionals and administrators use multi-factor authentication. Sessions on shared devices time out.
+    rationale: GDPR Art. 32; NIS2 Art. 21 lists multi-factor authentication among risk management measures. ISO 27799.
+    improvement: Enable MFA for staff and professionals; add rate limiting and session timeouts.
+    effort: medium
+    sources: [GDPR, NIS2, ISO-27799]
+    detection:
+      method: manual
+
+  - id: CORE-SEC-04
+    title: Breach and incident response is planned and rehearsed
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      A written plan says who decides, who tells the data protection authority within 72 hours, who tells
+      affected people, and, where they apply, who reports to the national CSIRT (NIS2) and ENISA (CRA). It is
+      rehearsed once a year.
+    rationale: GDPR Art. 33 and 34; NIS2 Art. 23 (early warning within 24 hours); CRA Art. 14 (from 11 Sep 2026).
+    improvement: Write docs/incident-plan.md and link it in hdsf.yaml (security.incident_plan).
+    effort: medium
+    sources: [GDPR, NIS2, CRA]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: incident_plan_missing, confidence: high}
+
+  - id: CORE-SEC-05
+    title: Components are listed and security updates are promised
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product keeps a software bill of materials, watches it for known vulnerabilities, and states how long
+      it will receive security updates.
+    rationale: >
+      CRA Annex I (main obligations from 11 Dec 2027; medical devices are outside the CRA but the MDR asks for the
+      same). Under the new Product Liability Directive, a missing security update can make software defective.
+    improvement: Generate an SBOM in CI (CycloneDX or SPDX); publish the support period.
+    effort: medium
+    sources: [CRA, PLD, MDR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: sbom_missing, confidence: medium}
+
+  - id: CORE-SEC-06
+    title: No secrets in the code
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: API keys, private keys and passwords are never committed. They live in a secret store.
+    rationale: GDPR Art. 32. A leaked key often opens the whole health database.
+    improvement: Move secrets to the platform's secret store; rotate any key that was ever committed.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: high, pattern: '(sk-(proj-|ant-)?[A-Za-z0-9_\-]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_\-]{35}|-----BEGIN (RSA |EC )?PRIVATE KEY-----)'}
+
+  - id: CORE-SEC-07
+    title: Access to health records is logged
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Every read and change of a person's health record by staff or professionals is logged with who, when and
+      why, and the logs are reviewed.
+    rationale: GDPR Art. 5(2) and 32 (accountability and security). The EHDS makes such logging mandatory for EHR systems (see E-LOG-01).
+    improvement: Add an audit log for record access; review it monthly; keep it tamper-evident.
+    effort: medium
+    sources: [GDPR, EHDS, ISO-27799]
+    detection:
+      method: manual
+
+  # ======================================================================= AI
+  - id: CORE-AI-01
+    title: Every AI component is listed
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical]
+    requirement: >
+      An AI inventory lists each model, its provider, purpose, inputs (health data or not), outputs, human
+      oversight and AI Act role. Provider settings for retention and training are recorded.
+    rationale: >
+      AI Act Art. 4 (AI literacy measures) and the provider and deployer duties that follow from the role. GDPR
+      Art. 5 and 35 when health data goes into a model.
+    improvement: Create docs/ai-inventory.md and link it in hdsf.yaml (ai.inventory).
+    effort: low
+    sources: [AIA, GDPR]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: ai_without_inventory, confidence: high}
+
+  - id: CORE-AI-02
+    title: AI says it is AI, and not a clinician, from the first message
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_generative]
+    requirement: >
+      A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor,
+      nurse or therapist, in plain words, and repeats it when the topic turns to symptoms or treatment. Generated
+      images and audio carry machine-readable marks.
+    rationale: >
+      AI Act Art. 50, applicable from 2 Aug 2026; the Commission's guidelines read the "obvious" exception
+      narrowly. People who are ill or worried are more likely to over-trust an answer.
+    improvement: Add a persistent AI label and a first-message notice; mark generated media.
+    effort: low
+    sources: [AIA, AIA-GL-ART50]
+    detection:
+      method: mixed
+      patterns:
+        - {type: dependency, confidence: medium, names: [openai, '@anthropic-ai/sdk', anthropic, '@google/generative-ai', '@google/genai', google-generativeai, '@mistralai/mistralai', mistralai, groq-sdk, ai, '@ai-sdk/openai', langchain, '@langchain/core']}
+
+  - id: CORE-AI-03
+    title: A general chatbot does not diagnose or advise treatment
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_generative]
+    requirement: >
+      Unless the product is qualified as a medical device for that purpose, its AI does not give a diagnosis, a
+      risk score for a disease, a dose or a treatment change for an individual. It gives general information and
+      points to a professional. The limits are tested with red-team prompts before each model change.
+    rationale: >
+      Personalised diagnosis or treatment advice is a medical intended purpose (MDR Art. 2(1); MDCG 2019-11). The
+      MDCG and the AI Board confirm that AI with a medical purpose must meet both the MDR and the AI Act (MDCG 2025-6).
+    improvement: Add system instructions and output checks for diagnosis and dosing; keep a test set of risky prompts and run it in CI.
+    effort: medium
+    sources: [MDR, MDCG-2019-11, MDCG-2025-6]
+    detection:
+      method: manual
+
+  - id: CORE-AI-04
+    title: AI providers do not keep or train on health data
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical]
+    requirement: >
+      Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention, and no
+      training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA,
+      an Art. 9 condition and, for research, approval.
+    rationale: GDPR Art. 5, 9, 28 and 35.
+    improvement: Choose enterprise or zero-retention settings; record them in the AI inventory.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: manual
+
+  - id: CORE-AI-05
+    title: AI does not exploit illness, age or distress
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical]
+    requirement: >
+      AI features do not use manipulative techniques, or exploit vulnerability due to age, disability, illness or a
+      difficult situation, to change what people do in a way that harms them (for example pushing purchases or
+      stopping treatment).
+    rationale: AI Act Art. 5(1)(a) and (b), applicable since 2 Feb 2025; Commission guidelines on prohibited practices.
+    improvement: Review prompts, reward signals and upsell logic of AI features; document the review.
+    effort: low
+    sources: [AIA, AIA-GL-PROHIB]
+    detection:
+      method: manual
+
+  # ======================================================================= safety and content
+  - id: CORE-SAF-01
+    title: People can always find urgent help
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    features: [symptom_input, mental_health, ai_generative, emergency_content, chat]
+    requirement: >
+      Where people enter symptoms, talk about mental health or chat (with AI or people), the product shows how to
+      get urgent help (112 and national lines) in one tap, and says the product is not an emergency service.
+      Words that signal danger lead to that help, not to a generic answer.
+    rationale: >
+      A product that fails to point to urgent help when someone describes an emergency can be found defective
+      under the new Product Liability Directive (psychological harm counts). ISO/TS 82304-2 assesses health
+      safety in apps.
+    improvement: Add a help button and an emergency route; list it in hdsf.yaml (safety.emergency_route); test it in each language.
+    effort: low
+    sources: [PLD, ISO-82304-2]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: emergency_route_missing, confidence: high}
+
+  - id: CORE-SAF-02
+    title: Health content is reviewed by a qualified person and dated
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health information in the product is written or reviewed by a named, qualified professional, cites its
+      sources and shows when it was last reviewed. Reviews happen at least yearly.
+    rationale: ISO/TS 82304-2 asks for evidence of content quality; the Label2Enable scheme assesses it.
+    improvement: Record reviewer, date and sources per content page; link the register in hdsf.yaml (safety.content_review).
+    effort: medium
+    sources: [ISO-82304-2, LABEL2ENABLE]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: content_review_missing, confidence: medium}
+
+  - id: CORE-SAF-03
+    title: Evidence of benefit fits the claims
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Each benefit the product claims is backed by evidence of a fitting strength (user studies, trials,
+      real-world data), published or available to professionals who recommend it.
+    rationale: ISO/TS 82304-2 and health app assessment schemes ask for evidence of benefit; MDCG 2020-1 sets the bar for medical device software.
+    improvement: Keep an evidence register per claim; prefer outcomes over engagement.
+    effort: high
+    sources: [ISO-82304-2, MDCG-2020-1, LABEL2ENABLE]
+    detection:
+      method: manual
+
+  # ======================================================================= communication and design
+  - id: CORE-COM-01
+    title: People are told in plain words what happens to their health data
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Before the first health data is collected, a short plain-language notice says what is collected, why, who
+      receives it, where it is stored and for how long. The full privacy notice is one tap away.
+    rationale: GDPR Art. 12 and 13. 28% of free health apps studied had no privacy policy at all (Tangari 2021).
+    improvement: Add a one-screen summary before onboarding asks for health data; test it with users.
+    effort: low
+    sources: [GDPR, R-TANGARI2021]
+    detection:
+      method: manual
+
+  - id: CORE-COM-02
+    title: No dark patterns around consent, cancellation or worry
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Consent, subscription and cancellation flows are neutral: equal buttons, no confirm-shaming, no fear-based
+      messages about health to drive purchases, cancellation as easy as sign-up.
+    rationale: GDPR Art. 7 (freely given consent); DSA Art. 25 bans dark patterns on online platforms.
+    improvement: Review flows against a dark pattern checklist; make refusing and cancelling one step.
+    effort: low
+    sources: [GDPR, DSA]
+    detection:
+      method: manual
+
+  - id: CORE-COM-03
+    title: Notifications do not reveal health on the lock screen
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [notifications, medication]
+    requirement: >
+      By default, notifications say nothing about a condition, medication or result ("Time for your check-in", not
+      "Take your HIV medication"). People can choose more detail.
+    rationale: GDPR Art. 5(1)(f) and 25. A lock screen is often seen by others.
+    improvement: Use neutral default texts; offer a detailed mode in settings.
+    effort: low
+    sources: [GDPR]
+    detection:
+      method: manual
+
+  - id: CORE-ACC-01
+    title: The product is accessible
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product meets WCAG 2.2 level AA (EN 301 549). Public sector bodies publish an accessibility statement.
+      Health information is also offered in plain language.
+    rationale: >
+      People with disabilities and long-term conditions use health products more than most. Public hospitals and
+      health services must meet EN 301 549 (Directive (EU) 2016/2102); some services fall under the European
+      Accessibility Act.
+    improvement: Test with screen readers and large text; fix contrast and target sizes; publish a statement.
+    effort: medium
+    sources: [WAD, EAA, EN301549, WCAG22]
+    detection:
+      method: manual
+
+  # ======================================================================= governance
+  - id: CORE-GOV-01
+    title: Named people are responsible for data protection and safety
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product names who is responsible for data protection, security and (for devices) regulatory
+      compliance. A data protection officer is appointed where health data is processed at large scale as a core
+      activity.
+    rationale: GDPR Art. 37(1)(c); MDR Art. 15 (person responsible for regulatory compliance) for devices.
+    improvement: Record the names in hdsf.yaml (governance) and in the privacy notice.
+    effort: low
+    sources: [GDPR, MDR]
+    detection:
+      method: manual
+
+  - id: CORE-GOV-02
+    title: The manifest and the qualification are reviewed every year
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: hdsf.yaml, the qualification and the DPIA are reviewed at least once a year and after any major change.
+    rationale: Law and guidance in digital health move fast (EHDS from 2027, AI Act high-risk dates, MDR revision).
+    improvement: Set review.last_reviewed in hdsf.yaml and a calendar reminder.
+    effort: low
+    sources: [GDPR, EHDS, MDR-REV]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: review_stale, confidence: medium}
+
+  # ======================================================================= children
+  - id: CORE-CHD-01
+    title: Products used by children also meet the CSEF core
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [children]
+    requirement: >
+      When children use the product, it also meets the core rules of the Child-Safe EdTech Framework that fit it
+      (age assurance, parental consent below the national age, design and communication rules), and records
+      the CSEF check.
+    rationale: GDPR Art. 8 and recital 38 give children specific protection. CSEF turns the EU rules for children's digital products into checkable rules.
+    improvement: Run the CSEF scan or the CSEF Workbench; link the report in hdsf.yaml (children.csef_report).
+    effort: medium
+    sources: [GDPR, CSEF]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: children_without_csef, confidence: medium}
+
+  - id: CORE-CHD-02
+    title: Teenagers' confidential health topics stay confidential
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [children]
+    requirement: >
+      Parent or guardian access to a teenager's data follows national law on consent and confidentiality for
+      health care. Topics such as sexual health, mental health and substance use are not shown to parents by
+      default where the teenager may consult on their own.
+    rationale: >
+      Children have data protection rights of their own (GDPR recital 38). National rules on when minors can
+      consent to care differ; the product follows the country where it is used.
+    improvement: Map national ages and rules per country; give teenagers a private space for confidential topics.
+    effort: medium
+    sources: [GDPR, CSEF]
+    detection:
+      method: manual
+
+  # ======================================================================= W: wellness and lifestyle
+  - id: W-QUA-01
+    title: A wellness product stays wellness
+    level: MUST
+    tier: 1
+    profiles: [W]
+    users: [all]
+    requirement: >
+      The product does not add features that serve a medical purpose for an individual (diagnosis, disease
+      monitoring, dose calculation, treatment decisions) without a new qualification. General fitness, sleep,
+      diet and wellbeing features are fine.
+    rationale: MDCG 2019-11 rev. 1 explains when software for lifestyle or wellbeing remains outside the MDR, and when disease prevention brings it under Rule 11.
+    improvement: Keep a list of feature ideas that would need re-qualification; route them through CORE-QUA-04.
+    effort: low
+    sources: [MDR, MDCG-2019-11]
+    detection:
+      method: manual
+
+  - id: W-QUA-02
+    title: Wellness texts make no medical claims
+    level: MUST
+    tier: 1
+    profiles: [W]
+    users: [all]
+    requirement: >
+      Store texts, screens and notifications of a wellness product do not say it diagnoses, detects, treats or
+      cures a disease, or that it is "medical grade" or "clinically proven", unless that is true and qualified.
+    rationale: Claims make the intended purpose (MDR; MDCG 2019-11). MDCG 2025-4 asks platforms to list wellness apps apart from medical device apps.
+    improvement: Search the texts for medical claims before each release and rewrite them.
+    effort: low
+    sources: [MDR, MDCG-2019-11, MDCG-2025-4]
+    detection:
+      method: static
+      patterns:
+        - {type: regex, confidence: medium, flags: i, globs: ['*.json', '*.strings', '*.xml', '*.arb', '*.po', '*.html', '*.yaml', '*.yml', '*.properties'], pattern: '\b(diagnos(e|es|is|ing)\b|detects? (cancer|diabetes|arrhythmia|atrial fibrillation|depression|sleep apnea)|cures? |treats? (depression|anxiety|diabetes|insomnia)|clinically proven|medical[- ]grade)'}
+
+  - id: W-EHD-01
+    title: Interoperability with health records is claimed only with the EHDS label
+    level: MUST
+    tier: 2
+    profiles: [W]
+    users: [all]
+    requirement: >
+      If the product claims it works with electronic health record systems, it meets the EHDS essential
+      requirements and common specifications, carries the EHDS label, informs users of what the
+      interoperability means, and is registered in the EU database.
+    rationale: EHDS Art. 47 to 49 (labelling of wellness applications); applies in stages from 26 Mar 2027.
+    improvement: Either drop the claim or plan the EHDS conformity work and label; record it in hdsf.yaml (ehds).
+    effort: high
+    sources: [EHDS]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: wellness_interop_without_label, confidence: high}
+
+  - id: W-EHD-02
+    title: Data goes to a health record only when the person chooses
+    level: MUST
+    tier: 2
+    profiles: [W]
+    users: [all]
+    requirement: >
+      Being interoperable never means automatic sharing. Each transfer of wellness data to an EHR system, or to a
+      professional, happens only after the person chooses it, and they can choose which data.
+    rationale: EHDS Art. 48(2). The EDPB and EDPS asked for strong limits on the use of wellness data (Joint Opinion 03/2022).
+    improvement: Add a share screen with data choices; log each share; allow stopping future shares.
+    effort: medium
+    sources: [EHDS, EDPB-EDPS-EHDS]
+    detection:
+      method: manual
+
+  - id: W-DAT-01
+    title: Data from wearables and sensors is accessible to the user
+    level: MUST
+    tier: 1
+    profiles: [W]
+    users: [all]
+    features: [wearables, sensors]
+    requirement: >
+      Users can get the data their connected device or related service generates, easily, securely and free,
+      and can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make
+      this possible by design.
+    rationale: Data Act Art. 3 to 5, applicable from 12 Sep 2025 (design duty from 12 Sep 2026).
+    improvement: Offer a data download and a documented sharing route; tell users before purchase what data the product generates.
+    effort: medium
+    sources: [DATA-ACT]
+    detection:
+      method: manual
+
+  - id: W-SEC-01
+    title: Connected wellness products meet the Cyber Resilience Act
+    level: MUST
+    tier: 2
+    profiles: [W]
+    users: [all]
+    features: [wearables, sensors]
+    requirement: >
+      Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by
+      default, security updates, vulnerability handling, and reporting of actively exploited vulnerabilities from
+      11 Sep 2026.
+    rationale: CRA; medical devices are outside it, wellness products with digital elements generally are not.
+    improvement: Run a CRA gap analysis; decide the conformity route and support period.
+    effort: high
+    sources: [CRA]
+    detection:
+      method: manual
+
+  - id: W-DAT-02
+    title: Reproductive, sexual and mental health data stays on the device by default
+    level: MUST
+    tier: 2
+    profiles: [W]
+    users: [all]
+    features: [reproductive_health, mental_health, genetic]
+    requirement: >
+      Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by
+      default. Cloud sync and backup are opt-in, end-to-end encrypted where possible, and explained.
+    rationale: >
+      These are the most sensitive health data and the most often misused (GDPR Art. 9). Apps for depression were
+      found sending data to large platforms without saying so (Huckvale 2019).
+    improvement: Make local storage the default; add an explained opt-in for sync with end-to-end encryption.
+    effort: high
+    sources: [GDPR, R-HUCKVALE2019]
+    detection:
+      method: manual
+
+  # ======================================================================= M: medical device software
+  - id: M-QUA-01
+    title: The class is assigned with reasons
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      The software has a class under MDR Annex VIII (Rule 11 for most software) or IVDR Annex VIII, with the
+      reasons written down, and the conformity route that follows from it.
+    rationale: MDR Art. 51 and Annex VIII; MDCG 2019-11 rev. 1. Most software above class I needs a notified body.
+    improvement: Fill qualification.class in hdsf.yaml and keep the reasoning in docs/qualification.md.
+    effort: medium
+    sources: [MDR, IVDR, MDCG-2019-11]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: device_class_missing, confidence: high}
+
+  - id: M-QMS-01
+    title: A quality management system covers the software life cycle
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      The manufacturer runs a quality management system (ISO 13485) with a software life cycle process (IEC
+      62304): requirements, architecture, verification, release, maintenance and problem resolution.
+    rationale: MDR Art. 10(9) and Annex IX; harmonised standards give presumption of conformity.
+    improvement: Set up the QMS before development of the device version; map the existing process to IEC 62304.
+    effort: high
+    sources: [MDR, ISO-13485, IEC-62304]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: device_docs_missing, confidence: medium}
+
+  - id: M-RSK-01
+    title: Risk management covers clinical, use and security risks
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      A risk management file (ISO 14971) covers wrong outputs, use errors, misuse, cybersecurity and data
+      quality, with controls and residual risk accepted by a named person.
+    rationale: MDR Annex I, Chapter I and section 17 (software and cybersecurity).
+    improvement: Keep docs/risk-management.md under change control; review it with each release.
+    effort: high
+    sources: [MDR, ISO-14971]
+    detection:
+      method: manual
+
+  - id: M-CLN-01
+    title: Clinical evaluation follows MDCG 2020-1
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      A clinical (or performance) evaluation shows valid clinical association, technical performance and clinical
+      performance for the intended purpose, and is updated with post-market data.
+    rationale: MDR Art. 61 and Annex XIV; IVDR Art. 56; MDCG 2020-1 for software.
+    improvement: Write the clinical evaluation plan and report; link them in hdsf.yaml (clinical).
+    effort: high
+    sources: [MDR, IVDR, MDCG-2020-1]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: clinical_evaluation_missing, confidence: high}
+
+  - id: M-PMS-01
+    title: Post-market surveillance and vigilance are running
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      A post-market surveillance plan collects complaints, incidents, app reviews and performance data; serious
+      incidents are reported to the competent authority on time; trends are analysed.
+    rationale: MDR Art. 83 to 92.
+    improvement: Route support tickets and store reviews into the PMS process; name who reports incidents.
+    effort: medium
+    sources: [MDR]
+    detection:
+      method: manual
+
+  - id: M-APP-01
+    title: The store listing shows device information before download
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    requirement: >
+      In app stores and on the website, before download, people see the device name, manufacturer, intended
+      purpose, CE marking, warnings and the electronic instructions for use. The app is listed as a medical
+      device, apart from wellness apps.
+    rationale: Uploading a device app to a platform is placing it on the market (MDCG 2025-4); MDR Art. 7 and Annex I section 23.
+    improvement: Update store listings and the in-app "about" screen with the device information.
+    effort: low
+    sources: [MDR, MDCG-2025-4]
+    detection:
+      method: manual
+
+  - id: M-AI-01
+    title: Medical AI is ready for the AI Act high-risk rules
+    level: MUST
+    tier: 2
+    profiles: [M]
+    users: [all]
+    features: [ai_clinical]
+    requirement: >
+      Medical device AI that needs a notified body meets the AI Act high-risk requirements (risk management,
+      data governance, logging, transparency, human oversight, accuracy and robustness) by 2 Aug 2028, inside one
+      technical file with the MDR documentation.
+    rationale: >
+      Such AI is high-risk under AI Act Art. 6(1); the AI Act does not change the MDR class (MDCG 2025-6). The AI
+      Omnibus sets 2 Aug 2028 for Annex I products.
+    improvement: Add the AI Act sections to the technical file now; link the AI risk file in hdsf.yaml (ai.risk_file).
+    effort: high
+    sources: [AIA, AIA-OMNIBUS, MDCG-2025-6]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: medical_ai_without_risk_file, confidence: high}
+
+  - id: M-AI-02
+    title: Changes to models are controlled
+    level: MUST
+    tier: 1
+    profiles: [M]
+    users: [all]
+    features: [ai_clinical]
+    requirement: >
+      Retraining, new models and new data sources go through change control with an assessment of whether the
+      change is significant, and with verification on a locked test set before release.
+    rationale: MDR Annex IX (changes to approved devices need notified body review when they are substantial); MDCG 2025-6 on AI changes.
+    improvement: Version models and datasets; write the change assessment template; never auto-deploy a retrained model.
+    effort: medium
+    sources: [MDR, MDCG-2025-6]
+    detection:
+      method: manual
+
+  - id: M-WCH-01
+    title: The MDR and IVDR revision is tracked
+    level: SHOULD
+    tier: 3
+    profiles: [M]
+    users: [all]
+    requirement: Someone follows the targeted MDR and IVDR revision and reports changes to classification and software rules to the team.
+    rationale: The Commission proposal of 16 Dec 2025 changes software classification and other rules; it is with Parliament and Council.
+    improvement: Add the procedure to a watch list; review at each quarterly planning.
+    effort: low
+    sources: [MDR-REV]
+    detection:
+      method: manual
+
+  # ======================================================================= E: EHR systems and EHDS
+  - id: E-INT-01
+    title: The EHR system meets the EHDS essential requirements
+    level: MUST
+    tier: 2
+    profiles: [E]
+    users: [all]
+    requirement: >
+      An EHR system has the European interoperability component and the European logging component (EHDS Annex
+      II), passes the digital testing environment, and carries the EU declaration of conformity and CE marking
+      before it is placed on the market under the EHDS dates.
+    rationale: EHDS Chapter III; the Commission describes European digital testing environments for manufacturers.
+    improvement: Plan the conformity work against the EHDS dates; link the evidence in hdsf.yaml (ehds.conformity).
+    effort: high
+    sources: [EHDS]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: ehr_without_ehds_conformity, confidence: high}
+
+  - id: E-INT-02
+    title: Data leaves in the European exchange format, without lock-in
+    level: MUST
+    tier: 2
+    profiles: [E]
+    users: [all]
+    requirement: >
+      The system exports priority categories (patient summaries, ePrescriptions, images, lab results, discharge
+      reports) in the European electronic health record exchange format, and customers can switch provider
+      without losing data or paying exit fees.
+    rationale: EHDS (exchange format); Data Act Chapter VI (switching between data processing services).
+    improvement: Implement the exchange format (FHIR based where specified); document the exit plan for customers.
+    effort: high
+    sources: [EHDS, DATA-ACT, HL7-FHIR]
+    detection:
+      method: manual
+
+  - id: E-LOG-01
+    title: People can see who accessed their record
+    level: MUST
+    tier: 2
+    profiles: [E]
+    users: [all]
+    requirement: >
+      Every access to a person's electronic health data is logged, and the person can see who accessed it and
+      when.
+    rationale: EHDS (logging component and the right to information on access); GDPR Art. 15.
+    improvement: Expose the access log in the patient portal; alert on unusual access.
+    effort: medium
+    sources: [EHDS, GDPR]
+    detection:
+      method: manual
+
+  - id: E-ACC-01
+    title: People can restrict who sees parts of their record
+    level: MUST
+    tier: 2
+    profiles: [E]
+    users: [all]
+    requirement: The system lets people restrict access by professionals to all or part of their data, with an emergency override that is logged.
+    rationale: EHDS rights of natural persons over their electronic health data (primary use).
+    improvement: Add per-category restrictions and a logged break-glass route.
+    effort: high
+    sources: [EHDS]
+    detection:
+      method: manual
+
+  - id: E-DAT-01
+    title: Professionals see records only in a care relationship
+    level: MUST
+    tier: 1
+    profiles: [E, T]
+    users: [all]
+    requirement: >
+      Professionals can open a person's record only when they are part of that person's care, under professional
+      secrecy, and only the parts they need.
+    rationale: GDPR Art. 9(2)(h) and 9(3).
+    notes:
+      - "Portugal: only health professionals may access the clinical record (Lei 12/2005, Art. 5); access on a need-to-know basis (Lei 58/2019, Art. 29)."
+    improvement: Tie access rights to care episodes; review access rights monthly.
+    effort: medium
+    sources: [GDPR, PT-LEI-12-2005, PT-LEI-58-2019]
+    detection:
+      method: manual
+
+  # ======================================================================= R: research and secondary use
+  - id: R-DAT-01
+    title: Research uses have a legal basis and approval
+    level: MUST
+    tier: 1
+    profiles: [R, core]
+    users: [all]
+    features: [research_use]
+    requirement: >
+      Each research use of health data has an Art. 6 basis, an Art. 9(2) condition (often (j) with national
+      safeguards, or explicit consent), ethics approval where required, and a protocol. Research use is not
+      hidden inside the terms of service.
+    rationale: GDPR Art. 9(2)(j) and 89. The EDPB's draft research guidelines (1/2026) are under consultation.
+    improvement: Record each study in hdsf.yaml (research) with basis, approval and protocol.
+    effort: medium
+    sources: [GDPR, EDPB-RESEARCH]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: research_without_approval, confidence: high}
+
+  - id: R-DAT-02
+    title: Care data and research data are kept apart
+    level: MUST
+    tier: 1
+    profiles: [R]
+    users: [all]
+    requirement: >
+      Researchers receive pseudonymised extracts with only the fields the protocol needs, in a separate
+      environment. The re-identification key stays with the care system.
+    rationale: GDPR Art. 25 and 89(1); EDPB Guidelines 01/2025 on pseudonymisation; CJEU C-413/23 P.
+    improvement: Build an extract pipeline with field selection and codes; restrict research environments.
+    effort: medium
+    sources: [GDPR, EDPB-PSEUDO, CJEU-SRB]
+    detection:
+      method: manual
+
+  - id: R-DAT-03
+    title: Only group results are published
+    level: MUST
+    tier: 2
+    profiles: [R]
+    users: [all]
+    requirement: >
+      Published results and open datasets hold group figures only, with small groups suppressed or merged, and are
+      checked for re-identification before release.
+    rationale: GDPR Art. 89; EHDS secondary use allows only anonymised or pseudonymised data in secure processing environments.
+    improvement: Set minimum group sizes; add a disclosure check to the publication step.
+    effort: medium
+    sources: [GDPR, EHDS]
+    detection:
+      method: manual
+
+  - id: R-EHD-01
+    title: The maker is ready to be an EHDS data holder
+    level: SHOULD
+    tier: 2
+    profiles: [R, E, W]
+    users: [all]
+    requirement: >
+      The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has
+      a plan for answering health data access bodies, including for wellness data.
+    rationale: EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.
+    improvement: Write a short dataset description and a contact process for data access bodies.
+    effort: medium
+    sources: [EHDS, EDPB-EDPS-EHDS]
+    detection:
+      method: manual
+
+  - id: R-CLN-01
+    title: Clinical investigations of devices follow the MDR
+    level: MUST
+    tier: 1
+    profiles: [R, M]
+    users: [patients, public]
+    requirement: >
+      A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics
+      committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.
+    rationale: MDR Art. 62 to 82.
+    improvement: Plan the investigation with the competent authority's procedure (INFARMED in Portugal).
+    effort: high
+    sources: [MDR]
+    detection:
+      method: manual
+
+  # ======================================================================= T: telehealth and care delivery
+  - id: T-DAT-01
+    title: Remote consultations are private
+    level: MUST
+    tier: 1
+    profiles: [T]
+    users: [all]
+    features: [telehealth]
+    requirement: >
+      Video, audio and chat consultations are encrypted in transit, ideally end to end, are not recorded without
+      the patient's informed agreement, and do not run through consumer tools without a processing agreement.
+    rationale: GDPR Art. 9(2)(h), 28 and 32; ISO 27799.
+    improvement: Use a health-grade video provider under a DPA; turn recording off by default.
+    effort: medium
+    sources: [GDPR, ISO-27799]
+    detection:
+      method: manual
+
+  - id: T-DAT-02
+    title: Remote care is recorded in the clinical record
+    level: MUST
+    tier: 1
+    profiles: [T]
+    users: [patients]
+    features: [telehealth]
+    requirement: The outcome of each remote consultation is recorded in the clinical record as national law requires, and the patient can access it.
+    rationale: GDPR Art. 15. National law on clinical records applies.
+    notes:
+      - "Portugal: health information, including clinical data, belongs to the person (Lei 12/2005, Art. 3)."
+    improvement: Integrate the consultation notes with the record system; give patients access.
+    effort: medium
+    sources: [GDPR, PT-LEI-12-2005]
+    detection:
+      method: manual
+
+  - id: T-SEC-01
+    title: Care providers meet NIS2
+    level: MUST
+    tier: 1
+    profiles: [T]
+    users: [all]
+    requirement: >
+      A care provider in scope of NIS2 (and its national law) registers with the national authority, applies the
+      risk management measures, reports significant incidents and trains its management body.
+    rationale: NIS2 Art. 20, 21 and 23; health is a sector of high criticality.
+    notes:
+      - "Portugal: Decreto-Lei n.º 125/2025, in force 3 Apr 2026, with CNCS Regulamento n.º 756/2026; management bodies can be personally liable."
+    improvement: Check scope and register; map measures to the national reference framework.
+    effort: high
+    sources: [NIS2, PT-NIS2]
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: nis2_status_missing, confidence: medium}
+
+  - id: T-GOV-01
+    title: Professionals on the platform are verified
+    level: SHOULD
+    tier: 3
+    profiles: [T]
+    users: [all]
+    requirement: The platform checks the identity and licence of each professional before they see patients, and re-checks yearly.
+    rationale: Health app assessment frameworks look at who gives care and with what qualification (ISO/TS 82304-2).
+    improvement: Check against the national register (Ordem dos Médicos and others in Portugal); show the licence in the profile.
+    effort: medium
+    sources: [ISO-82304-2]
+    detection:
+      method: manual

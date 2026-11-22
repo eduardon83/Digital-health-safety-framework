@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The device question · HDSF</title><meta name="description" content="The device question"><link rel="stylesheet" href="../style.css"></head>
+<body><header class="top"><div class="in"><a class="brand" href="../">HD<span>SF</span></a><nav aria-label="Main"><a href="../">Home</a><a href="../introduction/">Introduction</a><a href="../regulatory-map/">Regulatory map</a><a href="../qualification/">Device question</a><a href="../catalogue/">Rules</a><a href="../using-hdsf/">Use it</a><a href="../legislation/">Sources</a></nav></div></header>
+<main class="in"><article><p class="meta"><span class="pill">HDSF v0.1.0 guide</span></p><h1>The device question</h1>
+<p>Is your software a medical device? Every other HDSF answer depends on this one. This guide helps you ask it well and record the answer. It does not answer it for you: the decision is the manufacturer's, under the MDR or IVDR, and it often needs a regulatory expert or a notified body.</p>
+<h2 id="the-key-idea-intended-purpose">The key idea: intended purpose</h2>
+<p>Qualification depends almost entirely on the intended purpose you claim, not on how the software works (MDCG 2019-11 rev. 1, June 2025). The same algorithm can be wellness in one app and a medical device in another, because of what each app says it does.</p>
+<p>So write the intended purpose first (CORE-QUA-01), and make every text match it (CORE-QUA-03): store listings, website, onboarding, notifications, AI answers.</p>
+<h2 id="the-questions-in-order">The questions, in order</h2>
+<p>Follow the decision trees in <a href="https://health.ec.europa.eu/latest-updates/update-mdcg-2019-11-rev1-qualification-and-classification-software-regulation-eu-2017745-and-2025-06-17_en" rel="noopener">MDCG 2019-11 rev. 1</a> and record your answer to each step.</p>
+<ol><li><strong>Is it software?</strong> Not just data, a document or a database used as such.</li><li><strong>Does it drive or influence a hardware medical device?</strong> Then it follows that device.</li><li><strong>Does it do more than store, archive, communicate or simply search data?</strong> Software that only stores or sends data, without changing it for a medical result, is usually not a device.</li><li><strong>Is it for individual patients?</strong> Software for population statistics or general knowledge usually is not a device.</li><li><strong>Does it have a medical purpose in MDR Article 2(1)?</strong> Diagnosis, prevention, monitoring, prediction, prognosis, treatment or alleviation of disease; or of an injury or disability; and some other listed purposes.</li><li><strong>Does it analyse data from samples (in vitro)?</strong> Then the IVDR applies instead of the MDR.</li><li><strong>Is it modular?</strong> Some modules may be devices and others not. Mark the boundary clearly.</li><li><strong>Does it contain AI?</strong> It qualifies the same way; if it is a device, the AI Act adds requirements (MDCG 2025-6).</li></ol>
+<h2 id="signs-you-have-a-medical-purpose">Signs you have a medical purpose</h2>
+<ul><li>It suggests a diagnosis, or a likely condition, for one person.</li><li>It calculates a dose, or tells someone to change a treatment.</li><li>It monitors a disease and alerts when values cross clinical thresholds.</li><li>It predicts a disease risk for one person and suggests what to do.</li><li>It claims to detect, treat, cure or prevent a disease.</li></ul>
+<h2 id="signs-you-probably-do-not">Signs you probably do not</h2>
+<ul><li>General fitness, sleep, diet or wellbeing tips, for people in general.</li><li>Logging and showing data the person enters, without medical interpretation.</li><li>Booking, payment, messaging or record keeping without changing the data for a medical result.</li></ul>
+<p>These are signs, not answers. Disease prevention software can fall under Rule 11; read the MDCG examples closely.</p>
+<h2 id="if-it-is-a-device">If it is a device</h2>
+<ul><li>Find the class (MDR Annex VIII, Rule 11 for most software; IVDR Annex VIII).</li><li>Set up the quality management system (ISO 13485) and software life cycle (IEC 62304), risk management (ISO</li></ul>
+<p>14971), clinical evaluation (MDCG 2020-1) and post-market surveillance.</p>
+<ul><li>Above class I (MDR) or class A (IVDR), you need a notified body.</li><li>In app stores, show the device information before download, and list the app as a medical device (MDCG 2025-4).</li><li>Profile M applies. Add <code>M</code> to <code>profiles</code> in <code>hdsf.yaml</code>.</li></ul>
+<h2 id="if-it-is-not">If it is not</h2>
+<ul><li>Profile W usually applies. Keep the product inside its purpose (W-QUA-01) and its texts free of medical claims</li></ul>
+<p>(W-QUA-02).</p>
+<ul><li>Check the qualification again at each release that adds a feature, a claim, an AI model or a user group</li></ul>
+<p>(CORE-QUA-04).</p>
+<h2 id="record-it">Record it</h2>
+<p>Copy <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/templates/qualification.md" rel="noopener">templates/qualification.md</a> to <code>docs/qualification.md</code>, answer each step, sign and date it, and set in <code>hdsf.yaml</code>:</p>
+<pre><code class=language-yaml>qualification:
+  medical_device: none      # none | mdsw | ivd | annex_xvi
+  class: null
+  rationale: docs/qualification.md</code></pre>
+<p>"Undecided" is a valid state while you build, but not a launch state: the scanner blocks it.</p>
+<h2 id="watch">Watch</h2>
+<p>The Commission proposed a targeted revision of the MDR and IVDR on 16 December 2025, which changes software classification rules (MDR-REV). HDSF will update this guide when the text is adopted.</p></article></main>
+<footer><div class="in">Health Data Safety Framework (HDSF) v0.1.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0. Not legal or regulatory advice. <a href="https://github.com/eduardon83/Digital-health-safety-framework">Repository</a> · Engine sfe 0.1.0, shared with <a href="https://csef.kendirstudios.pt">CSEF</a>.</div></footer></body></html>

@@ -1,0 +1,19 @@
+Health Data Safety Framework (HDSF)
+Copyright 2026 Worlds4Education - Jogos e Ambientes Educativos, Lda. (Kendir Studios) and HDSF contributors
+
+This repository is dual-licensed by content type:
+
+1. Framework content: Creative Commons Attribution 4.0 International (CC BY 4.0)
+   Applies to: framework/ (including rules.yaml, sources.yaml, watch.yaml and the catalogue), self-assessment/,
+   templates/, skill/hdsf-review/SKILL.md, examples/ (except code files), and all other documentation (*.md).
+   Full text: LICENSE-CC-BY-4.0.txt
+   Attribution: "Health Data Safety Framework (HDSF), HDSF contributors, CC BY 4.0", with a link to this repository.
+
+2. Software: Apache License, Version 2.0
+   Applies to: tooling/, engine/, tests/, .github/, skill/hdsf-review/scripts/, and code files in examples/.
+   Full text: LICENSE-APACHE-2.0.txt
+
+Sources cited by the framework (laws, guidance, standards, research) belong to their respective owners and are
+referenced, not reproduced.
+
+HDSF is not legal or regulatory advice, and using it does not certify a product.

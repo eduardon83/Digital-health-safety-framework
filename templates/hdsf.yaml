@@ -1,0 +1,78 @@
+# hdsf.yaml: describe your product for the Health Data Safety Framework (HDSF).
+# Put this file at the root of your repository. Paths are relative to it; URLs are accepted.
+# The scanner reads it to decide which rules apply and to check what code cannot show.
+hdsf_version: "0.1"
+
+product:
+  name: My health app
+  version: 1.0.0
+  url: https://example.org
+  maker: Example Health, Lda.
+  contact: privacy@example.org
+
+# One or two full sentences: what it is for, for whom, what it claims. Reuse it in store listings.
+intended_purpose: >
+  Helps adults track their daily activity, sleep and mood to build healthier habits. It gives general
+  wellbeing information and does not diagnose, treat or monitor any disease.
+
+profiles: [core, W]          # core plus: W wellness, M medical device software, E EHR/EHDS, R research, T telehealth
+users: [public]              # public, patients, professionals, children
+features: [accounts, wearables, notifications]   # see framework/framework.yaml for the list
+countries: [PT]
+
+qualification:
+  medical_device: none       # none | mdsw | ivd | annex_xvi | undecided
+  class: null                # MDR: I, IIa, IIb, III; IVDR: A, B, C, D
+  notified_body: null        # name, number, or "planned"
+  rationale: docs/qualification.md
+
+data:
+  dpia: docs/dpia.md
+  retention: "Account data until deletion; activity data 24 months; backups 35 days"
+  purposes:
+    - {name: provide the service, basis: contract, art9: explicit_consent}
+    - {name: product improvement, basis: legitimate_interest, art9: none, health_data: false}
+  rights: {access: in-app, export: settings/export (JSON), delete: settings/delete-account}
+  storage_regions: [eu-west-1]
+  third_parties:
+    - {name: Hosting provider, purpose: hosting, jurisdiction: DE, receives_health_data: true, dpa: docs/dpa-hosting.pdf}
+  tracking_on_health_screens: false
+  ads: none                  # none | contextual | targeted
+
+ai:
+  inventory: null            # docs/ai-inventory.md, required with ai_generative or ai_clinical
+  risk_file: null            # required for medical device AI (ai_clinical)
+
+security:
+  policy: SECURITY.md
+  incident_plan: docs/incident-plan.md
+  sbom: ci                   # a file, or "ci" if CI produces it
+
+safety:
+  emergency_route: null      # where the urgent help route is, e.g. "Help button on every screen"
+  content_review: null       # register of reviewed health content
+
+clinical:                    # medical device software only
+  qms: null
+  evaluation: null
+  pms_plan: null
+
+ehds:
+  ehr_system: false
+  claims_ehr_interoperability: false
+  label: null
+  conformity: null
+
+research:
+  studies: []                # [{name, basis, art9, approval, protocol}]
+
+children:
+  csef_report: null          # required when users include children
+
+nis2:
+  status: not_in_scope       # not_in_scope | important | essential (care providers, some manufacturers)
+
+review:
+  last_reviewed: 2026-11-22
+
+waivers: []                  # [{rule: CORE-XXX-00, reason: "...", until: 2027-03-31}]

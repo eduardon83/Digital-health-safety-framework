@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml pytest
+      - name: Engine copy matches the locked CSEF commit
+        run: |
+          commit=$(grep '^commit:' engine/ENGINE.lock | cut -d' ' -f2)
+          git clone --quiet https://github.com/eduardon83/child-safe-edtech-framework /tmp/csef
+          git -C /tmp/csef checkout --quiet "$commit"
+          python3 tooling/sync_engine.py --verify /tmp/csef
+      - name: Validate catalogue and check generated files
+        run: python3 tooling/build.py --check
+      - name: Tests
+        run: python3 -m pytest -q
+      - name: Scan the compliant example (must pass at level 3)
+        run: python3 tooling/scan.py --repo examples/compliant-app --level 3 --fail-on review
+      - name: Scan the non-compliant example (report only)
+        run: python3 tooling/scan.py --repo examples/noncompliant-app --level 2 --out-dir dist/example --format md,json,sarif

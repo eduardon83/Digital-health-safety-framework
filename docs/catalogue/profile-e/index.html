@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Profile E: EHR systems and the European Health Data Space · HDSF</title><meta name="description" content="Profile E: EHR systems and the European Health Data Space"><link rel="stylesheet" href="../../style.css"></head>
+<body><header class="top"><div class="in"><a class="brand" href="../../">HD<span>SF</span></a><nav aria-label="Main"><a href="../../">Home</a><a href="../../introduction/">Introduction</a><a href="../../regulatory-map/">Regulatory map</a><a href="../../qualification/">Device question</a><a href="../../catalogue/">Rules</a><a href="../../using-hdsf/">Use it</a><a href="../../legislation/">Sources</a></nav></div></header>
+<main class="in"><article><h1>Profile E: EHR systems and the European Health Data Space</h1>
+<p>EHR systems and the European Health Data Space. HDSF v0.1.0. Rules marked <code>core</code> apply to every product; read them first.</p>
+<div class="tbl"><table><thead><tr><th>ID</th><th>Rule</th><th>Strength</th><th>Level</th><th>Detection</th></tr></thead><tbody><tr><td><a href="#e-acc-01-people-can-restrict-who-sees-parts-of-their-record">E-ACC-01</a></td><td>People can restrict who sees parts of their record</td><td>MUST</td><td>2</td><td>manual</td></tr><tr><td><a href="#e-dat-01-professionals-see-records-only-in-a-care-relationship">E-DAT-01</a></td><td>Professionals see records only in a care relationship</td><td>MUST</td><td>1</td><td>manual</td></tr><tr><td><a href="#e-int-01-the-ehr-system-meets-the-ehds-essential-requirements">E-INT-01</a></td><td>The EHR system meets the EHDS essential requirements</td><td>MUST</td><td>2</td><td>manifest</td></tr><tr><td><a href="#e-int-02-data-leaves-in-the-european-exchange-format-without-lock-in">E-INT-02</a></td><td>Data leaves in the European exchange format, without lock-in</td><td>MUST</td><td>2</td><td>manual</td></tr><tr><td><a href="#e-log-01-people-can-see-who-accessed-their-record">E-LOG-01</a></td><td>People can see who accessed their record</td><td>MUST</td><td>2</td><td>manual</td></tr><tr><td><a href="#r-ehd-01-the-maker-is-ready-to-be-an-ehds-data-holder">R-EHD-01</a></td><td>The maker is ready to be an EHDS data holder</td><td>SHOULD</td><td>2</td><td>manual</td></tr></tbody></table></div>
+<h3 id="e-acc-01-people-can-restrict-who-sees-parts-of-their-record">E-ACC-01: People can restrict who sees parts of their record</h3>
+<p><strong>MUST</strong> · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: high</p>
+<p><strong>Requirement.</strong> The system lets people restrict access by professionals to all or part of their data, with an emergency override that is logged.</p>
+<p><strong>Why.</strong> EHDS rights of natural persons over their electronic health data (primary use).</p>
+<p><strong>How to improve.</strong> Add per-category restrictions and a logged break-glass route.</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2025/327/oj" rel="noopener">EHDS</a></p>
+<h3 id="e-dat-01-professionals-see-records-only-in-a-care-relationship">E-DAT-01: Professionals see records only in a care relationship</h3>
+<p><strong>MUST</strong> · Level 1 (Legal baseline) · Users: all · Detection: manual · Effort: medium</p>
+<p><strong>Requirement.</strong> Professionals can open a person's record only when they are part of that person's care, under professional secrecy, and only the parts they need.</p>
+<p><strong>Why.</strong> GDPR Art. 9(2)(h) and 9(3).</p>
+<p><strong>How to improve.</strong> Tie access rights to care episodes; review access rights monthly.</p>
+<p><strong>National note.</strong> Portugal: only health professionals may access the clinical record (Lei 12/2005, Art. 5); access on a need-to-know basis (Lei 58/2019, Art. 29).</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" rel="noopener">GDPR</a>, <a href="https://diariodarepublica.pt/dr/detalhe/lei/12-2005-624463" rel="noopener">PT-LEI-12-2005</a>, <a href="https://diariodarepublica.pt/dr/detalhe/lei/58-2019-123815982" rel="noopener">PT-LEI-58-2019</a></p>
+<h3 id="e-int-01-the-ehr-system-meets-the-ehds-essential-requirements">E-INT-01: The EHR system meets the EHDS essential requirements</h3>
+<p><strong>MUST</strong> · Level 2 (Forward-compliant) · Users: all · Detection: manifest · Effort: high</p>
+<p><strong>Requirement.</strong> An EHR system has the European interoperability component and the European logging component (EHDS Annex II), passes the digital testing environment, and carries the EU declaration of conformity and CE marking before it is placed on the market under the EHDS dates.</p>
+<p><strong>Why.</strong> EHDS Chapter III; the Commission describes European digital testing environments for manufacturers.</p>
+<p><strong>How to improve.</strong> Plan the conformity work against the EHDS dates; link the evidence in hdsf.yaml (ehds.conformity).</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2025/327/oj" rel="noopener">EHDS</a></p>
+<h3 id="e-int-02-data-leaves-in-the-european-exchange-format-without-lock-in">E-INT-02: Data leaves in the European exchange format, without lock-in</h3>
+<p><strong>MUST</strong> · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: high</p>
+<p><strong>Requirement.</strong> The system exports priority categories (patient summaries, ePrescriptions, images, lab results, discharge reports) in the European electronic health record exchange format, and customers can switch provider without losing data or paying exit fees.</p>
+<p><strong>Why.</strong> EHDS (exchange format); Data Act Chapter VI (switching between data processing services).</p>
+<p><strong>How to improve.</strong> Implement the exchange format (FHIR based where specified); document the exit plan for customers.</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2025/327/oj" rel="noopener">EHDS</a>, <a href="https://eur-lex.europa.eu/eli/reg/2023/2854/oj" rel="noopener">DATA-ACT</a>, <a href="https://hl7.org/fhir/" rel="noopener">HL7-FHIR</a></p>
+<h3 id="e-log-01-people-can-see-who-accessed-their-record">E-LOG-01: People can see who accessed their record</h3>
+<p><strong>MUST</strong> · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium</p>
+<p><strong>Requirement.</strong> Every access to a person's electronic health data is logged, and the person can see who accessed it and when.</p>
+<p><strong>Why.</strong> EHDS (logging component and the right to information on access); GDPR Art. 15.</p>
+<p><strong>How to improve.</strong> Expose the access log in the patient portal; alert on unusual access.</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2025/327/oj" rel="noopener">EHDS</a>, <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" rel="noopener">GDPR</a></p>
+<h3 id="r-ehd-01-the-maker-is-ready-to-be-an-ehds-data-holder">R-EHD-01: The maker is ready to be an EHDS data holder</h3>
+<p><strong>SHOULD</strong> · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium</p>
+<p><strong>Requirement.</strong> The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.</p>
+<p><strong>Why.</strong> EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.</p>
+<p><strong>How to improve.</strong> Write a short dataset description and a contact process for data access bodies.</p>
+<p><strong>Sources.</strong> <a href="https://eur-lex.europa.eu/eli/reg/2025/327/oj" rel="noopener">EHDS</a>, <a href="https://www.edpb.europa.eu/system/files/2022-07/edpb_edps_jointopinion_202203_europeanhealthdataspace_en.pdf" rel="noopener">EDPB-EDPS-EHDS</a></p></article></main>
+<footer><div class="in">Health Data Safety Framework (HDSF) v0.1.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0. Not legal or regulatory advice. <a href="https://github.com/eduardon83/Digital-health-safety-framework">Repository</a> · Engine sfe 0.1.0, shared with <a href="https://csef.kendirstudios.pt">CSEF</a>.</div></footer></body></html>

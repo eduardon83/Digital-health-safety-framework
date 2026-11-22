@@ -1,0 +1,37 @@
+# How the Safety Framework Engine (engine/sfe) sees HDSF.
+id: hdsf
+short: HDSF
+name: Health Data Safety Framework
+repo: https://github.com/eduardon83/Digital-health-safety-framework
+site: https://hdsf.kendirstudios.pt
+levels: {1: Legal baseline, 2: Forward-compliant, 3: Best practice}
+profiles:
+  core: Every digital health product
+  W: Wellness and lifestyle (no medical purpose)
+  M: Medical device software (MDR or IVDR)
+  E: EHR systems and the European Health Data Space
+  R: Research and secondary use of health data
+  T: Telehealth and care delivery
+# The second scope axis: who uses the product. A rule with [all] applies whoever the users are.
+dimension:
+  key: users
+  label: Users
+  values:
+    public: people managing their own health or wellbeing
+    patients: people under care or treatment
+    professionals: health and care professionals
+    children: anyone under 18
+features: [accounts, health_records, sensors, wearables, symptom_input, medication, mental_health, reproductive_health,
+           genetic, location, notifications, chat, community, telehealth, payments, ads, analytics,
+           ai_generative, ai_clinical, sharing_with_professionals, research_use, emergency_content]
+feature_groups: {sensitive_topics: [mental_health, reproductive_health, genetic]}
+id_pattern: '^(CORE|W|M|E|R|T)-[A-Z]{2,4}-\d{2}$'
+source_types: [law, law-pending, proposal, guidance, standard, literature, news, policy]
+tier_min_types:
+  1: [law, law-pending, policy]
+  2: [law, law-pending, proposal, guidance, standard, policy]
+  3: all
+manifest_names: [hdsf.yaml, hdsf.yml, .hdsf/hdsf.yaml]
+ignore_token: 'hdsf-ignore'
+rule_meta_key: hdsf_rule
+generator: tooling/build.py

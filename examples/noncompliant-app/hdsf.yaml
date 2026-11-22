@@ -1,0 +1,24 @@
+# Fictional example: a symptom app with many problems, to show what HDSF finds.
+hdsf_version: "0.1"
+product:
+  name: SymptomPal (example)
+  version: 0.9.0
+  maker: Example Apps
+intended_purpose: Checks your symptoms and tells you what condition you might have.
+profiles: [core, W]
+users: [public, children]
+features: [accounts, symptom_input, ai_generative, ads, notifications, research_use]
+qualification:
+  medical_device: undecided
+data:
+  purposes:
+    - {name: symptom check, basis: consent}
+  storage_regions: [us-east-1]
+  third_parties:
+    - {name: Ad network, purpose: advertising, jurisdiction: US}
+    - {name: AI provider, purpose: symptom answers, jurisdiction: US, receives_health_data: true}
+  ads: targeted
+ehds:
+  claims_ehr_interoperability: true
+review:
+  last_reviewed: 2024-01-10
