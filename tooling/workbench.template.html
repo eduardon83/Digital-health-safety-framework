@@ -32,14 +32,14 @@ details.more summary{cursor:pointer;font-weight:600}
 <p class="meta"><span class="pill">HDSF v{version} · Workbench</span></p>
 <h1>Workbench</h1>
 <p class="lead" style="font-size:1.15rem;color:var(--muted)">For designers, product owners, decision makers and researchers. Describe your product and add your documents (design documents,
-privacy notice, store texts, onboarding, help pages). You get checks, design recommendations and reports. No code needed. Nothing leaves this page.</p>
+privacy notice, store texts, onboarding, help pages). The Workbench will return you checks, design recommendations and reports. There is no code and no storage of your data.</p>
 <div class="btns"><button class="btn" id="example" type="button">Try the example (Calm Steps, a fictional wellness app)</button>
 <button class="btn" id="tpl-pt" type="button">Start from the Portugal template</button>
 <button class="btn" id="tpl-acme" type="button">Add the ACME company pack (example)</button></div>
 <p class="note" id="engine">Loading the tools in the background...</p>
 
 <section class="step" aria-labelledby="s1"><div class="step-h"><span class="num">1</span><div><h2 id="s1">Describe your product</h2>
-<p>Answer what you know. Empty answers show up as gaps in the report.</p></div></div>
+<p>Answer the best you know. Empty answers show up as gaps in the report.</p></div></div>
 <div class="btns"><label class="btn" for="loadyaml">I already have an hdsf.yaml</label><input id="loadyaml" type="file" accept=".yaml,.yml" class="sr"></div>
 {form}
 <datalist id="doclist"></datalist>
@@ -50,7 +50,7 @@ privacy notice, store texts, onboarding, help pages). You get checks, design rec
 
 <section class="step" aria-labelledby="s2"><div class="step-h"><span class="num">2</span><div><h2 id="s2">Add your documents</h2>
 <p>Privacy notice, store listing, onboarding and help texts, design documents, DPIA, qualification record. Formats: PDF, Word (.docx), Markdown, text, HTML, JSON or string files.
-A company or sector pack (a .yaml file that starts with <code>pack:</code>) is recognised and applied. Start from the <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/packs/_template.yaml">pack template</a>.</p></div></div>
+If you want a company granular perspective, use a company or sector pack (a .yaml file that starts with <code>pack:</code>). To start, use the  the <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/packs/_template.yaml">pack template</a>.</p></div></div>
 <div id="drop">Drop files or a folder here
 <div class="btns" style="justify-content:center"><label class="btn" for="addfiles">Choose files</label><input id="addfiles" type="file" multiple class="sr">
 <label class="btn" for="addfolder">Choose a folder</label><input id="addfolder" type="file" webkitdirectory multiple class="sr"></div></div>
@@ -58,7 +58,7 @@ A company or sector pack (a .yaml file that starts with <code>pack:</code>) is r
 </section>
 
 <section class="step" aria-labelledby="s3"><div class="step-h"><span class="num">3</span><div><h2 id="s3">Run the checks</h2>
-<p>You get one report with: the rules that apply and what the description shows; a review of your documents (privacy notice against GDPR/RGPD
+<p>The report will present you with: the rules that apply and what the description shows; a review of your documents (privacy notice against GDPR/RGPD
 Art. 13 and 14, medical claims, safety and AI wording, plain language, risky wording); EU recommendations that apply (level 2) and design recommendations from research (level 3).</p></div></div>
 <div class="field"><label class="lab" for="level">Level</label><select id="level"><option value="1">1: Legal baseline</option><option value="2" selected>2: Forward-compliant</option><option value="3">3: Best practice</option></select></div>
 <div class="btns"><button class="btn p" id="run" type="button">Run the checks</button></div>
@@ -69,11 +69,11 @@ Art. 13 and 14, medical claims, safety and AI wording, plain language, risky wor
 
 <section class="step" aria-labelledby="s4"><h2 id="s4">How this page handles your files</h2>
 <p>The HDSF tools are Python programs. This page runs them inside your browser with <a href="https://pyodide.org/">Pyodide</a>, downloaded from the jsDelivr CDN the
-first time. Your files are read by the browser and never sent anywhere: no server, no account, no analytics. Close the tab and everything is gone; download what you want to keep.
+first time. Your files are read by the browser and there is no data sent or stored anywhere: no server, no account, no analytics. Keep in mind that if you close the tab, all information will disappear, so download what you want to keep.
 To save the report as PDF, open it and use "Print or save as PDF".</p>
 <p class="note">Organisations that block CDNs can host Pyodide themselves and open this page with <code>?pyodide=https://their-host/pyodide/</code>. Developers get the
 same results, plus the code checks, with <code>tooling/workbench.py</code> and <code>tooling/scan.py</code>.</p>
-<p class="note">The checks find signs. A person confirms them. This is not legal or regulatory advice.</p>
+<p class="note">Consider that this tool will find signs, but you will need someone to confirm them.</p>
 </section>
 </article></main>
 <footer><div class="in">Health Data Safety Framework (HDSF) v{version}, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0.</div></footer>
