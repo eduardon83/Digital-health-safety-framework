@@ -9,7 +9,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 1: Legal baseline
 
-- [ ] **E-DAT-01** (MUST) Professionals see records only in a care relationship. Professionals can open a person's record only when they are part of that person's care, under professional secrecy, and only the parts they need.  
+- [ ] **E-DAT-01** (MUST) Professionals see records only in a care relationship. Professionals can open a person's record only when they are part of that person's care, under professional secrecy. They see only the parts they need.  
       Evidence: 
 - [ ] **T-DAT-01** (MUST) Remote consultations are private. Video, audio and chat consultations are encrypted in transit, ideally end to end, are not recorded without the patient's informed agreement, and do not run through consumer tools without a processing agreement.  
       Evidence: 

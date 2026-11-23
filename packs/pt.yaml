@@ -1,0 +1,116 @@
+# Portugal pack for HDSF. Loads by itself when hdsf.yaml lists PT in `countries`.
+# Entries marked verified: pending were written from the maintainers' knowledge and still need a check.
+
+pack:
+  id: pt
+  title: Portugal
+  jurisdiction: PT
+  version: "0.1.0"
+  maintainer: "Kendir Studios with contributors"
+  status: "Draft for comment (November 2026)"
+
+parameters:
+  digital_consent_age: 13
+  data_protection_authority: "CNPD (Comissão Nacional de Proteção de Dados)"
+  medical_device_authority: "INFARMED, I.P."
+  clinical_research_ethics: "CEIC (Comissão de Ética para a Investigação Clínica)"
+  cybersecurity_authority: "CNCS (Centro Nacional de Cibersegurança)"
+  emergency_number: "112"
+  health_line: "SNS 24: 808 24 24 24"
+  language: "Portuguese (pt-PT)"
+
+sources:
+  - id: PT-SNS24
+    title: "SNS 24, Centro de Contacto do Serviço Nacional de Saúde"
+    type: policy
+    jurisdiction: PT
+    status: "National health line, 808 24 24 24, every day, all hours: triage, advice and referral. Also online and in the SNS 24 app"
+    url: "https://www.sns24.gov.pt/"
+    verified: pending
+
+  - id: PT-INFARMED
+    title: "INFARMED, I.P., competent authority for medical devices in Portugal"
+    type: policy
+    jurisdiction: PT
+    status: "Receives vigilance reports (serious incidents, field safety corrective actions) and notifications of clinical investigations of medical devices"
+    url: "https://www.infarmed.pt/"
+    verified: pending
+
+  - id: PT-CEIC
+    title: "CEIC, Comissão de Ética para a Investigação Clínica"
+    type: policy
+    jurisdiction: PT
+    status: "National ethics committee for clinical investigation, including clinical investigations of medical devices"
+    url: "https://www.ceic.pt/"
+    verified: pending
+
+  - id: PT-DL238-86
+    title: "Decreto-Lei n.º 238/86, de 19 de agosto (uso da língua portuguesa na informação sobre bens e serviços)"
+    type: law
+    jurisdiction: PT
+    status: "In force. Information about goods and services offered in Portugal must be given in Portuguese"
+    url: "https://diariodarepublica.pt/"
+    verified: pending
+
+amend:
+  - rule: CORE-CHD-01
+    add_sources: [PT-LEI-58-2019]
+    note: "In Portugal the age of digital consent is 13 (Lei n.º 58/2019, Art. 16). Below it, parents or guardians consent."
+  - rule: CORE-DAT-16
+    note: "Complaints go to the CNPD. Name it in the privacy notice."
+  - rule: CORE-SAF-01
+    add_sources: [PT-SNS24]
+    note: "In Portugal show 112 for emergencies and SNS 24 (808 24 24 24) for health advice."
+  - rule: M-PMS-01
+    add_sources: [PT-INFARMED]
+    note: "Report serious incidents in Portugal to INFARMED."
+  - rule: R-CLN-01
+    add_sources: [PT-INFARMED, PT-CEIC]
+    note: "In Portugal, clinical investigations of devices involve INFARMED and an ethics committee opinion (CEIC)."
+  - rule: T-SEC-01
+    note: "In Portugal register with the CNCS under Decreto-Lei n.º 125/2025."
+  - rule: CORE-LNG-02
+    add_sources: [PT-DL238-86]
+    level: MUST
+    tier: 1
+    note: "Products offered in Portugal give their information in Portuguese (Decreto-Lei n.º 238/86)."
+
+rules:
+  - id: PT-LNG-01
+    title: Health information is written in European Portuguese
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health information, safety messages and privacy texts for people in Portugal use European Portuguese
+      (pt-PT), not Brazilian Portuguese: "equipa", "registo", "contacto", "telemóvel", and the European forms
+      of address and verbs.
+    rationale: >
+      People understand health information best in their own variety of the language. Plain language guidance
+      from the Commission and the Publications Office is available in European Portuguese.
+    improvement: Review texts with a pt-PT speaker; keep a glossary of pt-PT terms; do not ship pt-BR machine translation.
+    effort: low
+    sources: [EC-CLEAR, OP-PLAIN, PT-DL238-86]
+    detection:
+      method: mixed
+      patterns:
+        - {type: regex, confidence: medium, flags: i, globs: ['*pt*.json', '*pt*.strings', '*pt*.po', '*pt*.xml', '*pt*.yaml', '*pt*.yml', '*pt*.arb'],
+           pattern: '\b(equipe|registro|contato|celular|tela|usuário|arquivo|aplicativo|cadastr\w+)\b'}
+
+  - id: PT-SAF-01
+    title: The urgent help route names 112 and SNS 24
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    features: [symptom_input, mental_health, ai_generative, emergency_content, chat]
+    requirement: >
+      For people in Portugal, the urgent help route shows 112 for emergencies and SNS 24 (808 24 24 24) for health
+      advice, and works with one tap.
+    rationale: These are the national numbers people know; CORE-SAF-01 asks for a route to urgent help.
+    improvement: Add both numbers to the help screen and to AI and chat safety answers.
+    effort: low
+    sources: [PLD, PT-SNS24]
+    detection:
+      method: manual

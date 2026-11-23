@@ -58,7 +58,8 @@ GDPR_ARTICLES = [
     ("77", "Right to lodge a complaint with a supervisory authority"), ("89", "Safeguards for research and statistics"),
 ]
 GUIDES = [("framework/00-introduction.md", "introduction"), ("framework/01-regulatory-map.md", "regulatory-map"),
-          ("framework/02-qualification.md", "qualification"), ("framework/03-using-hdsf.md", "using-hdsf")]
+          ("framework/02-qualification.md", "qualification"), ("framework/03-using-hdsf.md", "using-hdsf"),
+          ("framework/04-packs.md", "packs"), ("framework/glossary.md", "glossary")]
 TYPE_SECTIONS = [("law", "Law in force"), ("law-pending", "Adopted, applying later"), ("proposal", "Proposals"),
                  ("guidance", "Guidance"), ("standard", "Standards"), ("policy", "Policy"),
                  ("literature", "Research and other frameworks"), ("news", "News")]
@@ -83,6 +84,7 @@ def load():
     for sid in sources:
         if sid not in cited:
             errors.append(f"source {sid} is not cited by any rule")
+    validate_packs(rules, sources)
     watch = yaml.safe_load((ROOT / "framework" / "watch.yaml").read_text(encoding="utf-8"))["watch"]
     return rules_doc["version"], sorted(rules, key=lambda r: r["id"]), sources, watch
 
@@ -152,6 +154,50 @@ def legislation(version, rules, sources, watch):
     return "\n".join(lines) + "\n"
 
 
+def validate_packs(rules, sources):
+    from sfe import packs
+    for f in sorted((ROOT / "packs").glob("*.yaml")) + sorted((ROOT / "examples" / "company-packs").glob("*.yaml")):
+        if f.name.startswith("_"):
+            continue
+        packs.validate(CFG, yaml.safe_load(f.read_text(encoding="utf-8")), rules, sources,
+                       lambda e, f=f: errors.append(f"{f.relative_to(ROOT)}: {e}"), set(checks.CHECKS))
+
+
+def pack_page(path, rules, sources):
+    from sfe import packs
+    doc = yaml.safe_load(path.read_text(encoding="utf-8"))
+    m = packs.merged(rules, sources)
+    packs.apply(CFG, m, doc, str(path), set(checks.CHECKS))
+    meta = doc["pack"]
+    lines = [cat.header(CFG).replace("framework/rules.yaml", f"packs/{path.name}") + f"# {meta['title']} pack", "",
+             f"Version {meta['version']} · {meta.get('status', '')}. Loads by itself when `hdsf.yaml` lists "
+             f"`{meta['jurisdiction']}` in `countries`. A pack can only add to HDSF or make it stricter.", "",
+             "## Parameters", "", "| Parameter | Value |", "|---|---|"]
+    lines += [f"| {k} | {v} |" for k, v in (doc.get("parameters") or {}).items()]
+    lines += ["", "## Changes to HDSF rules", "", "| Rule | Change |", "|---|---|"]
+    for a in doc.get("amend") or []:
+        ch = []
+        if a.get("level"):
+            ch.append(f"strength {a['level']}")
+        if a.get("tier"):
+            ch.append(f"level {a['tier']}")
+        if a.get("add_sources"):
+            ch.append("adds " + ", ".join(a["add_sources"]))
+        if a.get("note"):
+            ch.append(a["note"])
+        lines.append(f"| {a['rule']}: {m.rules[a['rule']]['title']} | {'; '.join(ch)} |")
+    new = [m.rules[r["id"]] for r in doc.get("rules") or []]
+    lines += ["", "## Rules added by the pack", "", "| ID | Rule | Strength | Level |", "|---|---|---|---|"]
+    lines += [f"| [{r['id']}](#{cat.anchor(r)}) | {r['title']} | {r['level']} | {r['tier']} |" for r in new]
+    lines.append("")
+    for r in new:
+        lines += cat.rule_block(CFG, r, m.sources)
+    lines += ["## Sources added by the pack", ""]
+    for s in doc.get("sources") or []:
+        lines += [f"- **{s['id']}**: {s['title']}. {s['status']} Verified: {s['verified']}." + (f" [Link]({s['url']})" if s.get("url") else "")]
+    return "\n".join(lines) + "\n"
+
+
 def gdpr_map(version, rules):
     by, rid_rule = {}, {r["id"]: r for r in rules}
     for r in rules:
@@ -177,24 +223,48 @@ def gdpr_map(version, rules):
 
 
 # --------------------------------------------------------------------------- site
-CSS = """:root{--ink:#12232e;--muted:#4b5d68;--paper:#fbfcfc;--line:#d9e2e6;--teal:#0f6e6e;--teal-t:#0b5757;--tint:#e8f3f2;--warn:#8a4b00}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+LIGHT = {"ink": "#12232e", "muted": "#4b5d68", "paper": "#fbfcfc", "panel": "#ffffff", "line": "#d9e2e6", "code": "#eef3f4",
+         "teal": "#0f6e6e", "teal-t": "#0b5757", "on-teal": "#ffffff", "tint": "#e8f3f2", "warn": "#8a4b00", "note-bg": "#fff8ec",
+         "note-line": "#f0d9b5", "field": "#b9c7cd", "ok-bg": "#e8f5ec", "err-bg": "#fdecea", "danger": "#b42318", "drop": "#9fb3bb"}
+DARK = {"ink": "#e6eef0", "muted": "#a6b8c0", "paper": "#0f1a20", "panel": "#16252d", "line": "#2a3d47", "code": "#1d2f38",
+        "teal": "#3fb8a8", "teal-t": "#6fd3c4", "on-teal": "#0b1418", "tint": "#16343a", "warn": "#f2c47a", "note-bg": "#2e2616",
+        "note-line": "#5a4520", "field": "#3d5560", "ok-bg": "#173b2b", "err-bg": "#45201f", "danger": "#ff8a80", "drop": "#4f6872"}
+
+
+def _vars(d):
+    return ";".join(f"--{k}:{v}" for k, v in d.items())
+
+
+TOKENS = (":root{" + _vars(LIGHT) + ";color-scheme:light}"
+          "@media (prefers-color-scheme:dark){:root:not([data-theme=light]){" + _vars(DARK) + ";color-scheme:dark}}"
+          ":root[data-theme=dark]{" + _vars(DARK) + ";color-scheme:dark}"
+          "@media print{:root,:root[data-theme=dark]{" + _vars(LIGHT) + ";color-scheme:light}.theme{display:none}}\n")
+THEME_HEAD = ("<script>try{var t=localStorage.getItem('hdsf-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>")
+THEME_JS = ("<script>(function(){var r=document.documentElement,b=document.querySelector('[data-theme-toggle]');if(!b)return;"
+            "function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}"
+            "function show(){var d=dark();b.setAttribute('aria-pressed',d);b.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');"
+            "b.textContent=d?'\\u2600 Light':'\\u263E Dark'}"
+            "b.addEventListener('click',function(){r.dataset.theme=dark()?'light':'dark';try{localStorage.setItem('hdsf-theme',r.dataset.theme)}catch(e){}show()});show()})()</script>")
+
+CSS = TOKENS + """*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 a{color:var(--teal-t)}a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-.in{max-width:1080px;margin:0 auto;padding:0 24px}header.top{border-bottom:1px solid var(--line);background:#fff}
+.in{max-width:1080px;margin:0 auto;padding:0 24px}header.top{border-bottom:1px solid var(--line);background:var(--panel)}
 header.top .in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 24px}
 .brand{font-weight:700;letter-spacing:.02em;color:var(--ink);text-decoration:none;font-size:20px}.brand span{color:var(--teal)}
 nav{display:flex;gap:6px 20px;flex-wrap:wrap}nav a{color:var(--ink);text-decoration:none;font-weight:500;padding:8px 0}nav a:hover{color:var(--teal)}
 main{padding:32px 0 64px}article{max-width:820px}h1{font-size:2.1rem;line-height:1.2;margin:.2em 0 .5em}h2{margin-top:2em;font-size:1.45rem}h3{font-size:1.1rem;margin-top:1.6em}
 .tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem;margin:1em 0}th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}th{background:var(--tint)}td:first-child a{white-space:nowrap}
-code{background:#eef3f4;padding:1px 5px;border-radius:4px;font-size:.9em}pre{background:#0f1c24;color:#e6eef2;padding:14px;border-radius:8px;overflow-x:auto}pre code{background:none;color:inherit;padding:0}
+code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.9em}pre{background:#0f1c24;color:#e6eef2;padding:14px;border-radius:8px;overflow-x:auto}pre code{background:none;color:inherit;padding:0}
 blockquote{margin:1em 0;padding:8px 16px;border-left:4px solid var(--teal);background:var(--tint)}
 .meta{color:var(--muted);font-size:.9rem}.pill{display:inline-block;background:var(--tint);color:var(--teal-t);border-radius:99px;padding:2px 10px;font-weight:600;font-size:.82rem}
 .hero{padding:48px 0 24px}.hero p.lead{font-size:1.2rem;color:var(--muted);max-width:760px}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0}
-.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}.card h3{margin-top:0}.card p{margin:.4em 0 0;color:var(--muted);font-size:.95rem}
-.note{border:1px solid #f0d9b5;background:#fff8ec;color:var(--warn);border-radius:8px;padding:12px 16px;font-size:.95rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}.card h3{margin-top:0}.card p{margin:.4em 0 0;color:var(--muted);font-size:.95rem}
+.note{border:1px solid var(--note-line);background:var(--note-bg);color:var(--warn);border-radius:8px;padding:12px 16px;font-size:.95rem}
 footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:.88rem}
 @media (prefers-reduced-motion:no-preference){a{transition:color .15s}}
+.theme{font:inherit;font-size:.9rem;font-weight:600;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink);cursor:pointer}
+.theme:hover{border-color:var(--teal)}
 """
 NAV = [("", "Home"), ("introduction/", "Introduction"), ("regulatory-map/", "Regulatory map"), ("qualification/", "Device question"),
        ("catalogue/", "Rules"), ("gdpr/", "GDPR"), ("workbench/", "Workbench"), ("using-hdsf/", "Use it"), ("legislation/", "Sources")]
@@ -205,13 +275,13 @@ def page(title, body, version, home, description):
     nav = "".join(f'<a href="{home}{h}">{e(t)}</a>' for h, t in NAV)
     return ("<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
             f"<title>{e(title)} · HDSF</title><meta name=\"description\" content=\"{e(description)}\">"
-            f"<link rel=\"stylesheet\" href=\"{home}style.css\"></head>\n"
-            f'<body><header class="top"><div class="in"><a class="brand" href="{home}">HD<span>SF</span></a><nav aria-label="Main">{nav}</nav></div></header>\n'
+            f"<link rel=\"stylesheet\" href=\"{home}style.css\">{THEME_HEAD}</head>\n"
+            f'<body><header class="top"><div class="in"><a class="brand" href="{home}">HD<span>SF</span></a><nav aria-label="Main">{nav}</nav><button class="theme" type="button" data-theme-toggle>Dark</button></div></header>\n'
             f'<main class="in"><article>{body}</article></main>\n'
             f'<footer><div class="in">Health Data Safety Framework (HDSF) v{e(version)}, maintained by Kendir Studios with contributors. '
             f'Content CC BY 4.0, code Apache-2.0. Not legal or regulatory advice. '
             f'<a href="{CFG.repo}">Repository</a> · Engine sfe {ENGINE_VERSION}, shared with <a href="https://csef.kendirstudios.pt">CSEF</a>.</div></footer>'
-            "</body></html>\n")
+            f"{THEME_JS}</body></html>\n")
 
 
 def _strip(text):
@@ -223,7 +293,8 @@ def site(version, rules, sources, generated):
     docs = ROOT / "docs"
     links = {g: f"../{s}/" for g, s in GUIDES}
     links.update({"framework/legislation.md": "../legislation/", "framework/catalogue/index.md": "../catalogue/",
-                  "framework/gdpr-map.md": "../gdpr/", "framework/catalogue/core.md": "../catalogue/core/"})
+                  "framework/gdpr-map.md": "../gdpr/", "framework/catalogue/core.md": "../catalogue/core/",
+                  "framework/catalogue/pack-pt.md": "../catalogue/pack-pt/"})
     for prof, fn in PROFILE_FILES.items():
         links[f"framework/catalogue/{fn}.md"] = f"../catalogue/{fn}/"
     for path, slug in GUIDES:
@@ -248,10 +319,10 @@ def site(version, rules, sources, generated):
     home = (f'<section class="hero"><p class="meta"><span class="pill">v{version}, draft for comment</span></p>'
             "<h1>Health Data Safety Framework</h1>"
             '<p class="lead">Open, checkable rules for digital health products in the EU: wellness apps, medical device software, '
-            "health records, research platforms and telehealth. One place to see which law applies, what it asks for, "
+            "health records, research platforms and telehealth. One place to see which law applies, what it asks for "
             "and how to check your product.</p>"
             f"<p>{n} rules, {len(sources)} sources. Each rule says what to do, why (with its source), how to improve and how "
-            "it is checked: in the code, in a short manifest (<code>hdsf.yaml</code>), or by a person.</p>"
+            "it is checked: in the code, in a short manifest (<code>hdsf.yaml</code>) or by a person.</p>"
             '<p><a href="introduction/">Start with the introduction</a> · <a href="qualification/">Is my software a medical device?</a> · '
             '<a href="using-hdsf/">Run the checks</a></p></section>'
             f'<h2>Profiles</h2><div class="cards">{cards}</div>'
@@ -263,9 +334,14 @@ def site(version, rules, sources, generated):
     nav = "".join(f'<a href="../{h}">{html.escape(tt)}</a>' for h, tt in NAV)
     tpl = (ROOT / "tooling" / "workbench.template.html").read_text(encoding="utf-8")
     files[docs / "workbench" / "index.html"] = (tpl.replace("{version}", version).replace("{form}", workbench.form_html())
-                                                .replace("{nav}", nav).replace("{pyodide}", PYODIDE))
+                                                .replace("{nav}", nav).replace("{pyodide}", PYODIDE)
+                                                .replace("{theme_head}", THEME_HEAD).replace("{theme_js}", THEME_JS))
     files[docs / "workbench" / "hdsf-bundle.json"] = workbench.web_bundle(ROOT)
     files[docs / "workbench" / "example.json"] = workbench.example_bundle(ROOT)
+    files[docs / "workbench" / "templates.json"] = workbench.templates_bundle(ROOT)
+    for fn, title in (("pack-pt", "Portugal pack"),):
+        t2, body, _ = md.render(_strip(generated[ROOT / "framework" / "catalogue" / f"{fn}.md"]), "framework/catalogue", sub_links, None, CFG.repo, "hdsf.kendirstudios.pt")
+        files[docs / "catalogue" / fn / "index.html"] = page(t2, body, version, "../../", title)
     files[docs / "style.css"] = CSS
     files[docs / "CNAME"] = "hdsf.kendirstudios.pt\n"
     files[docs / ".nojekyll"] = ""
@@ -281,6 +357,8 @@ def skill_files():
         files[sk / "scripts" / "sfe" / f.name] = f.read_text(encoding="utf-8")
     for f in ("framework.yaml", "rules.yaml", "sources.yaml"):
         files[sk / "framework" / f] = (ROOT / "framework" / f).read_text(encoding="utf-8")
+    for f in sorted((ROOT / "packs").glob("*.yaml")):
+        files[sk / "packs" / f.name] = f.read_text(encoding="utf-8")
     files[sk / "templates" / "hdsf.yaml"] = (ROOT / "templates" / "hdsf.yaml").read_text(encoding="utf-8")
     return files
 
@@ -290,6 +368,7 @@ def generate():
     files = catalogue_files(version, rules, sources)
     files[ROOT / "framework" / "legislation.md"] = legislation(version, rules, sources, watch)
     files[ROOT / "framework" / "gdpr-map.md"] = gdpr_map(version, rules)
+    files[ROOT / "framework" / "catalogue" / "pack-pt.md"] = pack_page(ROOT / "packs" / "pt.yaml", rules, sources)
     files[ROOT / "tooling" / "semgrep" / "hdsf.yml"] = cat.semgrep_yaml(CFG, rules)
     files.update(site(version, rules, sources, files))
     files.update(skill_files())
@@ -299,7 +378,16 @@ def generate():
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--validate-pack", metavar="PATH", help="check one pack file and stop")
     a = ap.parse_args(argv)
+    if a.validate_pack:
+        version, rules, sources, _ = load()
+        from sfe import packs
+        packs.validate(CFG, yaml.safe_load(Path(a.validate_pack).read_text(encoding="utf-8")), rules, sources, errors.append, set(checks.CHECKS))
+        for e in errors:
+            print("ERROR:", e, file=sys.stderr)
+        print("OK: pack is valid." if not errors else f"{len(errors)} problem(s).")
+        return 1 if errors else 0
     version, rules, sources, files = generate()
     if errors:
         for e in errors:

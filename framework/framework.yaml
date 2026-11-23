@@ -25,7 +25,7 @@ features: [accounts, health_records, sensors, wearables, symptom_input, medicati
            genetic, location, notifications, chat, community, telehealth, payments, ads, analytics,
            ai_generative, ai_clinical, sharing_with_professionals, research_use, emergency_content]
 feature_groups: {sensitive_topics: [mental_health, reproductive_health, genetic]}
-id_pattern: '^(CORE|W|M|E|R|T)-[A-Z]{2,4}-\d{2}$'
+id_pattern: '^(CORE|W|M|E|R|T|[A-Z0-9]{2,8})-[A-Z]{2,4}-\d{2}$'
 source_types: [law, law-pending, proposal, guidance, standard, literature, news, policy]
 tier_min_types:
   1: [law, law-pending, policy]

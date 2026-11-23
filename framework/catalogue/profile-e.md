@@ -2,7 +2,7 @@
 
 # Profile E: EHR systems and the European Health Data Space
 
-EHR systems and the European Health Data Space. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
+EHR systems and the European Health Data Space. HDSF v0.3.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -30,7 +30,7 @@ EHR systems and the European Health Data Space. HDSF v0.2.0. Rules marked `core`
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** Professionals can open a person's record only when they are part of that person's care, under professional secrecy, and only the parts they need.
+**Requirement.** Professionals can open a person's record only when they are part of that person's care, under professional secrecy. They see only the parts they need.
 
 **Why.** GDPR Art. 9(2)(h) and 9(3).
 
@@ -92,7 +92,7 @@ EHR systems and the European Health Data Space. HDSF v0.2.0. Rules marked `core`
 
 **SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.
+**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.
 
 **Why.** EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.
 

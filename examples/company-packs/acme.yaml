@@ -1,0 +1,50 @@
+# Example company pack. Fictional company: copy and adapt.
+# Keep your own pack in your product repository (for example .hdsf/packs/acme.yaml) and list it in hdsf.yaml:
+#   packs: [.hdsf/packs/acme.yaml]
+
+pack:
+  id: acme
+  title: ACME Health data policy
+  jurisdiction: ORG
+  version: "1.0.0"
+  date: 2026-11-23
+  maintainer: "ACME Health, privacy and clinical safety team"
+  status: "In force for all ACME Health products"
+  url: null
+
+policy:
+  minimum_level: 2
+  no_go: [CORE-TRK-01, CORE-TRK-03, CORE-AI-03, CORE-DAT-10]
+  forbid_dependencies: ["@hotjar/browser", logrocket, "@fullstory/browser"]
+  forbid_phrases: ["last chance", "only today", "don't lose your streak", "você", "não percas a tua sequência"]
+  require_decision_for_features: [ai_generative, ai_clinical, research_use]
+  review_every_days: 180
+
+rules:
+  - id: ACME-CLN-01
+    title: A clinician signs off every health content change
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: Any change to health information, thresholds or safety messages is reviewed and signed by a named ACME clinician before release.
+    rationale: ACME decision after an internal incident review; supports CORE-SAF-02.
+    improvement: Add a clinical sign-off step to the release checklist and record it in the content register.
+    effort: low
+    sources: [ACME-POLICY, ISO-82304-2]
+    detection:
+      method: manual
+
+  - id: ACME-DES-01
+    title: Personal risk scores come with a plain explanation
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: A personal risk score is never shown alone. It comes with a natural frequency ("about 3 in 100 people like you"), an icon array and what the person can do next.
+    rationale: ACME decision based on research on risk communication (Galesic 2009).
+    improvement: Use the ACME risk card component for every score.
+    effort: medium
+    sources: [ACME-POLICY, R-GALESIC2009]
+    detection:
+      method: manual

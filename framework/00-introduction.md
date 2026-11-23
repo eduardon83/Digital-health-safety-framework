@@ -26,11 +26,14 @@ top apps for depression and smoking cessation, 29 sent data to Facebook or Googl
 - **A first question**: is your software a medical device? ([guide](02-qualification.md)). Every other answer depends on it.
 - **A regulatory map** ([guide](01-regulatory-map.md)): which law applies to which kind of product, and from when.
 - **A GDPR (RGPD) map** ([page](gdpr-map.md)): each GDPR article that matters for health products, and the rules that apply it.
-- **A Workbench** for designers, product owners, decision makers and researchers: describe the product, add the documents, and get
+- **A Workbench** for designers, product owners, decision makers and researchers: describe the product and add the documents to get
   checks, a document review, design recommendations and reports in the browser. No code, nothing uploaded.
 - **A manifest**, `hdsf.yaml` ([template](../templates/hdsf.yaml)), that describes the product in one page.
 - **A scanner** that reads the manifest and the code and writes reports: an interactive HTML dashboard, PDF, Word, Markdown, JSON
   and SARIF ([how to use it](03-using-hdsf.md)).
+- **Packs** ([guide](04-packs.md)): a Portugal pack that loads by itself, an ACME company pack example and a template
+  for your own.
+- **A glossary** ([page](glossary.md)) and a writing style ([STYLE.md](../STYLE.md)), so the same thing always has the same name.
 - **Checklists** for a self-assessment by hand ([self-assessment](../self-assessment/core.md)).
 - **Sources** with dates and their verification status ([legislation and evidence](legislation.md)).
 
@@ -50,11 +53,11 @@ Every product meets the **core** rules. Then it adds the profiles that fit; a pr
 Rules also depend on who uses the product (the public, patients, professionals, children) and on its features
 (wearables, AI, chat, research use and others).
 
-## Three layers
+## Three levels
 
-HDSF works in three layers, as CSEF does. Each rule has a level.
+HDSF works on three levels, as CSEF does. Each rule has one.
 
-| Level | Layer | What it rests on |
+| Level | Name | What it rests on |
 |---|---|---|
 | 1 | Legal baseline | Law in force or adopted: GDPR (RGPD), MDR and IVDR, AI Act, DSA, ePrivacy, NIS2, Data Act, national law. Meet it now. |
 | 2 | EU recommendations and forward compliance | Law that applies later (EHDS, CRA, AI Act high-risk dates) and what EU bodies recommend: EDPB guidelines and opinions on AI models, web scraping, consent and deceptive design; Commission guidance and recommendations (EHR exchange format, clear writing); WHO guidance on AI for health; harmonised standards. Plan for it. |

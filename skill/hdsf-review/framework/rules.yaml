@@ -10,7 +10,7 @@
 #
 # HDSF is not legal or regulatory advice. Whether software is a medical device is the manufacturer's decision under
 # the MDR or IVDR, and often needs a regulatory expert or a notified body.
-version: "0.2.0"
+version: "0.3.0"
 retired: []
 
 rules:
@@ -22,7 +22,7 @@ rules:
     profiles: [core]
     users: [all]
     requirement: >
-      The product has one written intended purpose: what it is for, for whom, and what it claims to do. The
+      The product has one written intended purpose: what it is for, for whom and what it claims to do. The
       same text drives the store listing, the website, the onboarding screens and the qualification decision.
     rationale: >
       Under the MDR and IVDR, whether software is a medical device depends almost entirely on the intended
@@ -44,8 +44,7 @@ rules:
     users: [all]
     requirement: >
       Before launch, the maker decides whether the product, or any module of it, is medical device software
-      (MDR), in vitro diagnostic software (IVDR), an Annex XVI product, or none of these, and records the
-      reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.
+      (MDR), in vitro diagnostic software (IVDR), an Annex XVI product or none of these. It records the reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.
     rationale: >
       Placing medical device software on the market without CE marking is illegal; claiming to be a wellness
       app does not help if the intended purpose is medical. MDCG 2019-11 rev. 1 (June 2025) adds modular
@@ -67,8 +66,7 @@ rules:
     users: [all]
     requirement: >
       Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a
-      medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting
-      it, or calculating doses.
+      medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting it or calculating doses.
     rationale: >
       Claims define the intended purpose. A wellness app that markets itself as detecting a disease takes on a
       medical purpose and becomes a medical device without its paperwork. MDCG 2025-4 asks app platforms to keep
@@ -107,8 +105,7 @@ rules:
     profiles: [core]
     users: [all]
     requirement: >
-      The data inventory marks every field that is health, genetic or biometric data, and every field that
-      reveals health when linked to a person: orders of medicines or health products, app use itself (using a
+      The data inventory marks every field that is health, genetic or biometric data. It also marks every field that reveals health when linked to a person: orders of medicines or health products, app use itself (using a
       diabetes app), step counts or sleep patterns that show a condition, appointments.
     rationale: >
       Art. 9 GDPR protects data concerning health. The CJEU held that order data for pharmacy-only medicines are
@@ -167,8 +164,7 @@ rules:
     profiles: [core]
     users: [all]
     requirement: >
-      Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no
-      pre-ticked box, and can be withdrawn in the app as easily as it was given. Refusing optional uses never
+      Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no pre-ticked box. It can be withdrawn in the app as easily as it was given. Refusing optional uses never
       blocks the core service.
     rationale: GDPR Art. 4(11), 7 and 9(2)(a). Explicit consent must be a clear, specific statement.
     improvement: Show one consent screen per optional purpose and a "your choices" page in settings.
@@ -534,8 +530,7 @@ rules:
     profiles: [core]
     users: [all]
     requirement: >
-      Every read and change of a person's health record by staff or professionals is logged with who, when and
-      why, and the logs are reviewed.
+      Every read and change of a person's health record by staff or professionals is logged with who, when and why. The logs are reviewed.
     rationale: GDPR Art. 5(2) and 32 (accountability and security). The EHDS makes such logging mandatory for EHR systems (see E-LOG-01).
     improvement: Add an audit log for record access; review it monthly; keep it tamper-evident.
     effort: medium
@@ -576,7 +571,7 @@ rules:
     features: [ai_generative]
     requirement: >
       A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor,
-      nurse or therapist, in plain words, and repeats it when the topic turns to symptoms or treatment. Generated
+      nurse or therapist, in plain words. It repeats this when the topic turns to symptoms or treatment. Generated
       images and audio carry machine-readable marks.
     rationale: >
       AI Act Art. 50, applicable from 2 Aug 2026; the Commission's guidelines read the "obvious" exception
@@ -617,8 +612,7 @@ rules:
     users: [all]
     features: [ai_generative, ai_clinical]
     requirement: >
-      Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention, and no
-      training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA,
+      Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention and no training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA,
       an Art. 9 condition and, for research, approval.
     rationale: GDPR Art. 5, 9, 28 and 35.
     improvement: Choose enterprise or zero-retention settings; record them in the AI inventory.
@@ -933,8 +927,7 @@ rules:
     users: [all]
     features: [wearables, sensors]
     requirement: >
-      Users can get the data their connected device or related service generates, easily, securely and free,
-      and can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make
+      Users can get the data their connected device or related service generates, easily, securely and free. They can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make
       this possible by design.
     rationale: Data Act Art. 3 to 5, applicable from 12 Sep 2025 (design duty from 12 Sep 2026).
     improvement: Offer a data download and a documented sharing route; tell users before purchase what data the product generates.
@@ -952,7 +945,7 @@ rules:
     features: [wearables, sensors]
     requirement: >
       Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by
-      default, security updates, vulnerability handling, and reporting of actively exploited vulnerabilities from
+      default, security updates, vulnerability handling and reporting of actively exploited vulnerabilities from
       11 Sep 2026.
     rationale: CRA; medical devices are outside it, wellness products with digital elements generally are not.
     improvement: Run a CRA gap analysis; decide the conformity route and support period.
@@ -970,7 +963,7 @@ rules:
     features: [reproductive_health, mental_health, genetic]
     requirement: >
       Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by
-      default. Cloud sync and backup are opt-in, end-to-end encrypted where possible, and explained.
+      default. Cloud sync and backup are opt-in, end-to-end encrypted where possible and explained.
     rationale: >
       These are the most sensitive health data and the most often misused (GDPR Art. 9). Apps for depression were
       found sending data to large platforms without saying so (Huckvale 2019).
@@ -1213,8 +1206,7 @@ rules:
     profiles: [E, T]
     users: [all]
     requirement: >
-      Professionals can open a person's record only when they are part of that person's care, under professional
-      secrecy, and only the parts they need.
+      Professionals can open a person's record only when they are part of that person's care, under professional secrecy. They see only the parts they need.
     rationale: GDPR Art. 9(2)(h) and 9(3).
     notes:
       - "Portugal: only health professionals may access the clinical record (Lei 12/2005, Art. 5); access on a need-to-know basis (Lei 58/2019, Art. 29)."
@@ -1288,8 +1280,7 @@ rules:
     profiles: [R, E, W]
     users: [all]
     requirement: >
-      The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has
-      a plan for answering health data access bodies, including for wellness data.
+      The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.
     rationale: EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.
     improvement: Write a short dataset description and a contact process for data access bodies.
     effort: medium
@@ -1305,7 +1296,7 @@ rules:
     users: [patients, public]
     requirement: >
       A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics
-      committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.
+      committee opinion, competent authority notification or authorisation, informed consent and safety reporting.
     rationale: MDR Art. 62 to 82.
     improvement: Plan the investigation with the competent authority's procedure (INFARMED in Portugal).
     effort: high
@@ -1414,8 +1405,7 @@ rules:
     requirement: >
       The product does not take decisions based only on automated processing of health data that have legal or
       similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person
-      gave explicit consent or the law allows it, and then with human review on request, a way to contest, and
-      clear information about the logic involved.
+      gave explicit consent or the law allows it, and then with human review on request, a way to contest and clear information about the logic involved.
     rationale: GDPR Art. 22, including Art. 22(4) on special categories; Art. 13(2)(f) on information about the logic.
     improvement: Map every automated decision; add human review and a contest route; explain the logic in plain words.
     effort: medium
@@ -1535,7 +1525,7 @@ rules:
     features: [ai_generative, ai_clinical]
     requirement: >
       Before release and after each model change, AI features are tested with the people who will use them, for
-      accuracy, bias across groups, and understanding of the limits. The limits are written in the product.
+      accuracy, bias across groups and understanding of the limits. The limits are written in the product.
     rationale: The WHO guidance on large multi-modal models asks developers to design and test for all intended users and to be transparent about limits.
     improvement: Build a test set from real (consented) use cases; report results by group; publish a short limits statement.
     effort: medium
@@ -1603,7 +1593,7 @@ rules:
     users: [all]
     requirement: >
       Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests,
-      hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.
+      hidden options, emotional steering, obstructed choices, inconsistent wording and missing information.
     rationale: GDPR Art. 5(1)(a), 7, 12 and 25 as read by the EDPB in Guidelines 03/2022 and 05/2020.
     improvement: Review each screen against the EDPB categories; fix the worst first; keep screenshots as evidence.
     effort: medium

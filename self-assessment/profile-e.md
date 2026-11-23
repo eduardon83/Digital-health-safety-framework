@@ -9,7 +9,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 1: Legal baseline
 
-- [ ] **E-DAT-01** (MUST) Professionals see records only in a care relationship. Professionals can open a person's record only when they are part of that person's care, under professional secrecy, and only the parts they need.  
+- [ ] **E-DAT-01** (MUST) Professionals see records only in a care relationship. Professionals can open a person's record only when they are part of that person's care, under professional secrecy. They see only the parts they need.  
       Evidence: 
 
 ## Level 2: Forward-compliant
@@ -24,5 +24,5 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **E-LOG-01** (MUST) People can see who accessed their record. Every access to a person's electronic health data is logged, and the person can see who accessed it and when.  
       Evidence: 
-- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.  
+- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.  
       Evidence: 

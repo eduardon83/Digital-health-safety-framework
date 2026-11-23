@@ -2,6 +2,24 @@
 
 Newest first. Open items and what we are watching: [legislation.md, watch list](framework/legislation.md#open-discussions-and-watch-list).
 
+## v0.3.0 (2026-11-23)
+
+- **Packs, as in CSEF.** A Portugal pack ([packs/pt.yaml](packs/pt.yaml)) loads by itself when `countries` lists PT:
+  consent age 13 (Lei n.º 58/2019); CNPD, INFARMED, CEIC and CNCS; 112 and SNS 24 in the urgent help route; information
+  in Portuguese becomes a level 1 rule (Decreto-Lei n.º 238/86); two new rules on European Portuguese and the help route.
+  An ACME company pack example ([examples/company-packs/acme.yaml](examples/company-packs/acme.yaml)) shows a minimum
+  level, no-go rules, forbidden packages and wording, decision records and review dates. A pack template, a Portugal
+  manifest template, `--pack`, `--validate-pack` and a [packs guide](framework/04-packs.md). In the Workbench: "Start
+  from the Portugal template", "Add the ACME company pack" and pack files in step 2.
+- **Writing style.** [STYLE.md](STYLE.md) adapts the maintainer's writing guide to HDSF; `tooling/stylecheck.py`
+  enforces what a machine can check (no em-dashes, no Oxford comma, no contrast frames, no inflated words, no stacked
+  hedges, one term per thing) and runs in CI. All texts were revised to pass: 27 Oxford commas, 8 contrast frames and
+  13 uses of "layer" for "level" fixed. A [glossary](framework/glossary.md) fixes the terms. The document review flags
+  Brazilian Portuguese forms in texts for Portugal.
+- **Dark mode** on the site and the Workbench: follows the system setting, has a toggle that remembers the choice and
+  prints in light colours.
+- Engine sfe 0.3.0 adds `packs` (shared with CSEF) and no-go handling in the scanner.
+
 ## v0.2.0 (2026-11-23)
 
 - **Three layers, as in CSEF.** Level 1 law; level 2 EU recommendations and forward compliance; level 3 best practice from research.

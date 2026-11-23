@@ -2,7 +2,7 @@
 
 # GDPR (RGPD) map
 
-Which HDSF v0.2.0 rules apply each article of the General Data Protection Regulation (in Portuguese, RGPD: Regulamento Geral sobre a Proteção de Dados) to digital health products. Health data is a special category (Art. 9), so most of the GDPR applies with extra care.
+Which HDSF v0.3.0 rules apply each article of the General Data Protection Regulation (in Portuguese, RGPD: Regulamento Geral sobre a Proteção de Dados) to digital health products. Health data is a special category (Art. 9), so most of the GDPR applies with extra care.
 
 In Portugal, Lei n.º 58/2019 adds national rules (Art. 29 on health and genetic data) and the CNPD supervises.
 

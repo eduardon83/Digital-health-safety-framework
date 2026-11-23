@@ -11,11 +11,11 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 - [ ] **CORE-AI-01** (MUST) Every AI component is listed. An AI inventory lists each model, its provider, purpose, inputs (health data or not), outputs, human oversight and AI Act role. Provider settings for retention and training are recorded.  
       Evidence: 
-- [ ] **CORE-AI-02** (MUST) AI says it is AI, and not a clinician, from the first message. A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor, nurse or therapist, in plain words, and repeats it when the topic turns to symptoms or treatment. Generated images and audio carry machine-readable marks.  
+- [ ] **CORE-AI-02** (MUST) AI says it is AI, and not a clinician, from the first message. A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor, nurse or therapist, in plain words. It repeats this when the topic turns to symptoms or treatment. Generated images and audio carry machine-readable marks.  
       Evidence: 
 - [ ] **CORE-AI-03** (MUST) A general chatbot does not diagnose or advise treatment. Unless the product is qualified as a medical device for that purpose, its AI does not give a diagnosis, a risk score for a disease, a dose or a treatment change for an individual. It gives general information and points to a professional. The limits are tested with red-team prompts before each model change.  
       Evidence: 
-- [ ] **CORE-AI-04** (MUST) AI providers do not keep or train on health data. Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention, and no training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA, an Art. 9 condition and, for research, approval.  
+- [ ] **CORE-AI-04** (MUST) AI providers do not keep or train on health data. Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention and no training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA, an Art. 9 condition and, for research, approval.  
       Evidence: 
 - [ ] **CORE-AI-05** (MUST) AI does not exploit illness, age or distress. AI features do not use manipulative techniques, or exploit vulnerability due to age, disability, illness or a difficult situation, to change what people do in a way that harms them (for example pushing purchases or stopping treatment).  
       Evidence: 
@@ -27,13 +27,13 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-COM-03** (MUST) Notifications do not reveal health on the lock screen. By default, notifications say nothing about a condition, medication or result ("Time for your check-in", not "Take your HIV medication"). People can choose more detail.  
       Evidence: 
-- [ ] **CORE-DAT-01** (MUST) Health data is identified, including what other data reveals. The data inventory marks every field that is health, genetic or biometric data, and every field that reveals health when linked to a person: orders of medicines or health products, app use itself (using a diabetes app), step counts or sleep patterns that show a condition, appointments.  
+- [ ] **CORE-DAT-01** (MUST) Health data is identified, including what other data reveals. The data inventory marks every field that is health, genetic or biometric data. It also marks every field that reveals health when linked to a person: orders of medicines or health products, app use itself (using a diabetes app), step counts or sleep patterns that show a condition, appointments.  
       Evidence: 
 - [ ] **CORE-DAT-02** (MUST) Each use of health data has an Art. 9 condition. For each purpose that uses health data, the record names both the Art. 6 legal basis and the Art. 9(2) condition (for example explicit consent, health or social care under professional secrecy, public health, research). Purposes that have no condition are not carried out.  
       Evidence: 
 - [ ] **CORE-DAT-03** (MUST) A DPIA is done before launch and kept current. A data protection impact assessment covers the product before launch and is updated when features, processors or purposes change.  
       Evidence: 
-- [ ] **CORE-DAT-04** (MUST) Explicit consent is separate, specific and easy to withdraw. Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no pre-ticked box, and can be withdrawn in the app as easily as it was given. Refusing optional uses never blocks the core service.  
+- [ ] **CORE-DAT-04** (MUST) Explicit consent is separate, specific and easy to withdraw. Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no pre-ticked box. It can be withdrawn in the app as easily as it was given. Refusing optional uses never blocks the core service.  
       Evidence: 
 - [ ] **CORE-DAT-05** (MUST) Only the health data the purpose needs is collected. Each health field has a purpose that needs it. Optional fields are marked optional. Free-text fields are avoided where a choice list works. Raw sensor streams are reduced on the device when the purpose only needs a summary.  
       Evidence: 
@@ -51,7 +51,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-DAT-13** (MUST) Processing of health data is recorded. The maker keeps a record of processing activities: purposes, categories of people and data (health data marked), recipients, transfers, retention and security measures. It is kept current.  
       Evidence: 
-- [ ] **CORE-DAT-14** (MUST) No automated decision with serious effects without safeguards. The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest, and clear information about the logic involved.  
+- [ ] **CORE-DAT-14** (MUST) No automated decision with serious effects without safeguards. The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest and clear information about the logic involved.  
       Evidence: 
 - [ ] **CORE-DAT-15** (MUST) Data protection roles are clear. For each use of health data, the maker knows whether it acts as controller, processor or joint controller (for example with a clinic or an insurer), and the contracts say so. A maker outside the EU names an EU representative.  
       Evidence: 
@@ -59,11 +59,11 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-GOV-01** (MUST) Named people are responsible for data protection and safety. The product names who is responsible for data protection, security and (for devices) regulatory compliance. A data protection officer is appointed where health data is processed at large scale as a core activity.  
       Evidence: 
-- [ ] **CORE-QUA-01** (MUST) The intended purpose is written down. The product has one written intended purpose: what it is for, for whom, and what it claims to do. The same text drives the store listing, the website, the onboarding screens and the qualification decision.  
+- [ ] **CORE-QUA-01** (MUST) The intended purpose is written down. The product has one written intended purpose: what it is for, for whom and what it claims to do. The same text drives the store listing, the website, the onboarding screens and the qualification decision.  
       Evidence: 
-- [ ] **CORE-QUA-02** (MUST) The medical device question is answered and recorded. Before launch, the maker decides whether the product, or any module of it, is medical device software (MDR), in vitro diagnostic software (IVDR), an Annex XVI product, or none of these, and records the reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.  
+- [ ] **CORE-QUA-02** (MUST) The medical device question is answered and recorded. Before launch, the maker decides whether the product, or any module of it, is medical device software (MDR), in vitro diagnostic software (IVDR), an Annex XVI product or none of these. It records the reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.  
       Evidence: 
-- [ ] **CORE-QUA-03** (MUST) Claims match the qualification. Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting it, or calculating doses.  
+- [ ] **CORE-QUA-03** (MUST) Claims match the qualification. Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting it or calculating doses.  
       Evidence: 
 - [ ] **CORE-SEC-01** (MUST) A security policy and a way to report vulnerabilities. The product has a published security contact and vulnerability disclosure policy, and a named person who handles reports.  
       Evidence: 
@@ -92,11 +92,11 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-AI-07** (MUST) No scraped health data without an Art. 9 condition. The product and its maker do not scrape or extract health data from websites, forums, social media or other apps for AI, analytics or research without an Art. 9(2) condition. Any scraping is limited to reliable, named sources, keeps timestamps, validates the data and is explained to the people concerned.  
       Evidence: 
-- [ ] **CORE-AI-08** (SHOULD) Health AI is tested with its intended users. Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups, and understanding of the limits. The limits are written in the product.  
+- [ ] **CORE-AI-08** (SHOULD) Health AI is tested with its intended users. Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups and understanding of the limits. The limits are written in the product.  
       Evidence: 
 - [ ] **CORE-CHD-02** (MUST) Teenagers' confidential health topics stay confidential. Parent or guardian access to a teenager's data follows national law on consent and confidentiality for health care. Topics such as sexual health, mental health and substance use are not shown to parents by default where the teenager may consult on their own.  
       Evidence: 
-- [ ] **CORE-COM-04** (MUST) Consent and privacy screens avoid deceptive design. Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.  
+- [ ] **CORE-COM-04** (MUST) Consent and privacy screens avoid deceptive design. Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording and missing information.  
       Evidence: 
 - [ ] **CORE-DAT-11** (SHOULD) Analytics and research use pseudonymised data with keys kept apart. Product analytics and research extracts use random codes instead of identities. The key that links codes to people stays in a separate system with separate access. Recipients that cannot re-identify are named when the data is collected.  
       Evidence: 
@@ -118,7 +118,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-SEC-05** (MUST) Components are listed and security updates are promised. The product keeps a software bill of materials, watches it for known vulnerabilities, and states how long it will receive security updates.  
       Evidence: 
-- [ ] **CORE-SEC-07** (SHOULD) Access to health records is logged. Every read and change of a person's health record by staff or professionals is logged with who, when and why, and the logs are reviewed.  
+- [ ] **CORE-SEC-07** (SHOULD) Access to health records is logged. Every read and change of a person's health record by staff or professionals is logged with who, when and why. The logs are reviewed.  
       Evidence: 
 - [ ] **CORE-TRK-04** (SHOULD) Each release is tested for what it actually sends. Before each release, someone captures the network traffic of a test session and checks that every destination and data item is in the privacy notice and the processor list.  
       Evidence: 

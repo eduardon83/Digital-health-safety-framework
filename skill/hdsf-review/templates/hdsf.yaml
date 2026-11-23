@@ -23,7 +23,7 @@ countries: [PT]
 qualification:
   medical_device: none       # none | mdsw | ivd | annex_xvi | undecided
   class: null                # MDR: I, IIa, IIb, III; IVDR: A, B, C, D
-  notified_body: null        # name, number, or "planned"
+  notified_body: null        # name and number, or "planned"
   rationale: docs/qualification.md
 
 data:

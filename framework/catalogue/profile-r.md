@@ -2,7 +2,7 @@
 
 # Profile R: Research and secondary use of health data
 
-Research and secondary use of health data. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
+Research and secondary use of health data. HDSF v0.3.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -16,7 +16,7 @@ Research and secondary use of health data. HDSF v0.2.0. Rules marked `core` appl
 
 **MUST** · Level 1 (Legal baseline) · Users: patients (people under care or treatment), public (people managing their own health or wellbeing) · Detection: manual · Effort: high
 
-**Requirement.** A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.
+**Requirement.** A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent and safety reporting.
 
 **Why.** MDR Art. 62 to 82.
 
@@ -64,7 +64,7 @@ Research and secondary use of health data. HDSF v0.2.0. Rules marked `core` appl
 
 **SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.
+**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.
 
 **Why.** EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.
 

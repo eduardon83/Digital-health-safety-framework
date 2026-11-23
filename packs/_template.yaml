@@ -1,0 +1,66 @@
+# HDSF pack template. Copy it, rename it and fill it in.
+#
+# A pack extends HDSF without forking it:
+#   - a country pack (packs/<code>.yaml, for example packs/es.yaml): national law, authorities, helplines
+#   - a sector pack (a health system's procurement or app assessment rules)
+#   - a literature pack (research you want reports to cite, with level 3 rules)
+#   - a company pack (your own red lines; keep it in your product repository, for example .hdsf/packs/acme.yaml)
+#
+# How it is loaded:
+#   - packs/<code>.yaml loads by itself when hdsf.yaml lists the country in `countries: [<CODE>]`
+#   - any other pack loads through `packs: [path/to/pack.yaml]` in hdsf.yaml, or `--pack path` on the command line
+#
+# What it can do (the scanner refuses anything else):
+#   - sources: add sources. Ids may not clash with HDSF's.
+#   - rules: add rules. Ids start with the pack id in capitals (XX-DAT-01). Same fields as framework/rules.yaml.
+#   - amend: make an HDSF rule stricter: add_sources, note, level (SHOULD to MUST only), tier (to a lower number
+#     only, for example 2 to 1 when your country already made it law), add_patterns.
+#   - policy (company packs): minimum_level, no_go, forbid_dependencies, forbid_phrases, forbid_patterns,
+#     require_decision_for_features, review_every_days.
+#   - parameters: values shown in reports (consent age, authorities, helplines).
+# A pack can never weaken or remove a rule.
+#
+# Check it with: python3 tooling/build.py --validate-pack path/to/pack.yaml
+
+pack:
+  id: xx                      # 2 to 8 lowercase letters or digits; also the prefix of new rule ids (XX-...)
+  title: "Country or organisation pack"
+  jurisdiction: XX            # ISO country code, or ORG for an organisation
+  version: "0.1.0"
+  maintainer: "name or team"
+  status: "Draft"
+
+parameters:
+  digital_consent_age: 16     # GDPR Art. 8: the national age (13 to 16)
+  data_protection_authority: "..."
+  medical_device_authority: "..."
+  emergency_number: "112"
+
+sources:
+  - id: XX-LAW-1
+    title: "National law title"
+    type: law                 # law | law-pending | proposal | guidance | standard | literature | news | policy
+    jurisdiction: XX
+    status: "In force since ..."
+    url: "https://..."
+    verified: 2026-01-01      # or "pending" until someone checks it
+
+amend:
+  - rule: CORE-CHD-01
+    add_sources: [XX-LAW-1]
+    note: "The age of digital consent here is 16."
+
+rules:
+  - id: XX-LNG-01
+    title: "Short title"
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: "What the product must do."
+    rationale: "Why, in one or two sentences, with the source."
+    improvement: "What to change."
+    effort: low
+    sources: [XX-LAW-1]
+    detection:
+      method: manual

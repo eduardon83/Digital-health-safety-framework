@@ -1,10 +1,10 @@
 """Review a product's documents against HDSF: privacy notice (GDPR/RGPD Art. 13 and 14), claims, safety and AI
-wording, plain language, risk numbers, deceptive wording, and design recommendations from layers 2 and 3.
+wording, plain language, risk numbers, deceptive wording and design recommendations from levels 2 and 3.
 
   python3 tooling/docreview.py --input docs/ [--input texts/] [--manifest hdsf.yaml] [--out-dir DIR]
 
 Reads .md, .txt, .html, .json, .yaml, .strings, .po, .xml, .docx (python-docx) and .pdf (pypdf). English and
-Portuguese wording is recognised. Signs, not proof; not legal advice. Licence: Apache-2.0
+Portuguese wording is recognised. The checks find signs; a person confirms them. Not legal advice. Licence: Apache-2.0
 """
 from __future__ import annotations
 
@@ -199,7 +199,10 @@ def readability(text: str, lang: str) -> dict | None:
             "long_share": round(100 * sum(len(s.split()) > 25 for s in sents) / len(sents)), "longest": long_s[0][:240]}
 
 
-def review_language(docs):
+PT_BR = r"\b(equipe|registro|contato|celular|tela|usuári[oa]s?|arquivo|aplicativo|cadastr\w+|você|vocês|estava \w+ndo|está \w+ndo|estão \w+ndo)\b"
+
+
+def review_language(docs, m=None):
     sec = {"title": "Language and readability", "intro": "Plain language helps everyone, and almost half of people in an EU survey had limited health "
            "literacy (HLS-EU). Scores use Flesch reading ease (English) or its Portuguese adaptation: 60 or more is plain; below 40 is hard. "
            "Aim for sentences of 15 to 20 words on average.", "items": []}
@@ -215,6 +218,15 @@ def review_language(docs):
         if found:
             sec["items"].append({"status": "review", "title": f"Medical terms in {name}", "rule": "CORE-LNG-01",
                                  "detail": "Explain or replace: " + "; ".join(f"{t} → {alt}" for t, alt in found[:10]) + "."})
+    if "PT" in [str(c).upper() for c in ((m or {}).get("countries") or [])]:
+        for name, text in docs:
+            if language(text) != "pt":
+                continue
+            forms = sorted({x.group(0).lower() for x in re.finditer(PT_BR, text, re.I)})
+            if forms:
+                sec["items"].append({"status": "review", "title": f"Brazilian Portuguese forms in {name}", "rule": "PT-LNG-01",
+                                     "detail": "For people in Portugal use European Portuguese: " + ", ".join(forms[:12])
+                                     + " (for example equipa, registo, contacto, telemóvel, ecrã, utilizador, ficheiro; 'está a fazer')."})
     if not sec["items"]:
         sec["items"].append({"status": "info", "title": "Not enough running text to score", "detail": "Add longer texts (onboarding, help, notices) to get readability scores."})
     return sec
@@ -278,9 +290,12 @@ def recommendations(m, rules, sources, tier: int, title: str, intro: str):
     return sec
 
 
-def run(inputs, manifest_path=None, root: Path = ROOT) -> list[dict]:
-    rules = yaml.safe_load((root / "framework" / "rules.yaml").read_text(encoding="utf-8"))["rules"]
-    sources = {s["id"]: s for s in yaml.safe_load((root / "framework" / "sources.yaml").read_text(encoding="utf-8"))["sources"]}
+def run(inputs, manifest_path=None, root: Path = ROOT, rules=None, sources=None) -> list[dict]:
+    """rules and sources: pass the merged set (framework plus packs) when you have it."""
+    if rules is None:
+        rules = yaml.safe_load((root / "framework" / "rules.yaml").read_text(encoding="utf-8"))["rules"]
+    if sources is None:
+        sources = {s["id"]: s for s in yaml.safe_load((root / "framework" / "sources.yaml").read_text(encoding="utf-8"))["sources"]}
     m = yaml.safe_load(Path(manifest_path).read_text(encoding="utf-8")) if manifest_path and Path(manifest_path).exists() else {}
     docs = collect(inputs)
     read = {"title": "Documents read", "intro": f"{len(docs)} document(s). Nothing was sent anywhere.",
@@ -288,10 +303,10 @@ def run(inputs, manifest_path=None, root: Path = ROOT) -> list[dict]:
                        + (" (could not read)" if t.startswith("[could not read") else "")} for n, t in docs]}
     sections = [read]
     if docs:
-        sections += [review_notice(docs), review_claims_safety(docs, m), review_language(docs), review_patterns(docs)]
-    sections.append(recommendations(m, rules, sources, 2, "EU recommendations and guidance that apply (layer 2)",
+        sections += [review_notice(docs), review_claims_safety(docs, m), review_language(docs, m), review_patterns(docs)]
+    sections.append(recommendations(m, rules, sources, 2, "EU recommendations and guidance that apply (level 2)",
                                     "What EU bodies, the WHO and standards recommend for a product like yours, beyond the law."))
-    sections.append(recommendations(m, rules, sources, 3, "Design recommendations from research (layer 3)",
+    sections.append(recommendations(m, rules, sources, 3, "Design recommendations from research (level 3)",
                                     "Best practice for design, UX, aesthetics and evidence, from peer-reviewed research and health app quality frameworks."))
     return sections
 
@@ -306,7 +321,7 @@ def to_markdown(sections) -> str:
             if i.get("evidence"):
                 lines.append(f"  > {i['evidence']}")
         lines.append("")
-    lines += ["Signs, not proof. Not legal or regulatory advice.", ""]
+    lines += ["The checks find signs. A person confirms them. Not legal or regulatory advice.", ""]
     return "\n".join(lines)
 
 

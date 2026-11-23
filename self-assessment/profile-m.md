@@ -23,7 +23,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **M-RSK-01** (MUST) Risk management covers clinical, use and security risks. A risk management file (ISO 14971) covers wrong outputs, use errors, misuse, cybersecurity and data quality, with controls and residual risk accepted by a named person.  
       Evidence: 
-- [ ] **R-CLN-01** (MUST) Clinical investigations of devices follow the MDR. A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.  
+- [ ] **R-CLN-01** (MUST) Clinical investigations of devices follow the MDR. A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent and safety reporting.  
       Evidence: 
 
 ## Level 2: Forward-compliant

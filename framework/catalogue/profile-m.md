@@ -2,7 +2,7 @@
 
 # Profile M: Medical device software (MDR or IVDR)
 
-Medical device software (MDR or IVDR). HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
+Medical device software (MDR or IVDR). HDSF v0.3.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -142,7 +142,7 @@ Medical device software (MDR or IVDR). HDSF v0.2.0. Rules marked `core` apply to
 
 **MUST** · Level 1 (Legal baseline) · Users: patients (people under care or treatment), public (people managing their own health or wellbeing) · Detection: manual · Effort: high
 
-**Requirement.** A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.
+**Requirement.** A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent and safety reporting.
 
 **Why.** MDR Art. 62 to 82.
 

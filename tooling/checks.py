@@ -284,7 +284,21 @@ def review_stale(m, repo, p):
     except ValueError:
         return [f"review.last_reviewed is not a date: {d}"]
     age = (dt.date.today() - day).days
-    return [f"last review was {age} days ago"] if age > REVIEW_MAX_DAYS else []
+    limit = int((p or {}).get("days") or REVIEW_MAX_DAYS)
+    return [f"last review was {age} days ago (limit {limit})"] if age > limit else []
+
+
+def decision_records(m, repo, p):
+    out = []
+    decided = _get(m, "decisions", {}) or {}
+    for f in (p or {}).get("features", []):
+        if f in _features(m):
+            v = decided.get(f)
+            if not v:
+                out.append(f"feature {f} has no decision record under decisions: in hdsf.yaml")
+            elif not _exists(repo, v):
+                out.append(f"decision record for {f} points to {v}, which does not exist")
+    return out
 
 
 CHECKS = {name: fn for name, fn in list(globals().items())

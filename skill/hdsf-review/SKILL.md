@@ -22,7 +22,7 @@ the report. HDSF is not legal or regulatory advice; say so when a decision needs
    python3 scripts/scan.py --repo <product path> --level 1 --out-dir hdsf-report --format md,json,sarif
    ```
    Use `--description-only` when there is no code. Use `--level 2` to plan for EHDS, CRA and AI Act dates.
-   Add `--docs <folder>` to review the privacy notice, store and onboarding texts, and `--export html,docx` (and `pdf` when
+   Add `--docs <folder>` to review the privacy notice and the store and onboarding texts. Add `--export html,docx` (and `pdf` when
    Chrome is installed) for a dashboard and a Word report.
 4. **Read the report with the team.** Fix BLOCK items first, then REVIEW, then WARN. For each HUMAN item, ask
    for the evidence and note where it lives. Explain each rule with its "why" and its sources; never invent a

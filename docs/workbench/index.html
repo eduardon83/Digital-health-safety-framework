@@ -2,48 +2,52 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Workbench · HDSF</title>
 <meta name="description" content="Check a digital health product without code: describe it, add your documents, get checks, design recommendations and reports. Nothing is uploaded.">
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css"><script>try{var t=localStorage.getItem('hdsf-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
-.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:22px 0}
-.step-h{display:flex;gap:14px;align-items:flex-start}.num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;display:grid;place-items:center}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:22px 0}
+.step-h{display:flex;gap:14px;align-items:flex-start}.num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--teal);color:var(--on-teal);font-weight:700;display:grid;place-items:center}
 .step h2{margin:2px 0 4px}fieldset{border:1px solid var(--line);border-radius:10px;padding:12px 16px 4px;margin:14px 0}legend{font-weight:700;padding:0 6px}
 .field{display:inline-flex;flex-direction:column;width:calc(50% - 12px);margin:0 8px 14px 0;vertical-align:top}.field.wide{width:calc(100% - 12px)}
 .lab{font-weight:600;font-size:.95rem;margin-bottom:4px}.hint{color:var(--muted);font-size:.84rem;margin:2px 0 4px}
-input,select,textarea{font:inherit;padding:8px 10px;border:1px solid #b9c7cd;border-radius:7px;background:#fff;width:100%}
+input,select,textarea{font:inherit;padding:8px 10px;border:1px solid var(--field);border-radius:7px;background:var(--panel);color:var(--ink);width:100%}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
 .chks{display:flex;flex-wrap:wrap;gap:6px 14px}.chk{font-size:.93rem;display:flex;gap:6px;align-items:center;width:auto}.chk input{width:auto}
 .btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
-.btn{display:inline-flex;gap:8px;align-items:center;font:inherit;font-weight:600;padding:9px 16px;border-radius:8px;border:1px solid var(--teal);background:#fff;color:var(--teal-t);cursor:pointer;text-decoration:none}
-.btn.p{background:var(--teal);color:#fff}.btn:disabled{opacity:.55;cursor:wait}.fmt{font-size:.72rem;border:1px solid currentColor;border-radius:4px;padding:0 5px}
+.btn{display:inline-flex;gap:8px;align-items:center;font:inherit;font-weight:600;padding:9px 16px;border-radius:8px;border:1px solid var(--teal);background:var(--panel);color:var(--teal-t);cursor:pointer;text-decoration:none}
+.btn.p{background:var(--teal);color:var(--on-teal)}.btn:disabled{opacity:.55;cursor:wait}.fmt{font-size:.72rem;border:1px solid currentColor;border-radius:4px;padding:0 5px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-#drop{border:2px dashed #9fb3bb;border-radius:12px;padding:26px;text-align:center;color:var(--muted)}#drop.over{background:var(--tint);border-color:var(--teal)}
+#drop{border:2px dashed var(--drop);border-radius:12px;padding:26px;text-align:center;color:var(--muted)}#drop.over{background:var(--tint);border-color:var(--teal)}
 #files{list-style:none;padding:0;margin:12px 0}#files li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:6px 0}
-#files button{font:inherit;font-size:.85rem;background:none;border:none;color:#b42318;cursor:pointer}
-.status{margin:12px 0;padding:10px 14px;border-radius:8px;background:var(--tint)}.status.ok{background:#e8f5ec}.status.err{background:#fdecea}
+#files button{font:inherit;font-size:.85rem;background:none;border:none;color:var(--danger);cursor:pointer}
+.status{margin:12px 0;padding:10px 14px;border-radius:8px;background:var(--tint)}.status.ok{background:var(--ok-bg)}.status.err{background:var(--err-bg)}
 .res{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}.res-h{display:flex;justify-content:space-between;gap:10px;align-items:center}
 .cnt{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}.cnt div{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.85rem}.cnt b{display:block;font-size:1.3rem}
-#gaps{background:#fff8ec;border:1px solid #f0d9b5;border-radius:8px;padding:10px 14px 10px 30px}
+#gaps{background:var(--note-bg);border:1px solid var(--note-line);border-radius:8px;padding:10px 14px 10px 30px}
 details.more summary{cursor:pointer;font-weight:600}
 @media (max-width:760px){.field{width:100%}.cnt{grid-template-columns:repeat(2,1fr)}}
 </style></head>
 <body data-pyodide="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/">
-<header class="top"><div class="in"><a class="brand" href="../">HD<span>SF</span></a><nav aria-label="Main"><a href="../">Home</a><a href="../introduction/">Introduction</a><a href="../regulatory-map/">Regulatory map</a><a href="../qualification/">Device question</a><a href="../catalogue/">Rules</a><a href="../gdpr/">GDPR</a><a href="../workbench/">Workbench</a><a href="../using-hdsf/">Use it</a><a href="../legislation/">Sources</a></nav></div></header>
+<header class="top"><div class="in"><a class="brand" href="../">HD<span>SF</span></a><nav aria-label="Main"><a href="../">Home</a><a href="../introduction/">Introduction</a><a href="../regulatory-map/">Regulatory map</a><a href="../qualification/">Device question</a><a href="../catalogue/">Rules</a><a href="../gdpr/">GDPR</a><a href="../workbench/">Workbench</a><a href="../using-hdsf/">Use it</a><a href="../legislation/">Sources</a></nav><button class="theme" type="button" data-theme-toggle>Dark</button></div></header>
 <main class="in"><article>
-<p class="meta"><span class="pill">HDSF v0.2.0 · Workbench</span></p>
+<p class="meta"><span class="pill">HDSF v0.3.0 · Workbench</span></p>
 <h1>Workbench</h1>
-<p class="lead" style="font-size:1.15rem;color:var(--muted)">For designers, product owners, decision makers and researchers. Describe your product, add your documents (design documents,
-privacy notice, store texts, onboarding, help pages), and get checks, design recommendations and reports. No code needed. Nothing leaves this page.</p>
-<div class="btns"><button class="btn" id="example" type="button">Try the example (Calm Steps, a fictional wellness app)</button><span class="note" id="engine">Loading the tools in the background...</span></div>
+<p class="lead" style="font-size:1.15rem;color:var(--muted)">For designers, product owners, decision makers and researchers. Describe your product and add your documents (design documents,
+privacy notice, store texts, onboarding, help pages). You get checks, design recommendations and reports. No code needed. Nothing leaves this page.</p>
+<div class="btns"><button class="btn" id="example" type="button">Try the example (Calm Steps, a fictional wellness app)</button>
+<button class="btn" id="tpl-pt" type="button">Start from the Portugal template</button>
+<button class="btn" id="tpl-acme" type="button">Add the ACME company pack (example)</button></div>
+<p class="note" id="engine">Loading the tools in the background...</p>
 
 <section class="step" aria-labelledby="s1"><div class="step-h"><span class="num">1</span><div><h2 id="s1">Describe your product</h2>
-<p>Answer what you know. Empty answers show up as gaps in the report, not as errors.</p></div></div>
+<p>Answer what you know. Empty answers show up as gaps in the report.</p></div></div>
 <div class="btns"><label class="btn" for="loadyaml">I already have an hdsf.yaml</label><input id="loadyaml" type="file" accept=".yaml,.yml" class="sr"></div>
 <fieldset><legend>About the product</legend>
 <div class="field"><label class="lab" for="f-product-name">Product name</label><input id="f-product-name" type="text" data-f="product.name"></div>
 <div class="field"><label class="lab" for="f-product-maker">Maker (company)</label><input id="f-product-maker" type="text" data-f="product.maker"></div>
 <div class="field"><label class="lab" for="f-product-contact">Privacy contact (email)</label><input id="f-product-contact" type="text" data-f="product.contact"></div>
 <div class="field wide"><label class="lab" for="f-intended-purpose">Intended purpose</label><span class="hint">One or two full sentences: what it is for, for whom, what it claims. Everything else depends on it.</span><textarea id="f-intended-purpose" data-f="intended_purpose" rows="3"></textarea></div>
-<div class="field"><label class="lab" for="f-countries">Countries where it is used</label><input id="f-countries" type="text" data-f="countries"><span class="hint">Two-letter codes, separated by commas, for example PT, ES</span></div>
+<div class="field"><label class="lab" for="f-countries">Countries where it is used</label><input id="f-countries" type="text" data-f="countries"><span class="hint">Two-letter codes, separated by commas, for example PT, ES. A country pack (Portugal: PT) loads by itself.</span></div>
+<div class="field"><label class="lab" for="f-packs">Company or sector packs</label><input id="f-packs" type="text" data-f="packs"><span class="hint">Pack files you added in step 2, separated by commas, for example .hdsf/packs/acme.yaml</span></div>
 </fieldset>
 <fieldset><legend>What kind of product</legend>
 <div class="field"><span class="lab">What kind of product</span><div class="chks"><label class="chk"><input type="checkbox" data-f="profiles" value="W"> Wellness and lifestyle (no medical purpose)</label><label class="chk"><input type="checkbox" data-f="profiles" value="M"> Medical device software (MDR or IVDR)</label><label class="chk"><input type="checkbox" data-f="profiles" value="E"> EHR system or patient portal (EHDS)</label><label class="chk"><input type="checkbox" data-f="profiles" value="R"> Research or secondary use of health data</label><label class="chk"><input type="checkbox" data-f="profiles" value="T"> Telehealth or care delivery</label></div></div>
@@ -99,7 +103,8 @@ privacy notice, store texts, onboarding, help pages), and get checks, design rec
 </section>
 
 <section class="step" aria-labelledby="s2"><div class="step-h"><span class="num">2</span><div><h2 id="s2">Add your documents</h2>
-<p>Privacy notice, store listing, onboarding and help texts, design documents, DPIA, qualification record. Formats: PDF, Word (.docx), Markdown, text, HTML, JSON or string files.</p></div></div>
+<p>Privacy notice, store listing, onboarding and help texts, design documents, DPIA, qualification record. Formats: PDF, Word (.docx), Markdown, text, HTML, JSON or string files.
+A company or sector pack (a .yaml file that starts with <code>pack:</code>) is recognised and applied. Start from the <a href="https://github.com/eduardon83/Digital-health-safety-framework/blob/main/packs/_template.yaml">pack template</a>.</p></div></div>
 <div id="drop">Drop files or a folder here
 <div class="btns" style="justify-content:center"><label class="btn" for="addfiles">Choose files</label><input id="addfiles" type="file" multiple class="sr">
 <label class="btn" for="addfolder">Choose a folder</label><input id="addfolder" type="file" webkitdirectory multiple class="sr"></div></div>
@@ -108,8 +113,7 @@ privacy notice, store texts, onboarding, help pages), and get checks, design rec
 
 <section class="step" aria-labelledby="s3"><div class="step-h"><span class="num">3</span><div><h2 id="s3">Run the checks</h2>
 <p>You get one report with: the rules that apply and what the description shows; a review of your documents (privacy notice against GDPR/RGPD
-Art. 13 and 14, medical claims, safety and AI wording, plain language, risky wording); EU recommendations that apply (layer 2); and design
-recommendations from research (layer 3).</p></div></div>
+Art. 13 and 14, medical claims, safety and AI wording, plain language, risky wording); EU recommendations that apply (level 2) and design recommendations from research (level 3).</p></div></div>
 <div class="field"><label class="lab" for="level">Level</label><select id="level"><option value="1">1: Legal baseline</option><option value="2" selected>2: Forward-compliant</option><option value="3">3: Best practice</option></select></div>
 <div class="btns"><button class="btn p" id="run" type="button">Run the checks</button></div>
 <ul id="gaps" hidden></ul>
@@ -123,10 +127,10 @@ first time. Your files are read by the browser and never sent anywhere: no serve
 To save the report as PDF, open it and use "Print or save as PDF".</p>
 <p class="note">Organisations that block CDNs can host Pyodide themselves and open this page with <code>?pyodide=https://their-host/pyodide/</code>. Developers get the
 same results, plus the code checks, with <code>tooling/workbench.py</code> and <code>tooling/scan.py</code>.</p>
-<p class="note">Signs, not proof. Not legal or regulatory advice.</p>
+<p class="note">The checks find signs. A person confirms them. This is not legal or regulatory advice.</p>
 </section>
 </article></main>
-<footer><div class="in">Health Data Safety Framework (HDSF) v0.2.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0.</div></footer>
+<footer><div class="in">Health Data Safety Framework (HDSF) v0.3.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0.</div></footer>
 <script>
 (() => {
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
@@ -205,7 +209,18 @@ function renderFiles() {
   }
   $('#doclist').innerHTML = [...docs.keys()].map(p => `<option value="${esc(p)}">`).join('');
 }
+function addPack(name, text) {
+  const path = '.hdsf/packs/' + name.replace(/^.*\//, '');
+  docs.set(path, text);
+  const el = document.querySelector('[data-f="packs"]');
+  const list = el.value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!list.includes(path)) { list.push(path); el.value = list.join(', '); }
+  renderFiles(); return path;
+}
 function addFile(f, rel) {
+  if (/\.ya?ml$/i.test(f.name) && !/(^|\/)hdsf\.ya?ml$/i.test(f.name)) {
+    f.text().then(t => { if (/^pack:/m.test(t)) addPack(f.name, t); else { docs.set('docs/' + f.name, f); renderFiles(); } }); return;
+  }
   let path = (rel || f.webkitRelativePath || f.name).replace(/^\/+/, '');
   if (!rel && f.webkitRelativePath) path = 'docs/' + (path.split('/').slice(1).join('/') || f.name);
   else if (!rel) path = 'docs/' + f.name;
@@ -239,6 +254,17 @@ $('#example').addEventListener('click', async () => {
   finally { $('#example').disabled = false; }
 });
 
+async function templates() { return (await fetch('templates.json', {cache: 'no-cache'})).json(); }
+$('#tpl-pt').addEventListener('click', async () => {
+  try { const t = await templates(); docs.clear(); renderFiles(); await yamlToForm(t.portugal);
+    status('The Portugal template is loaded: Portugal is in the countries, so the Portugal pack applies (consent age 13, CNPD, INFARMED, 112 and SNS 24, texts in European Portuguese). Fill in the rest.', 'ok');
+  } catch (x) { console.error(x); status('The template could not load.', 'err'); }
+});
+$('#tpl-acme').addEventListener('click', async () => {
+  try { const t = await templates(); const p = addPack('acme.yaml', t.acme);
+    status('The ACME company pack is added (' + p + '): minimum level 2, four no-go rules, forbidden packages and wording, decision records for AI and research, a review every 180 days and two ACME rules.', 'ok');
+  } catch (x) { console.error(x); status('The pack could not load.', 'err'); }
+});
 function status(msg, kind) { const s = $('#status'); s.hidden = false; s.className = 'status' + (kind ? ' ' + kind : ''); s.textContent = msg; }
 async function bytes(f) { return typeof f === 'string' ? new TextEncoder().encode(f) : new Uint8Array(await f.arrayBuffer()); }
 function put(py, path, data) { py.FS.mkdirTree(path.slice(0, path.lastIndexOf('/'))); py.FS.writeFile(path, data); }
@@ -287,4 +313,5 @@ function show(py, res) {
 setTimeout(() => engine().catch(() => {}), 400);
 })();
 </script>
+<script>(function(){var r=document.documentElement,b=document.querySelector('[data-theme-toggle]');if(!b)return;function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}function show(){var d=dark();b.setAttribute('aria-pressed',d);b.setAttribute('aria-label',d?'Switch to light mode':'Switch to dark mode');b.textContent=d?'\u2600 Light':'\u263E Dark'}b.addEventListener('click',function(){r.dataset.theme=dark()?'light':'dark';try{localStorage.setItem('hdsf-theme',r.dataset.theme)}catch(e){}show()});show()})()</script>
 </body></html>

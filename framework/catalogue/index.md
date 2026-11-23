@@ -2,7 +2,7 @@
 
 # Rule catalogue
 
-HDSF v0.2.0: 94 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best practice.
+HDSF v0.3.0: 94 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best practice.
 
 | Profile | File | Rules |
 |---|---|---|

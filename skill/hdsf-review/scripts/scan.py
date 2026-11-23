@@ -26,6 +26,7 @@ for p in (ROOT / "engine", HERE):  # repository layout, then the skill layout (s
 sys.path.insert(0, str(HERE))
 from sfe import config as sfe_config  # noqa: E402
 from sfe import export as sfe_export  # noqa: E402
+from sfe import packs as sfe_packs  # noqa: E402
 from sfe import patterns, scanner  # noqa: E402
 
 import checks  # noqa: E402
@@ -33,7 +34,7 @@ import docreview  # noqa: E402
 
 ACCENT = "#0f6e6e"
 
-TOOL_VERSION = "0.2.0"
+TOOL_VERSION = "0.3.0"
 
 
 def load_framework(root: Path):
@@ -53,12 +54,38 @@ def find_manifest(repo: Path, names, explicit=None):
     return None
 
 
-def run(repo: Path, level=1, manifest_path=None, description_only=False, root: Path = ROOT):
+def pack_paths(repo: Path, manifest: dict | None, extra=(), root: Path = ROOT) -> list[Path]:
+    """Country packs for the declared countries, then packs listed in the manifest, then extra paths."""
+    out = []
+    for c in (manifest or {}).get("countries") or []:
+        p = root / "packs" / f"{str(c).lower()}.yaml"
+        if p.exists():
+            out.append(p)
+    for x in list((manifest or {}).get("packs") or []) + list(extra):
+        p = Path(x)
+        out.append(p if p.is_absolute() else (repo / p if (repo / p).exists() else Path.cwd() / p))
+    return out
+
+
+def merge(cfg, rules, sources, paths) -> "sfe_packs.Merged":
+    m = sfe_packs.merged(rules, sources)
+    for p in paths:
+        sfe_packs.apply(cfg, m, sfe_packs.load(p), str(p), set(checks.CHECKS))
+    return m
+
+
+def run(repo: Path, level=1, manifest_path=None, description_only=False, root: Path = ROOT, packs=()):
     cfg, rules, sources = load_framework(root)
     mp = find_manifest(repo, cfg.manifest_names, manifest_path)
     manifest = yaml.safe_load(mp.read_text(encoding="utf-8")) if mp else None
+    m = merge(cfg, rules, sources, pack_paths(repo, manifest, packs, root))
+    rules, sources = list(m.rules.values()), m.sources
+    level = max(int(level), m.minimum_level)
     result = scanner.run(cfg, repo, rules, manifest, level, manifest_checks=checks.CHECKS,
                          ignore=patterns.Ignore(cfg.ignore_token), description_only=description_only)
+    result["packs"], result["parameters"], result["pack_warnings"] = m.packs, m.parameters, m.warnings
+    if m.minimum_level_by:
+        result["minimum_level_by"] = m.minimum_level_by
     if manifest is None:
         f = scanner.Finding(rule="CORE-QUA-01", severity="BLOCK", title="No hdsf.yaml found", strength="MUST", tier=1,
                             where="manifest", detail=checks.manifest_missing(None, repo, None)[0],
@@ -80,9 +107,10 @@ def main(argv=None) -> int:
     ap.add_argument("--fail-on", choices=["block", "review", "never"], default=None)
     ap.add_argument("--export", default="", help="comma-separated: html,pdf,docx (needs --out-dir)")
     ap.add_argument("--docs", action="append", default=[], help="folder or file to review (repeatable)")
+    ap.add_argument("--pack", action="append", default=[], help="extra pack to apply (repeatable)")
     a = ap.parse_args(argv)
     repo = Path(a.repo).resolve()
-    cfg, rules, sources, result, product = run(repo, a.level, a.manifest, a.description_only)
+    cfg, rules, sources, result, product = run(repo, a.level, a.manifest, a.description_only, packs=a.pack)
     out = {"md": scanner.render_markdown(cfg, result, sources, product),
            "json": scanner.to_json(cfg, result, product),
            "sarif": scanner.to_sarif(cfg, result, {r["id"]: r for r in rules})}
@@ -96,7 +124,7 @@ def main(argv=None) -> int:
         sections = None
         if a.docs:
             mp = find_manifest(repo, cfg.manifest_names, a.manifest)
-            sections = docreview.run(a.docs, mp)
+            sections = docreview.run(a.docs, mp, rules=rules, sources=sources)
             (d / "review.md").write_text(docreview.to_markdown(sections), encoding="utf-8")
             (d / "review.json").write_text(__import__("json").dumps(sections, indent=2, ensure_ascii=False), encoding="utf-8")
         exp = [x.strip() for x in a.export.split(",") if x.strip()]

@@ -9,7 +9,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 1: Legal baseline
 
-- [ ] **R-CLN-01** (MUST) Clinical investigations of devices follow the MDR. A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent, and safety reporting.  
+- [ ] **R-CLN-01** (MUST) Clinical investigations of devices follow the MDR. A study to gather clinical evidence for medical device software follows MDR Chapter VI: protocol, ethics committee opinion, competent authority notification or authorisation, informed consent and safety reporting.  
       Evidence: 
 - [ ] **R-DAT-01** (MUST) Research uses have a legal basis and approval. Each research use of health data has an Art. 6 basis, an Art. 9(2) condition (often (j) with national safeguards, or explicit consent), ethics approval where required, and a protocol. Research use is not hidden inside the terms of service.  
       Evidence: 
@@ -20,5 +20,5 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 - [ ] **R-DAT-03** (MUST) Only group results are published. Published results and open datasets hold group figures only, with small groups suppressed or merged, and are checked for re-identification before release.  
       Evidence: 
-- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.  
+- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.  
       Evidence: 

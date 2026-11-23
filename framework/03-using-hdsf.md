@@ -14,8 +14,8 @@ You get one report with:
 - a review of your documents: the privacy notice against GDPR (RGPD) Art. 13 and 14, medical claims, safety and AI wording, plain
   language and readability (English and Portuguese), and wording that steers people (confirmshaming, false urgency, guilt, fear,
   percentage-only risks, notifications that reveal health);
-- the EU recommendations that apply to your product (layer 2);
-- design recommendations from research (layer 3).
+- the EU recommendations that apply to your product (level 2);
+- design recommendations from research (level 3).
 
 Open the report in the browser (search, filters, "Print or save as PDF"), download it as Word, or download everything as a zip. The
 zip keeps your `hdsf.yaml`, so you can come back and continue.
@@ -29,7 +29,7 @@ Read the [core rules](catalogue/core.md) and the profiles that fit your product,
 
 Copy [templates/hdsf.yaml](../templates/hdsf.yaml) to the root of your repository and fill it in. It takes about an
 hour and answers most questions a reviewer, a buyer or an authority will ask first: the intended purpose, the device
-question, where data goes, who receives health data, and which documents exist.
+question, where data goes, who receives health data and which documents exist.
 
 ## 4. Run the scanner (developers)
 
@@ -62,7 +62,7 @@ Or only the manifest: `python3 hdsf/tooling/scan.py --repo folder-with-hdsf.yaml
 | HUMAN | A rule that applies but only a person can check. Keep the evidence. |
 | WAIVED | A finding covered by an inline comment or a dated waiver. |
 
-Automated checks find signs, not proof. A clean report does not mean a product is compliant.
+Automated checks find signs. A person confirms them. A clean report does not mean a product is compliant.
 
 ### In CI
 

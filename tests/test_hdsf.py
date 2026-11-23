@@ -27,7 +27,7 @@ def test_every_manifest_check_is_used_and_exists():
     rules = yaml.safe_load((ROOT / "framework" / "rules.yaml").read_text())["rules"]
     used = {p["check"] for r in rules for p in (r["detection"].get("patterns") or []) if p["type"] == "manifest"}
     assert used <= set(checks.CHECKS)
-    assert set(checks.CHECKS) - used == {"manifest_missing"}
+    assert set(checks.CHECKS) - used == {"manifest_missing", "decision_records"}  # the second is for company packs
 
 
 def test_rule_ids_and_profiles():
@@ -151,7 +151,7 @@ def test_review_is_clean_on_the_good_texts():
     gaps = [(sec["title"], i["title"]) for sec in s for i in sec["items"] if i["status"] == "gap"]
     assert gaps == []
     titles = [sec["title"] for sec in s]
-    assert any("layer 2" in t for t in titles) and any("layer 3" in t for t in titles)
+    assert any("(level 2)" in t for t in titles) and any("(level 3)" in t for t in titles)
 
 
 def test_review_reads_portuguese(tmp_path):
@@ -204,3 +204,56 @@ def test_workbench_page_and_bundle_are_built():
     b = json.loads((ROOT / "docs" / "workbench" / "hdsf-bundle.json").read_text())
     assert {"tooling/workbench.py", "tooling/docreview.py", "engine/sfe/export.py"} <= set(b["files"])
     assert (ROOT / "docs" / "workbench" / "vendor" / "pypdf-5.1.0-py3-none-any.whl").exists()
+
+
+# --------------------------------------------------------------------------- packs
+def test_portugal_pack_loads_from_countries():
+    _, rules, _, res, _ = scan.run(EX / "compliant-app", level=1)
+    assert [p["id"] for p in res["packs"]] == ["pt"]
+    assert res["parameters"]["pt.digital_consent_age"] == 13
+    r = {x["id"]: x for x in rules}
+    assert r["CORE-LNG-02"]["level"] == "MUST" and r["CORE-LNG-02"]["tier"] == 1
+    assert any("SNS 24" in n for n in r["CORE-SAF-01"]["notes"])
+
+
+def test_acme_pack_sets_policy(tmp_path):
+    import shutil
+    shutil.copytree(EX / "noncompliant-app", tmp_path / "app")
+    _, rules, _, res, _ = scan.run(tmp_path / "app", level=1, packs=[str(EX / "company-packs" / "acme.yaml")])
+    assert res["level"] == 2 and res["minimum_level_by"] == "ACME Health data policy"
+    sev = {(f.rule, f.severity) for f in res["findings"]}
+    assert ("CORE-TRK-01", "BLOCK") in sev          # a no-go blocks even at medium confidence
+    assert any(r.startswith("ACME-POL-") and s == "BLOCK" for r, s in sev)
+
+
+def test_packs_cannot_weaken(tmp_path):
+    from sfe import packs
+    cfg, rules, sources = scan.load_framework(ROOT)
+    m = packs.merged(rules, sources)
+    import pytest
+    for bad in ({"pack": {"id": "x1"}, "amend": [{"rule": "CORE-DAT-01", "level": "SHOULD"}]},
+                {"pack": {"id": "x2"}, "amend": [{"rule": "CORE-DAT-11", "tier": 3}]},
+                {"pack": {"id": "x3"}, "rules": [{"id": "CORE-DAT-01"}]}):
+        with pytest.raises(ValueError):
+            packs.apply(cfg, m, bad, "bad", set(checks.CHECKS))
+
+
+def test_pt_br_forms_flagged_for_portugal(tmp_path):
+    (tmp_path / "ajuda.md").write_text("A nossa equipe vai entrar em contato pelo celular. Você pode ver o seu registro de saúde aqui. "
+                                       "Os dados de saúde são tratados com cuidado e com o seu consentimento.", encoding="utf-8")
+    m = tmp_path / "hdsf.yaml"
+    m.write_text("countries: [PT]\n")
+    s = docreview.run([tmp_path], m)
+    assert any(i.get("rule") == "PT-LNG-01" for sec in s for i in sec["items"])
+
+
+def test_workbench_templates_built():
+    t = json.loads((ROOT / "docs" / "workbench" / "templates.json").read_text())
+    assert "countries: [PT]" in t["portugal"] and "id: acme" in t["acme"]
+    b = json.loads((ROOT / "docs" / "workbench" / "hdsf-bundle.json").read_text())
+    assert "packs/pt.yaml" in b["files"] and "engine/sfe/packs.py" in b["files"]
+
+
+def test_texts_follow_the_style_guide():
+    import stylecheck
+    assert stylecheck.check() == []

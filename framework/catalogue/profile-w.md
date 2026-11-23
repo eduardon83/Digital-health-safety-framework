@@ -2,7 +2,7 @@
 
 # Profile W: Wellness and lifestyle (no medical purpose)
 
-Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
+Wellness and lifestyle (no medical purpose). HDSF v0.3.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -19,7 +19,7 @@ Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` ap
 
 **SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.
+**Requirement.** The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.
 
 **Why.** EHDS secondary use rules (from 2029 and 2031) cover data from wellness applications too; the EDPB and EDPS asked for limits on that.
 
@@ -31,7 +31,7 @@ Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` ap
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Features: wearables, sensors · Detection: manual · Effort: medium
 
-**Requirement.** Users can get the data their connected device or related service generates, easily, securely and free, and can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make this possible by design.
+**Requirement.** Users can get the data their connected device or related service generates, easily, securely and free. They can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make this possible by design.
 
 **Why.** Data Act Art. 3 to 5, applicable from 12 Sep 2025 (design duty from 12 Sep 2026).
 
@@ -43,7 +43,7 @@ Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` ap
 
 **MUST** · Level 2 (Forward-compliant) · Users: all · Features: reproductive_health, mental_health, genetic · Detection: manual · Effort: high
 
-**Requirement.** Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by default. Cloud sync and backup are opt-in, end-to-end encrypted where possible, and explained.
+**Requirement.** Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by default. Cloud sync and backup are opt-in, end-to-end encrypted where possible and explained.
 
 **Why.** These are the most sensitive health data and the most often misused (GDPR Art. 9). Apps for depression were found sending data to large platforms without saying so (Huckvale 2019).
 
@@ -103,7 +103,7 @@ Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` ap
 
 **MUST** · Level 2 (Forward-compliant) · Users: all · Features: wearables, sensors · Detection: manual · Effort: high
 
-**Requirement.** Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by default, security updates, vulnerability handling, and reporting of actively exploited vulnerabilities from 11 Sep 2026.
+**Requirement.** Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by default, security updates, vulnerability handling and reporting of actively exploited vulnerabilities from 11 Sep 2026.
 
 **Why.** CRA; medical devices are outside it, wellness products with digital elements generally are not.
 

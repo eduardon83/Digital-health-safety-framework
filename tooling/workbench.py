@@ -1,4 +1,4 @@
-"""HDSF Workbench: describe a product in a form, add documents, and get the description check, the document review,
+"""HDSF Workbench: describe a product in a form and add documents to get the description check, the document review,
 design recommendations and reports. No code is read.
 
 The same module runs in the browser (docs/workbench/, with Pyodide; nothing is uploaded) and on a computer:
@@ -56,7 +56,8 @@ FIELDS = [
     ("product.maker", "Maker (company)", "text", ""),
     ("product.contact", "Privacy contact (email)", "text", ""),
     ("intended_purpose", "Intended purpose", "textarea", "One or two full sentences: what it is for, for whom, what it claims. Everything else depends on it."),
-    ("countries", "Countries where it is used", "text", "Two-letter codes, separated by commas, for example PT, ES"),
+    ("countries", "Countries where it is used", "text", "Two-letter codes, separated by commas, for example PT, ES. A country pack (Portugal: PT) loads by itself."),
+    ("packs", "Company or sector packs", "text", "Pack files you added in step 2, separated by commas, for example .hdsf/packs/acme.yaml"),
     ("profiles", "What kind of product", "checks", PROFILE_HELP),
     ("users", "Who uses it", "checks", USER_HELP),
     ("features", "What it does", "checks", FEATURE_HELP),
@@ -119,7 +120,7 @@ def manifest_to_form(text: str) -> dict:
                     rows.append(" | ".join(str(x.get(k, "")) for k in ("name", "purpose", "jurisdiction"))
                                 + " | " + ("yes" if x.get("receives_health_data") else "no") + " | " + str(x.get("dpa") or ""))
             f[key] = "\n".join(rows)
-        elif key in ("countries", "data.storage_regions"):
+        elif key in ("countries", "data.storage_regions", "packs"):
             f[key] = ", ".join(v or [])
         elif isinstance(v, bool):
             f[key] = "true" if v else "false"
@@ -146,7 +147,7 @@ def form_to_manifest(text: str, f: dict) -> str:
                 v = [{"name": r[0], "purpose": r[1] if len(r) > 1 else "", "jurisdiction": (r[2] if len(r) > 2 else "").upper(),
                       "receives_health_data": (r[3].lower() in ("yes", "y", "sim", "true")) if len(r) > 3 else False,
                       **({"dpa": r[4]} if len(r) > 4 and r[4] else {})} for r in rows]
-        elif key in ("countries", "data.storage_regions"):
+        elif key in ("countries", "data.storage_regions", "packs"):
             v = [x.strip() for x in str(v or "").split(",") if x.strip()]
         elif kind == "select" and v in ("true", "false"):
             v = v == "true"
@@ -195,7 +196,7 @@ def run(work: str | Path, out: str | Path, opts: dict | None = None) -> dict:
     (out / "findings.json").write_text(scanner.to_json(cfg, result, product), encoding="utf-8")
     (out / "hdsf-report.md").write_text(scanner.render_markdown(cfg, result, sources, product), encoding="utf-8")
     docs = [p for p in sorted(work.rglob("*")) if p.is_file() and p.suffix.lower() in docreview.DOC_EXT and p.name != "hdsf.yaml"]
-    sections = docreview.run([work], str(mp) if mp.exists() else None)
+    sections = docreview.run([work], str(mp) if mp.exists() else None, rules=rules, sources=sources)
     (out / "review.json").write_text(json.dumps(sections, indent=2, ensure_ascii=False), encoding="utf-8")
     (out / "review.md").write_text(docreview.to_markdown(sections), encoding="utf-8")
     formats = ["html"] + (["docx"] if _has_docx() else [])
@@ -209,7 +210,7 @@ def run(work: str | Path, out: str | Path, opts: dict | None = None) -> dict:
             zf.write(p, p.name)
     c = result["counts"]
     gaps = sum(i["status"] == "gap" for s in sections for i in s["items"])
-    recs = sum(len(s["items"]) for s in sections if "layer" in s["title"])
+    recs = sum(len(s["items"]) for s in sections if "(level" in s["title"])
     summary = {"verdict": scanner.verdict(result), "counts": c, "rules": len(result["rules_in_scope"]), "docs": len(docs),
                "doc_gaps": gaps, "recommendations": recs, "docx": "docx" in formats}
     return {"results": _files(out), "zip": str(z), "summary": summary}
@@ -218,13 +219,23 @@ def run(work: str | Path, out: str | Path, opts: dict | None = None) -> dict:
 # --------------------------------------------------------------------------- web bundle and form
 BUNDLE = ["tooling/scan.py", "tooling/checks.py", "tooling/docreview.py", "tooling/workbench.py",
           "framework/framework.yaml", "framework/rules.yaml", "framework/sources.yaml", "templates/hdsf.yaml"]
+PACK_DIR = "packs"
 
 
 def web_bundle(root: Path = ROOT) -> str:
     files = {f: (root / f).read_text(encoding="utf-8") for f in BUNDLE}
     for p in sorted((root / "engine" / "sfe").glob("*.py")):
         files[f"engine/sfe/{p.name}"] = p.read_text(encoding="utf-8")
+    for p in sorted((root / PACK_DIR).glob("*.yaml")):
+        files[f"{PACK_DIR}/{p.name}"] = p.read_text(encoding="utf-8")
     return json.dumps({"files": files}, ensure_ascii=False, sort_keys=True) + "\n"
+
+
+def templates_bundle(root: Path = ROOT) -> str:
+    """Starting points offered in the Workbench: the Portugal template and the ACME company pack example."""
+    return json.dumps({"portugal": (root / "templates" / "hdsf-portugal.yaml").read_text(encoding="utf-8"),
+                       "acme": (root / "examples" / "company-packs" / "acme.yaml").read_text(encoding="utf-8")},
+                      ensure_ascii=False, sort_keys=True) + "\n"
 
 
 def example_bundle(root: Path = ROOT) -> str:

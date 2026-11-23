@@ -1,0 +1,52 @@
+# hdsf.yaml template for a product used in Portugal. The Portugal pack (packs/pt.yaml) loads by itself because
+# countries lists PT: digital consent age 13, CNPD, INFARMED, CEIC, CNCS, 112 and SNS 24, texts in Portuguese.
+hdsf_version: "0.2"
+
+product:
+  name: "Nome do produto"
+  version: 0.1.0
+  url: https://example.pt
+  maker: "Empresa, Lda."
+  contact: privacidade@example.pt
+
+intended_purpose: >
+  Write one or two full sentences: what the product is for, for whom and what it claims.
+
+profiles: [core]
+users: [public]
+features: [accounts]
+countries: [PT]
+packs: []                    # company or sector packs, for example .hdsf/packs/acme.yaml
+
+qualification:
+  medical_device: undecided  # none | mdsw | ivd | annex_xvi
+  class: null
+  notified_body: null
+  rationale: docs/qualificacao.md
+
+data:
+  gdpr_role: controller
+  records: docs/registo-de-atividades.md
+  dpia: docs/aipd.md         # AIPD: avaliação de impacto sobre a proteção de dados
+  retention: null
+  purposes: []               # [{name, basis, art9}]
+  rights: {access: null, export: null, delete: null}
+  storage_regions: [eu-south-2]
+  third_parties: []          # [{name, purpose, jurisdiction, receives_health_data, dpa}]
+  tracking_on_health_screens: false
+  ads: none
+
+security:
+  policy: SECURITY.md
+  incident_plan: docs/plano-de-incidentes.md
+  sbom: null
+
+safety:
+  emergency_route: "112 e SNS 24 (808 24 24 24), a um toque, em todos os ecrãs de saúde"
+  content_review: null
+
+ehds: {ehr_system: false, claims_ehr_interoperability: false}
+nis2: {status: not_in_scope}  # care providers: check Decreto-Lei n.º 125/2025 and register with the CNCS
+review: {last_reviewed: null}
+decisions: {}                # {feature: path to decision record}, when a company pack asks for them
+waivers: []

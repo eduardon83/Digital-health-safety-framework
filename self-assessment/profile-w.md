@@ -9,7 +9,7 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 1: Legal baseline
 
-- [ ] **W-DAT-01** (MUST) Data from wearables and sensors is accessible to the user. Users can get the data their connected device or related service generates, easily, securely and free, and can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make this possible by design.  
+- [ ] **W-DAT-01** (MUST) Data from wearables and sensors is accessible to the user. Users can get the data their connected device or related service generates, easily, securely and free. They can have it shared with a third party they choose. Products placed on the market from 12 Sep 2026 make this possible by design.  
       Evidence: 
 - [ ] **W-QUA-01** (MUST) A wellness product stays wellness. The product does not add features that serve a medical purpose for an individual (diagnosis, disease monitoring, dose calculation, treatment decisions) without a new qualification. General fitness, sleep, diet and wellbeing features are fine.  
       Evidence: 
@@ -18,13 +18,13 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 2: Forward-compliant
 
-- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.  
+- [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets and has a plan for answering health data access bodies, including for wellness data.  
       Evidence: 
-- [ ] **W-DAT-02** (MUST) Reproductive, sexual and mental health data stays on the device by default. Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by default. Cloud sync and backup are opt-in, end-to-end encrypted where possible, and explained.  
+- [ ] **W-DAT-02** (MUST) Reproductive, sexual and mental health data stays on the device by default. Cycle, fertility, pregnancy, sexual health, mental health and genetic data is stored on the device by default. Cloud sync and backup are opt-in, end-to-end encrypted where possible and explained.  
       Evidence: 
 - [ ] **W-EHD-01** (MUST) Interoperability with health records is claimed only with the EHDS label. If the product claims it works with electronic health record systems, it meets the EHDS essential requirements and common specifications, carries the EHDS label, informs users of what the interoperability means, and is registered in the EU database.  
       Evidence: 
 - [ ] **W-EHD-02** (MUST) Data goes to a health record only when the person chooses. Being interoperable never means automatic sharing. Each transfer of wellness data to an EHR system, or to a professional, happens only after the person chooses it, and they can choose which data.  
       Evidence: 
-- [ ] **W-SEC-01** (MUST) Connected wellness products meet the Cyber Resilience Act. Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by default, security updates, vulnerability handling, and reporting of actively exploited vulnerabilities from 11 Sep 2026.  
+- [ ] **W-SEC-01** (MUST) Connected wellness products meet the Cyber Resilience Act. Connected wellness devices and their apps meet the CRA essential requirements by 11 Dec 2027: secure by default, security updates, vulnerability handling and reporting of actively exploited vulnerabilities from 11 Sep 2026.  
       Evidence: 

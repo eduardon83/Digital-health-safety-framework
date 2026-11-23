@@ -2,7 +2,7 @@
 
 # Core rules
 
-Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
+Every digital health product. HDSF v0.3.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -98,7 +98,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Features: ai_generative · Detection: mixed · Effort: low
 
-**Requirement.** A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor, nurse or therapist, in plain words, and repeats it when the topic turns to symptoms or treatment. Generated images and audio carry machine-readable marks.
+**Requirement.** A chatbot, agent or AI character tells people from the first interaction that it is AI and not a doctor, nurse or therapist, in plain words. It repeats this when the topic turns to symptoms or treatment. Generated images and audio carry machine-readable marks.
 
 **Why.** AI Act Art. 50, applicable from 2 Aug 2026; the Commission's guidelines read the "obvious" exception narrowly. People who are ill or worried are more likely to over-trust an answer.
 
@@ -122,7 +122,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Features: ai_generative, ai_clinical · Detection: manual · Effort: low
 
-**Requirement.** Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention, and no training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA, an Art. 9 condition and, for research, approval.
+**Requirement.** Health data sent to an AI provider is covered by a processing agreement, zero or minimal retention and no training on it. Health data of users is not used to train or fine-tune the maker's own models without a DPIA, an Art. 9 condition and, for research, approval.
 
 **Why.** GDPR Art. 5, 9, 28 and 35.
 
@@ -170,7 +170,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **SHOULD** · Level 2 (Forward-compliant) · Users: all · Features: ai_generative, ai_clinical · Detection: manual · Effort: medium
 
-**Requirement.** Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups, and understanding of the limits. The limits are written in the product.
+**Requirement.** Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups and understanding of the limits. The limits are written in the product.
 
 **Why.** The WHO guidance on large multi-modal models asks developers to design and test for all intended users and to be transparent about limits.
 
@@ -242,7 +242,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.
+**Requirement.** Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording and missing information.
 
 **Why.** GDPR Art. 5(1)(a), 7, 12 and 25 as read by the EDPB in Guidelines 03/2022 and 05/2020.
 
@@ -254,7 +254,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** The data inventory marks every field that is health, genetic or biometric data, and every field that reveals health when linked to a person: orders of medicines or health products, app use itself (using a diabetes app), step counts or sleep patterns that show a condition, appointments.
+**Requirement.** The data inventory marks every field that is health, genetic or biometric data. It also marks every field that reveals health when linked to a person: orders of medicines or health products, app use itself (using a diabetes app), step counts or sleep patterns that show a condition, appointments.
 
 **Why.** Art. 9 GDPR protects data concerning health. The CJEU held that order data for pharmacy-only medicines are health data, even without a prescription, when a link to an identifiable person can be made; certainty is not needed (C-21/23 Lindenapotheke).
 
@@ -290,7 +290,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no pre-ticked box, and can be withdrawn in the app as easily as it was given. Refusing optional uses never blocks the core service.
+**Requirement.** Where consent is the Art. 9 condition, it is asked separately from the terms, for each purpose, with no pre-ticked box. It can be withdrawn in the app as easily as it was given. Refusing optional uses never blocks the core service.
 
 **Why.** GDPR Art. 4(11), 7 and 9(2)(a). Explicit consent must be a clear, specific statement.
 
@@ -410,7 +410,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Features: ai_clinical, ai_generative · Detection: manual · Effort: medium
 
-**Requirement.** The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest, and clear information about the logic involved.
+**Requirement.** The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest and clear information about the logic involved.
 
 **Why.** GDPR Art. 22, including Art. 22(4) on special categories; Art. 13(2)(f) on information about the logic.
 
@@ -580,7 +580,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: manifest · Effort: low
 
-**Requirement.** The product has one written intended purpose: what it is for, for whom, and what it claims to do. The same text drives the store listing, the website, the onboarding screens and the qualification decision.
+**Requirement.** The product has one written intended purpose: what it is for, for whom and what it claims to do. The same text drives the store listing, the website, the onboarding screens and the qualification decision.
 
 **Why.** Under the MDR and IVDR, whether software is a medical device depends almost entirely on the intended purpose the manufacturer claims, not on how the software works (MDCG 2019-11 rev. 1). Without one written purpose, nobody can tell which law applies.
 
@@ -592,7 +592,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: manifest · Effort: medium
 
-**Requirement.** Before launch, the maker decides whether the product, or any module of it, is medical device software (MDR), in vitro diagnostic software (IVDR), an Annex XVI product, or none of these, and records the reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.
+**Requirement.** Before launch, the maker decides whether the product, or any module of it, is medical device software (MDR), in vitro diagnostic software (IVDR), an Annex XVI product or none of these. It records the reasons step by step against the MDCG 2019-11 decision trees. "Undecided" is not a launch state.
 
 **Why.** Placing medical device software on the market without CE marking is illegal; claiming to be a wellness app does not help if the intended purpose is medical. MDCG 2019-11 rev. 1 (June 2025) adds modular software, disease prevention under Rule 11 and AI.
 
@@ -604,7 +604,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **MUST** · Level 1 (Legal baseline) · Users: all · Detection: mixed · Effort: low
 
-**Requirement.** Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting it, or calculating doses.
+**Requirement.** Nothing the product or its maker says (store listing, website, adverts, onboarding, AI answers) claims a medical purpose the qualification does not cover: diagnosing, treating, monitoring a disease, predicting it or calculating doses.
 
 **Why.** Claims define the intended purpose. A wellness app that markets itself as detecting a disease takes on a medical purpose and becomes a medical device without its paperwork. MDCG 2025-4 asks app platforms to keep medical device apps apart from wellness apps, based on what the maker declares.
 
@@ -760,7 +760,7 @@ Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every pr
 
 **SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
 
-**Requirement.** Every read and change of a person's health record by staff or professionals is logged with who, when and why, and the logs are reviewed.
+**Requirement.** Every read and change of a person's health record by staff or professionals is logged with who, when and why. The logs are reviewed.
 
 **Why.** GDPR Art. 5(2) and 32 (accountability and security). The EHDS makes such logging mandatory for EHR systems (see E-LOG-01).
 

@@ -2,7 +2,7 @@
 
 # Legislation, guidance and evidence
 
-Every source HDSF v0.2.0 cites, grouped by type, with the rules that cite it. Statuses carry dates; check the link before you rely on one. This page is not legal advice.
+Every source HDSF v0.3.0 cites, grouped by type, with the rules that cite it. Statuses carry dates; check the link before you rely on one. This page is not legal advice.
 
 ## Still to verify
 
