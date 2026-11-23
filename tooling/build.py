@@ -334,20 +334,9 @@ def site(version, rules, sources, generated):
     cards = "".join(
         f'<a class="card" href="catalogue/{fn}/" style="text-decoration:none;color:inherit"><h3>{"Core" if p == "core" else "Profile " + p}</h3>'
         f'<p>{html.escape(CFG.profile_names[p])}. {by[p]} rules.</p></a>' for p, fn in PROFILE_FILES.items())
-    home = (f'<section class="hero"><p class="meta"><span class="pill">v{version}, draft for comment</span></p>'
-            "<h1>Health Data Safety Framework</h1>"
-            '<p class="lead">Open, checkable rules for digital health products in the EU: wellness apps, medical device software, '
-            "health records, research platforms and telehealth. One place to see which law applies, what it asks for "
-            "and how to check your product.</p>"
-            f"<p>{n} rules, {len(sources)} sources. Each rule says what to do, why (with its source), how to improve and how "
-            "it is checked: in the code, in a short manifest (<code>hdsf.yaml</code>) or by a person.</p>"
-            '<p><a href="introduction/">Start with the introduction</a> · <a href="qualification/">Is my software a medical device?</a> · '
-            '<a href="using-hdsf/">Run the checks</a></p></section>'
-            f'<h2>Profiles</h2><div class="cards">{cards}</div>'
-            '<p class="note">HDSF is a draft and not legal or regulatory advice. Whether software is a medical device is the '
-            "manufacturer's decision under the MDR or IVDR; ask a regulatory expert or a notified body when in doubt.</p>"
-            '<h2>Built with CSEF</h2><p>HDSF shares its engine with the <a href="https://csef.kendirstudios.pt">Child-Safe EdTech '
-            "Framework</a>. Health products used by children apply both.</p>")
+    home = _strip((ROOT / "tooling" / "home.template.html").read_text(encoding="utf-8"))
+    home = (home.replace("{version}", version).replace("{rules}", str(n)).replace("{sources}", str(len(sources)))
+                .replace("{cards}", cards))
     files[docs / "index.html"] = page("Health Data Safety Framework", home, version, "", "Open rules for digital health products in the EU")
     nav = "".join(f'<a href="../{h}">{html.escape(tt)}</a>' for h, tt in NAV)
     tpl = (ROOT / "tooling" / "workbench.template.html").read_text(encoding="utf-8")

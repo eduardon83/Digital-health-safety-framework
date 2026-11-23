@@ -87,6 +87,12 @@ CI checks that generated files are up to date.
   the official text in this version. Do not rely on them alone.
 - EU-level first; national rules are notes, starting with Portugal.
 
+## Edit the text
+
+Maintainers edit guides, rule texts, sources, packs and page text in the
+[text admin](https://github.com/eduardon83/child-safe-edtech-framework/tree/main/admin), shared with CSEF. Each save is
+a commit; the site rebuilds by itself.
+
 ## Contributing and licence
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and the writing style in [STYLE.md](STYLE.md). Content CC BY 4.0, code Apache-2.0 ([LICENSE](LICENSE)). Maintained by Kendir

@@ -2,6 +2,15 @@
 
 Newest first. Open items and what we are watching: [legislation.md, watch list](framework/legislation.md#open-discussions-and-watch-list).
 
+## Unreleased
+
+- **Text admin.** The CSEF text admin ([admin/ in CSEF](https://github.com/eduardon83/child-safe-edtech-framework/tree/main/admin))
+  now edits HDSF too: guides, rule texts, sources, the watch list, packs and page text. Each save is a commit to
+  `main`; the new workflow `rebuild-after-edit.yml` regenerates the site, runs the build check, the style check and the
+  tests, and publishes. CI skips `admin:` commits, because the rebuild runs the same checks.
+- The home page text moved from `tooling/build.py` to `tooling/home.template.html`, so the admin can edit it. The page
+  is unchanged except for one link: "Use the Workbench" replaces "Run the checks".
+
 ## v0.3.1 (2026-11-23)
 
 - **Logo.** A shield holding a plus of rounded blocks, in the CSEF family's colours ([brand/](brand/README.md)): mark,

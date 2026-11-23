@@ -18,7 +18,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 FILES = (["README.md", "CONTRIBUTING.md", "STYLE.md", "templates/hdsf.yaml", "templates/hdsf-portugal.yaml",
           "templates/qualification.md", "templates/dpia-health.md", "skill/hdsf-review/SKILL.md", "packs/_template.yaml",
-          "packs/pt.yaml", "examples/company-packs/acme.yaml", "tooling/workbench.template.html", "framework/watch.yaml"]
+          "packs/pt.yaml", "examples/company-packs/acme.yaml", "tooling/workbench.template.html", "tooling/home.template.html", "framework/watch.yaml"]
          + [f"framework/{p.name}" for p in sorted((ROOT / "framework").glob("0*.md"))] + ["framework/glossary.md"])
 # Texts inside code: only string literals are checked.
 CODE = ["tooling/docreview.py", "tooling/checks.py", "tooling/workbench.py", "tooling/build.py", "engine/sfe/export.py",
