@@ -2,21 +2,21 @@
 
 # Legislation, guidance and evidence
 
-Every source HDSF v0.1.0 cites, grouped by type, with the rules that cite it. Statuses carry dates; check the link before you rely on one. This page is not legal advice.
+Every source HDSF v0.2.0 cites, grouped by type, with the rules that cite it. Statuses carry dates; check the link before you rely on one. This page is not legal advice.
 
 ## Still to verify
 
 These entries were written from the maintainers' knowledge and have not yet been checked against the source in this version. Help by checking one and opening a pull request.
 
-`MDR`, `IVDR`, `MDCG-2020-1`, `NIS2`, `DATA-ACT`, `PLD`, `WAD`, `IEC-82304-1`, `IEC-62304`, `ISO-14971`, `ISO-13485`, `ISO-27799`, `HL7-FHIR`
+`EDPB-CONSENT`, `EDPB-DPBD`, `MDR`, `IVDR`, `MDCG-2020-1`, `NIS2`, `DATA-ACT`, `PLD`, `WAD`, `IEC-82304-1`, `IEC-62304`, `ISO-14971`, `ISO-13485`, `ISO-27799`, `HL7-FHIR`, `IEC-62366-1`
 
 ## Summary
 
 | Source | Type | Jurisdiction | Verified | Rules |
 |---|---|---|---|---|
-| [GDPR](#gdpr) | law | EU | 2026-11-22 | 39 |
+| [GDPR](#gdpr) | law | EU | 2026-11-22 | 48 |
 | [CJEU-LINDEN](#cjeu-linden) | law | EU | 2026-11-22 | 2 |
-| [DSA](#dsa) | law | EU | 2026-11-11 | 2 |
+| [DSA](#dsa) | law | EU | 2026-11-11 | 3 |
 | [EPRIV](#epriv) | law | EU | 2026-11-22 | 1 |
 | [EDPB-ART53](#edpb-art53) | guidance | EU | 2026-11-19 | 1 |
 | [EDPB-PSEUDO](#edpb-pseudo) | guidance | EU | 2026-11-19 | 2 |
@@ -25,17 +25,27 @@ These entries were written from the maintainers' knowledge and have not yet been
 | [EDPB-EDPS-EHDS](#edpb-edps-ehds) | guidance | EU | 2026-11-22 | 2 |
 | [OMNIBUS-DATA](#omnibus-data) | proposal | EU | 2026-11-19 | 1 |
 | [EHDS](#ehds) | law-pending | EU | 2026-11-22 | 11 |
-| [MDR](#mdr) | law | EU | pending | 16 |
+| [EDPB-AIMODELS](#edpb-aimodels) | guidance | EU | 2026-11-23 | 2 |
+| [EDPB-SCRAPE](#edpb-scrape) | guidance | EU | 2026-11-23 | 1 |
+| [EDPB-ANON](#edpb-anon) | guidance | EU | 2026-11-23 | 2 |
+| [EDPB-DECEPTIVE](#edpb-deceptive) | guidance | EU | 2026-11-23 | 3 |
+| [EDPB-CONSENT](#edpb-consent) | guidance | EU | pending | 1 |
+| [EDPB-DPBD](#edpb-dpbd) | guidance | EU | pending | 1 |
+| [WHO-LMM](#who-lmm) | guidance | international | 2026-11-23 | 2 |
+| [EC-REC-EHRXF](#ec-rec-ehrxf) | guidance | EU | 2026-11-23 | 1 |
+| [EC-CLEAR](#ec-clear) | guidance | EU | 2026-11-23 | 1 |
+| [OP-PLAIN](#op-plain) | guidance | EU | 2026-11-23 | 3 |
+| [MDR](#mdr) | law | EU | pending | 17 |
 | [IVDR](#ivdr) | law | EU | pending | 4 |
 | [MDCG-2019-11](#mdcg-2019-11) | guidance | EU | 2026-11-22 | 8 |
 | [MDCG-2025-4](#mdcg-2025-4) | guidance | EU | 2026-11-22 | 3 |
 | [MDCG-2025-6](#mdcg-2025-6) | guidance | EU | 2026-11-22 | 3 |
 | [MDCG-2020-1](#mdcg-2020-1) | guidance | EU | pending | 2 |
 | [MDR-REV](#mdr-rev) | proposal | EU | 2026-11-22 | 3 |
-| [AIA](#aia) | law | EU | 2026-11-22 | 4 |
+| [AIA](#aia) | law | EU | 2026-11-22 | 5 |
 | [AIA-OMNIBUS](#aia-omnibus) | law | EU | 2026-11-22 | 1 |
 | [AIA-GL-ART50](#aia-gl-art50) | guidance | EU | 2026-11-22 | 1 |
-| [AIA-GL-PROHIB](#aia-gl-prohib) | guidance | EU | 2026-11-22 | 1 |
+| [AIA-GL-PROHIB](#aia-gl-prohib) | guidance | EU | 2026-11-22 | 2 |
 | [NIS2](#nis2) | law | EU | pending | 4 |
 | [PT-NIS2](#pt-nis2) | law | PT | 2026-11-22 | 1 |
 | [CRA](#cra) | law-pending | EU | 2026-11-11 | 4 |
@@ -43,21 +53,28 @@ These entries were written from the maintainers' knowledge and have not yet been
 | [PLD](#pld) | law-pending | EU | pending | 2 |
 | [WAD](#wad) | law | EU | pending | 1 |
 | [EAA](#eaa) | law | EU | 2026-11-11 | 1 |
-| [PT-LEI-58-2019](#pt-lei-58-2019) | law | PT | 2026-11-22 | 1 |
+| [PT-LEI-58-2019](#pt-lei-58-2019) | law | PT | 2026-11-22 | 2 |
 | [PT-LEI-12-2005](#pt-lei-12-2005) | law | PT | 2026-11-22 | 2 |
-| [ISO-82304-2](#iso-82304-2) | standard | international | 2026-11-22 | 4 |
+| [ISO-82304-2](#iso-82304-2) | standard | international | 2026-11-22 | 8 |
 | [IEC-82304-1](#iec-82304-1) | standard | international | pending | 1 |
 | [IEC-62304](#iec-62304) | standard | international | pending | 1 |
 | [ISO-14971](#iso-14971) | standard | international | pending | 1 |
 | [ISO-13485](#iso-13485) | standard | international | pending | 1 |
 | [ISO-27799](#iso-27799) | standard | international | pending | 4 |
-| [HL7-FHIR](#hl7-fhir) | standard | international | pending | 1 |
+| [HL7-FHIR](#hl7-fhir) | standard | international | pending | 2 |
+| [IEC-62366-1](#iec-62366-1) | standard | international | pending | 1 |
 | [EN301549](#en301549) | standard | EU | 2026-11-11 | 1 |
-| [WCAG22](#wcag22) | standard | international | 2026-11-11 | 1 |
+| [WCAG22](#wcag22) | standard | international | 2026-11-11 | 2 |
 | [R-TANGARI2021](#r-tangari2021) | literature | international | 2026-11-22 | 3 |
 | [R-HUCKVALE2019](#r-huckvale2019) | literature | international | 2026-11-22 | 3 |
+| [R-MARS2015](#r-mars2015) | literature | international | 2026-11-23 | 2 |
+| [R-GALESIC2009](#r-galesic2009) | literature | international | 2026-11-23 | 1 |
+| [R-NOUWENS2020](#r-nouwens2020) | literature | international | 2026-11-23 | 1 |
+| [R-TRACTINSKY2000](#r-tractinsky2000) | literature | international | 2026-11-23 | 1 |
+| [R-HLS-EU2015](#r-hls-eu2015) | literature | EU | 2026-11-23 | 3 |
+| [NICE-ESF](#nice-esf) | literature | UK | 2026-11-23 | 1 |
 | [LABEL2ENABLE](#label2enable) | literature | EU | 2026-11-22 | 2 |
-| [CSEF](#csef) | literature | EU | 2026-11-22 | 2 |
+| [CSEF](#csef) | literature | EU | 2026-11-22 | 3 |
 
 ## Law in force
 
@@ -69,7 +86,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** EU · **Verified.** 2026-11-22
 
-**Rules citing it.** `CORE-AI-01`, `CORE-AI-04`, `CORE-CHD-01`, `CORE-CHD-02`, `CORE-COM-01`, `CORE-COM-02`, `CORE-COM-03`, `CORE-DAT-01`, `CORE-DAT-02`, `CORE-DAT-03`, `CORE-DAT-04`, `CORE-DAT-05`, `CORE-DAT-06`, `CORE-DAT-07`, `CORE-DAT-08`, `CORE-DAT-09`, `CORE-DAT-10`, `CORE-DAT-11`, `CORE-DAT-12`, `CORE-GOV-01`, `CORE-GOV-02`, `CORE-SEC-01`, `CORE-SEC-02`, `CORE-SEC-03`, `CORE-SEC-04`, `CORE-SEC-06`, `CORE-SEC-07`, `CORE-TRK-01`, `CORE-TRK-02`, `CORE-TRK-03`, `CORE-TRK-04`, `E-DAT-01`, `E-LOG-01`, `R-DAT-01`, `R-DAT-02`, `R-DAT-03`, `T-DAT-01`, `T-DAT-02`, `W-DAT-02`
+**Rules citing it.** `CORE-AI-01`, `CORE-AI-04`, `CORE-AI-06`, `CORE-AI-07`, `CORE-CHD-01`, `CORE-CHD-02`, `CORE-COM-01`, `CORE-COM-02`, `CORE-COM-03`, `CORE-COM-04`, `CORE-DAT-01`, `CORE-DAT-02`, `CORE-DAT-03`, `CORE-DAT-04`, `CORE-DAT-05`, `CORE-DAT-06`, `CORE-DAT-07`, `CORE-DAT-08`, `CORE-DAT-09`, `CORE-DAT-10`, `CORE-DAT-11`, `CORE-DAT-12`, `CORE-DAT-13`, `CORE-DAT-14`, `CORE-DAT-15`, `CORE-DAT-16`, `CORE-DAT-17`, `CORE-GOV-01`, `CORE-GOV-02`, `CORE-LNG-01`, `CORE-SEC-01`, `CORE-SEC-02`, `CORE-SEC-03`, `CORE-SEC-04`, `CORE-SEC-06`, `CORE-SEC-07`, `CORE-TRK-01`, `CORE-TRK-02`, `CORE-TRK-03`, `CORE-TRK-04`, `E-DAT-01`, `E-LOG-01`, `R-DAT-01`, `R-DAT-02`, `R-DAT-03`, `T-DAT-01`, `T-DAT-02`, `W-DAT-02`
 
 **Link.** [https://eur-lex.europa.eu/eli/reg/2016/679/oj](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
 
@@ -93,7 +110,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** EU · **Verified.** 2026-11-11
 
-**Rules citing it.** `CORE-COM-02`, `CORE-TRK-03`
+**Rules citing it.** `CORE-COM-02`, `CORE-COM-04`, `CORE-TRK-03`
 
 **Link.** [https://eur-lex.europa.eu/eli/reg/2022/2065/oj](https://eur-lex.europa.eu/eli/reg/2022/2065/oj)
 
@@ -129,7 +146,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** EU · **Verified.** pending
 
-**Rules citing it.** `CORE-AI-03`, `CORE-GOV-01`, `CORE-QUA-01`, `CORE-QUA-02`, `CORE-QUA-03`, `CORE-SEC-05`, `M-AI-02`, `M-APP-01`, `M-CLN-01`, `M-PMS-01`, `M-QMS-01`, `M-QUA-01`, `M-RSK-01`, `R-CLN-01`, `W-QUA-01`, `W-QUA-02`
+**Rules citing it.** `CORE-AI-03`, `CORE-GOV-01`, `CORE-QUA-01`, `CORE-QUA-02`, `CORE-QUA-03`, `CORE-SEC-05`, `M-AI-02`, `M-APP-01`, `M-CLN-01`, `M-PMS-01`, `M-QMS-01`, `M-QUA-01`, `M-RSK-01`, `M-USE-01`, `R-CLN-01`, `W-QUA-01`, `W-QUA-02`
 
 **Link.** [https://eur-lex.europa.eu/eli/reg/2017/745/oj](https://eur-lex.europa.eu/eli/reg/2017/745/oj)
 
@@ -155,7 +172,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Notes.** Timeline as stated by the Commission's AI Act page (last updated 19 Oct 2026): https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai
 
-**Rules citing it.** `CORE-AI-01`, `CORE-AI-02`, `CORE-AI-05`, `M-AI-01`
+**Rules citing it.** `CORE-AI-01`, `CORE-AI-02`, `CORE-AI-05`, `CORE-AI-08`, `M-AI-01`
 
 **Link.** [https://eur-lex.europa.eu/eli/reg/2024/1689/oj](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
 
@@ -239,7 +256,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** PT · **Verified.** 2026-11-22
 
-**Rules citing it.** `E-DAT-01`
+**Rules citing it.** `CORE-DAT-16`, `E-DAT-01`
 
 **Link.** [https://diariodarepublica.pt/dr/detalhe/lei/58-2019-123815982](https://diariodarepublica.pt/dr/detalhe/lei/58-2019-123815982)
 
@@ -371,6 +388,126 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Link.** [https://www.edpb.europa.eu/system/files/2022-07/edpb_edps_jointopinion_202203_europeanhealthdataspace_en.pdf](https://www.edpb.europa.eu/system/files/2022-07/edpb_edps_jointopinion_202203_europeanhealthdataspace_en.pdf)
 
+### EDPB-AIMODELS
+
+**EDPB Opinion 28/2024 on certain data protection aspects related to the processing of personal data in the context of AI models**
+
+**Status.** Adopted 17 Dec 2024. When an AI model can be considered anonymous (high bar, case by case); how to use legitimate interest for developing and deploying models (three-step test); effects of unlawful training data on later use. Does not cover Art. 9 special categories
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-AI-06`, `CORE-AI-07`
+
+**Link.** [https://edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf](https://edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf)
+
+### EDPB-SCRAPE
+
+**EDPB Guidelines 03/2026 on web scraping in the context of generative AI**
+
+**Status.** Adopted 8 Jul 2026 for public consultation (until 30 Oct 2026); not final. Scraping that includes special categories needs both an Art. 6 basis and an Art. 9(2) exception; purpose limitation and transparency need particular attention; scrape only from reliable sources, record timestamps, validate data
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-AI-07`
+
+**Link.** [https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en](https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en)
+
+### EDPB-ANON
+
+**EDPB Guidelines on anonymisation (2026)**
+
+**Status.** Adopted 8 Jul 2026 for public consultation (until 30 Oct 2026); not final. Clarifies when data can be considered anonymous and gives a framework to check whether anonymisation worked
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DAT-11`, `R-DAT-03`
+
+**Link.** [https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en](https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en)
+
+### EDPB-DECEPTIVE
+
+**EDPB Guidelines 03/2022 on deceptive design patterns in social media platform interfaces: how to recognise and avoid them, version 2.0**
+
+**Status.** Final version adopted 14 Feb 2023 after consultation. Written for social media but its categories of deceptive patterns (overloading, skipping, stirring, obstructing, fickle, left in the dark) apply to any consent and privacy interface
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-COM-04`, `CORE-DES-02`, `CORE-DES-06`
+
+**Link.** [https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en)
+
+### EDPB-CONSENT
+
+**EDPB Guidelines 05/2020 on consent under Regulation 2016/679**
+
+**Status.** Adopted May 2020. Freely given, specific, informed, unambiguous consent; explicit consent for Art. 9; no consent walls; withdrawal as easy as giving consent
+
+**Jurisdiction.** EU · **Verified.** pending
+
+**Rules citing it.** `CORE-COM-04`
+
+**Link.** [https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-052020-consent-under-regulation-2016679_en](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-052020-consent-under-regulation-2016679_en)
+
+### EDPB-DPBD
+
+**EDPB Guidelines 4/2019 on Article 25 Data Protection by Design and by Default, version 2.0**
+
+**Status.** Adopted Oct 2020. How to build data protection into design choices and defaults
+
+**Jurisdiction.** EU · **Verified.** pending
+
+**Rules citing it.** `CORE-DAT-17`
+
+**Link.** [https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-42019-article-25-data-protection-design-and_en](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-42019-article-25-data-protection-design-and_en)
+
+### WHO-LMM
+
+**WHO, Ethics and governance of artificial intelligence for health: guidance on large multi-modal models (ISBN 978-92-4-008475-9)**
+
+**Status.** Published 18 Jan 2024. Over 40 recommendations for governments, technology companies and health care providers on generative AI in health: transparency, testing with intended users, limits of use, accountability, equity
+
+**Jurisdiction.** international · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-AI-08`, `CORE-SAF-04`
+
+**Link.** [https://www.who.int/publications-detail-redirect/9789240084759](https://www.who.int/publications-detail-redirect/9789240084759)
+
+### EC-REC-EHRXF
+
+**Commission Recommendation (EU) 2019/243 of 6 February 2019 on a European Electronic Health Record exchange format**
+
+**Status.** Recommendation (not binding), OJ L 39, 11.2.2019. Principles and baseline technical specifications for a European EHR exchange format (patient summaries, ePrescriptions, lab results, images, discharge reports); now taken further by the EHDS
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `E-INT-03`
+
+**Link.** [https://eur-lex.europa.eu/eli/reco/2019/243/oj](https://eur-lex.europa.eu/eli/reco/2019/243/oj)
+
+### EC-CLEAR
+
+**European Commission, How to write clearly (Clear writing for Europe)**
+
+**Status.** Current. The Commission's plain language guide, in 24 official languages: think of the reader, short sentences, active verbs, no jargon
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-LNG-01`
+
+**Link.** [https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/translation/clear-writing-europe_en](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/translation/clear-writing-europe_en)
+
+### OP-PLAIN
+
+**Publications Office of the EU, Web Guide: Plain language and Easy-to-read**
+
+**Status.** Last updated 7 Oct 2026. Recommendations for plain language for the general public and Easy-to-read for people with intellectual or learning disabilities, low literacy or cognitive disabilities: simple words, explain difficult ones, active voice, literal wording
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-05`, `CORE-LNG-01`, `CORE-LNG-02`
+
+**Link.** [https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read](https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read)
+
 ### MDCG-2019-11
 
 **MDCG 2019-11 rev. 1, Guidance on qualification and classification of software in Regulation (EU) 2017/745 (MDR) and Regulation (EU) 2017/746 (IVDR)**
@@ -439,7 +576,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** EU · **Verified.** 2026-11-22
 
-**Rules citing it.** `CORE-AI-05`
+**Rules citing it.** `CORE-AI-05`, `CORE-DES-06`
 
 **Link.** [https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act)
 
@@ -453,7 +590,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** international · **Verified.** 2026-11-22
 
-**Rules citing it.** `CORE-SAF-01`, `CORE-SAF-02`, `CORE-SAF-03`, `T-GOV-01`
+**Rules citing it.** `CORE-DES-04`, `CORE-LNG-02`, `CORE-SAF-01`, `CORE-SAF-02`, `CORE-SAF-03`, `CORE-SAF-04`, `CORE-SAF-05`, `T-GOV-01`
 
 **Link.** [https://www.iso.org/standard/78182.html](https://www.iso.org/standard/78182.html)
 
@@ -525,9 +662,21 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** international · **Verified.** pending
 
-**Rules citing it.** `E-INT-02`
+**Rules citing it.** `E-INT-02`, `E-INT-03`
 
 **Link.** [https://hl7.org/fhir/](https://hl7.org/fhir/)
+
+### IEC-62366-1
+
+**IEC 62366-1, Medical devices, Part 1: Application of usability engineering to medical devices**
+
+**Status.** Harmonised standard for usability engineering of medical devices: use specification, use-related risk analysis, formative and summative evaluation
+
+**Jurisdiction.** international · **Verified.** pending
+
+**Rules citing it.** `M-USE-01`
+
+**Link.** [https://webstore.iec.ch/](https://webstore.iec.ch/)
 
 ### EN301549
 
@@ -549,7 +698,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** international · **Verified.** 2026-11-11
 
-**Rules citing it.** `CORE-ACC-01`
+**Rules citing it.** `CORE-ACC-01`, `CORE-DES-05`
 
 **Link.** [https://www.w3.org/TR/WCAG22/](https://www.w3.org/TR/WCAG22/)
 
@@ -579,6 +728,78 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Link.** [https://doi.org/10.1001/jamanetworkopen.2019.2542](https://doi.org/10.1001/jamanetworkopen.2019.2542)
 
+### R-MARS2015
+
+**Stoyanov SR, Hides L, Kavanagh DJ, Zelenko O, Tjondronegoro D, Mani M. Mobile App Rating Scale: a new tool for assessing the quality of health mobile apps. JMIR mHealth uHealth 2015;3(1):e27**
+
+**Status.** Peer reviewed. 23-item scale with four objective subscales (engagement, functionality, aesthetics, information quality) and a subjective one; excellent internal consistency (alpha .90). A user version (uMARS) followed in 2016
+
+**Jurisdiction.** international · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-03`, `CORE-DES-04`
+
+**Link.** [https://doi.org/10.2196/mhealth.3422](https://doi.org/10.2196/mhealth.3422)
+
+### R-GALESIC2009
+
+**Galesic M, Garcia-Retamero R, Gigerenzer G. Using icon arrays to communicate medical risks: overcoming low numeracy. Health Psychology 2009;28(2):210-216**
+
+**Status.** Peer reviewed. Icon arrays increased accuracy of understanding for people with low and high numeracy, including older adults
+
+**Jurisdiction.** international · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-01`
+
+**Link.** [https://pure.mpg.de/pubman/item/item_2099767_5/component/file_2562291/MG_Using_2009.pdf](https://pure.mpg.de/pubman/item/item_2099767_5/component/file_2562291/MG_Using_2009.pdf)
+
+### R-NOUWENS2020
+
+**Nouwens M, Liccardi I, Veale M, Karger D, Kagal L. Dark patterns after the GDPR: scraping consent pop-ups and demonstrating their influence. CHI 2020**
+
+**Status.** Peer reviewed. Only 11.8% of consent pop-ups on 680 UK sites met minimal EU-law requirements; removing the opt-out button from the first page raised consent by 22 to 23 percentage points; granular controls on the first page lowered it by 8 to 20 points
+
+**Jurisdiction.** international · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-02`
+
+**Link.** [https://doi.org/10.1145/3313831.3376321](https://doi.org/10.1145/3313831.3376321)
+
+### R-TRACTINSKY2000
+
+**Tractinsky N, Katz AS, Ikar D. What is beautiful is usable. Interacting with Computers 2000;13(2):127-145**
+
+**Status.** Peer reviewed. Perceived aesthetics strongly correlated with perceived usability before and after use; the system's aesthetics affected post-use perceptions of usability, while actual usability did not
+
+**Jurisdiction.** international · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-03`
+
+**Link.** [https://doi.org/10.1016/S0953-5438(00)00031-X](https://doi.org/10.1016/S0953-5438(00)00031-X)
+
+### R-HLS-EU2015
+
+**Sørensen K, Pelikan JM, Röthlin F et al. Health literacy in Europe: comparative results of the European health literacy survey (HLS-EU). Eur J Public Health 2015;25(6):1053-1058**
+
+**Status.** Peer reviewed; 8,000 people in eight countries. 12% had insufficient and 47% limited health literacy, varying from 29% to 62% by country; higher among people with financial deprivation, low education or old age
+
+**Jurisdiction.** EU · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-DES-01`, `CORE-DES-05`, `CORE-LNG-01`
+
+**Link.** [https://doi.org/10.1093/eurpub/ckv043](https://doi.org/10.1093/eurpub/ckv043)
+
+### NICE-ESF
+
+**NICE, Evidence standards framework for digital health technologies (ECD7)**
+
+**Status.** Published Dec 2018, updated Aug 2022 (AI and adaptive algorithms, alignment with regulation). UK framework, used here as international best practice: evidence expected rises with the technology's function and risk
+
+**Jurisdiction.** UK · **Verified.** 2026-11-23
+
+**Rules citing it.** `CORE-SAF-05`
+
+**Link.** [https://www.nice.org.uk/corporate/ecd7](https://www.nice.org.uk/corporate/ecd7)
+
 ### LABEL2ENABLE
 
 **Label2Enable (Horizon Europe project 101057522): an EU health app quality label based on ISO/TS 82304-2**
@@ -599,7 +820,7 @@ These entries were written from the maintainers' knowledge and have not yet been
 
 **Jurisdiction.** EU · **Verified.** 2026-11-22
 
-**Rules citing it.** `CORE-CHD-01`, `CORE-CHD-02`
+**Rules citing it.** `CORE-CHD-01`, `CORE-CHD-02`, `CORE-DES-06`
 
 **Link.** [https://csef.kendirstudios.pt](https://csef.kendirstudios.pt)
 

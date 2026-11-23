@@ -49,6 +49,14 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **CORE-DAT-12** (MUST) Health data on the device is encrypted. Health data stored on a phone, tablet or browser uses encrypted storage (Keychain, Keystore, encrypted databases). Plain localStorage, AsyncStorage, SharedPreferences or UserDefaults are not used for it.  
       Evidence: 
+- [ ] **CORE-DAT-13** (MUST) Processing of health data is recorded. The maker keeps a record of processing activities: purposes, categories of people and data (health data marked), recipients, transfers, retention and security measures. It is kept current.  
+      Evidence: 
+- [ ] **CORE-DAT-14** (MUST) No automated decision with serious effects without safeguards. The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest, and clear information about the logic involved.  
+      Evidence: 
+- [ ] **CORE-DAT-15** (MUST) Data protection roles are clear. For each use of health data, the maker knows whether it acts as controller, processor or joint controller (for example with a clinic or an insurer), and the contracts say so. A maker outside the EU names an EU representative.  
+      Evidence: 
+- [ ] **CORE-DAT-16** (MUST) Requests from people are answered within a month. People can ask to correct, restrict, object to or get a copy of their data through a simple route, and get an answer within one month. The product tells them they can complain to the data protection authority.  
+      Evidence: 
 - [ ] **CORE-GOV-01** (MUST) Named people are responsible for data protection and safety. The product names who is responsible for data protection, security and (for devices) regulatory compliance. A data protection officer is appointed where health data is processed at large scale as a core activity.  
       Evidence: 
 - [ ] **CORE-QUA-01** (MUST) The intended purpose is written down. The product has one written intended purpose: what it is for, for whom, and what it claims to do. The same text drives the store listing, the website, the onboarding screens and the qualification decision.  
@@ -80,17 +88,33 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 - [ ] **CORE-ACC-01** (SHOULD) The product is accessible. The product meets WCAG 2.2 level AA (EN 301 549). Public sector bodies publish an accessibility statement. Health information is also offered in plain language.  
       Evidence: 
+- [ ] **CORE-AI-06** (MUST) AI built with personal data passes the EDPB tests. When the maker trains, fine-tunes or evaluates an AI model with personal data, it documents the legal basis (for legitimate interest: the three-step test), checks whether the model can be considered anonymous before claiming so, and checks that any third-party model it uses was not built unlawfully.  
+      Evidence: 
+- [ ] **CORE-AI-07** (MUST) No scraped health data without an Art. 9 condition. The product and its maker do not scrape or extract health data from websites, forums, social media or other apps for AI, analytics or research without an Art. 9(2) condition. Any scraping is limited to reliable, named sources, keeps timestamps, validates the data and is explained to the people concerned.  
+      Evidence: 
+- [ ] **CORE-AI-08** (SHOULD) Health AI is tested with its intended users. Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups, and understanding of the limits. The limits are written in the product.  
+      Evidence: 
 - [ ] **CORE-CHD-02** (MUST) Teenagers' confidential health topics stay confidential. Parent or guardian access to a teenager's data follows national law on consent and confidentiality for health care. Topics such as sexual health, mental health and substance use are not shown to parents by default where the teenager may consult on their own.  
+      Evidence: 
+- [ ] **CORE-COM-04** (MUST) Consent and privacy screens avoid deceptive design. Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.  
       Evidence: 
 - [ ] **CORE-DAT-11** (SHOULD) Analytics and research use pseudonymised data with keys kept apart. Product analytics and research extracts use random codes instead of identities. The key that links codes to people stays in a separate system with separate access. Recipients that cannot re-identify are named when the data is collected.  
       Evidence: 
+- [ ] **CORE-DAT-17** (SHOULD) Data protection is part of design decisions. Design reviews ask what data each feature needs, choose the most protective default, and record the choice. Privacy-friendly settings are on by default; more sharing is opt-in.  
+      Evidence: 
 - [ ] **CORE-GOV-02** (SHOULD) The manifest and the qualification are reviewed every year. hdsf.yaml, the qualification and the DPIA are reviewed at least once a year and after any major change.  
+      Evidence: 
+- [ ] **CORE-LNG-01** (SHOULD) Health information is in plain language. Health information, instructions and notices use short sentences, common words, the active voice and explained terms. Medical terms are explained the first time.  
+      Evidence: 
+- [ ] **CORE-LNG-02** (SHOULD) The product speaks its users' languages. The product is offered in the languages of the countries where it is used. Health content and safety messages are translated or reviewed by a qualified person, not only by machine translation.  
       Evidence: 
 - [ ] **CORE-QUA-04** (SHOULD) The qualification is checked again when the product changes. A new feature, a new claim, a new AI model or a new user group triggers a recorded check of the qualification and the class. The check is part of the release checklist.  
       Evidence: 
 - [ ] **CORE-SAF-01** (MUST) People can always find urgent help. Where people enter symptoms, talk about mental health or chat (with AI or people), the product shows how to get urgent help (112 and national lines) in one tap, and says the product is not an emergency service. Words that signal danger lead to that help, not to a generic answer.  
       Evidence: 
 - [ ] **CORE-SAF-02** (SHOULD) Health content is reviewed by a qualified person and dated. Health information in the product is written or reviewed by a named, qualified professional, cites its sources and shows when it was last reviewed. Reviews happen at least yearly.  
+      Evidence: 
+- [ ] **CORE-SAF-04** (SHOULD) Health recommendations follow recognised guidance. Advice the product gives (exercise, diet, sleep, medication reminders, mental health tips) follows recognised guidance from public health bodies or clinical guidelines, and shows its source and date to the user.  
       Evidence: 
 - [ ] **CORE-SEC-05** (MUST) Components are listed and security updates are promised. The product keeps a software bill of materials, watches it for known vulnerabilities, and states how long it will receive security updates.  
       Evidence: 
@@ -101,5 +125,19 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 ## Level 3: Best practice
 
+- [ ] **CORE-DES-01** (SHOULD) Risks and numbers are shown in ways people understand. Risks and results use natural frequencies ("3 in 100 people") and icon arrays, not only percentages or relative risk. The same denominator is used across comparisons.  
+      Evidence: 
+- [ ] **CORE-DES-02** (SHOULD) Saying no is as easy as saying yes. On the first consent screen, "refuse" has the same size, colour weight and position as "accept", and the choices for each purpose are on the first screen.  
+      Evidence: 
+- [ ] **CORE-DES-03** (SHOULD) The visual design is calm, consistent and honest. The visual design is consistent, readable and calm. Good looks are used to make the product clearer, never to make a risk, a cost or a data choice look smaller. Aesthetic changes are tested with users.  
+      Evidence: 
+- [ ] **CORE-DES-04** (SHOULD) Quality is rated before release. Before major releases, experts rate the product with MARS and users with uMARS (engagement, functionality, aesthetics, information quality), and the team acts on low scores.  
+      Evidence: 
+- [ ] **CORE-DES-05** (SHOULD) Designed and tested with people who find health information hard. User research and tests include people with limited health literacy, older adults and people with disabilities. Key information has an easy-to-read version.  
+      Evidence: 
+- [ ] **CORE-DES-06** (SHOULD) No guilt, shame or fear to drive engagement. The product does not use guilt, shame, fear or loss streaks about health to keep people using it or to sell. Success is measured by health outcomes and user goals, not time in the app.  
+      Evidence: 
 - [ ] **CORE-SAF-03** (SHOULD) Evidence of benefit fits the claims. Each benefit the product claims is backed by evidence of a fitting strength (user studies, trials, real-world data), published or available to professionals who recommend it.  
+      Evidence: 
+- [ ] **CORE-SAF-05** (SHOULD) The evidence plan matches the product's function and risk. The maker classifies its product by function (from system services to treatment) and plans the evidence that fits: higher risk functions need stronger evidence of effect.  
       Evidence: 

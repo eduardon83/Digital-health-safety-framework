@@ -8,7 +8,7 @@ HDSF is a draft for public comment. It is not legal or regulatory advice.
 
 ## Why HDSF
 
-Digital health sits where several EU laws meet. The GDPR treats health data as a special category. The MDR and IVDR
+Digital health sits where several EU laws meet. The GDPR (RGPD in Portuguese) treats health data as a special category. The MDR and IVDR
 decide whether software is a medical device. The European Health Data Space (EHDS) adds rules for health records and
 for wellness apps that connect to them, applying in stages from 2027. The AI Act, the Cyber Resilience Act, NIS2, the
 Data Act and the new Product Liability Directive add more. Each law is clear on its own; together they are hard to
@@ -25,8 +25,12 @@ top apps for depression and smoking cessation, 29 sent data to Facebook or Googl
   to improve, how much effort it takes, and how it is checked.
 - **A first question**: is your software a medical device? ([guide](02-qualification.md)). Every other answer depends on it.
 - **A regulatory map** ([guide](01-regulatory-map.md)): which law applies to which kind of product, and from when.
+- **A GDPR (RGPD) map** ([page](gdpr-map.md)): each GDPR article that matters for health products, and the rules that apply it.
+- **A Workbench** for designers, product owners, decision makers and researchers: describe the product, add the documents, and get
+  checks, a document review, design recommendations and reports in the browser. No code, nothing uploaded.
 - **A manifest**, `hdsf.yaml` ([template](../templates/hdsf.yaml)), that describes the product in one page.
-- **A scanner** that reads the manifest and the code and writes a report ([how to use it](03-using-hdsf.md)).
+- **A scanner** that reads the manifest and the code and writes reports: an interactive HTML dashboard, PDF, Word, Markdown, JSON
+  and SARIF ([how to use it](03-using-hdsf.md)).
 - **Checklists** for a self-assessment by hand ([self-assessment](../self-assessment/core.md)).
 - **Sources** with dates and their verification status ([legislation and evidence](legislation.md)).
 
@@ -46,13 +50,15 @@ Every product meets the **core** rules. Then it adds the profiles that fit; a pr
 Rules also depend on who uses the product (the public, patients, professionals, children) and on its features
 (wearables, AI, chat, research use and others).
 
-## Levels
+## Three layers
 
-| Level | Name | What it means |
+HDSF works in three layers, as CSEF does. Each rule has a level.
+
+| Level | Layer | What it rests on |
 |---|---|---|
-| 1 | Legal baseline | Law in force, or adopted law. Meet it now. |
-| 2 | Forward-compliant | Adopted law applying later (EHDS, CRA, AI Act high-risk dates), guidance and standards. Plan for it. |
-| 3 | Best practice | What good products do beyond the law. |
+| 1 | Legal baseline | Law in force or adopted: GDPR (RGPD), MDR and IVDR, AI Act, DSA, ePrivacy, NIS2, Data Act, national law. Meet it now. |
+| 2 | EU recommendations and forward compliance | Law that applies later (EHDS, CRA, AI Act high-risk dates) and what EU bodies recommend: EDPB guidelines and opinions on AI models, web scraping, consent and deceptive design; Commission guidance and recommendations (EHR exchange format, clear writing); WHO guidance on AI for health; harmonised standards. Plan for it. |
+| 3 | Best practice from research | Peer-reviewed research and quality frameworks on design, UX, aesthetics, risk communication, health literacy and evidence (for example MARS, icon arrays, consent design studies, HLS-EU, NICE). What good products do beyond the law. |
 
 **MUST** rules are required at their level. **SHOULD** rules are strongly recommended; skip one only with a
 recorded reason.

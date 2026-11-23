@@ -20,6 +20,8 @@ Product: ____________________  Date: __________  Assessor: ____________________
       Evidence: 
 - [ ] **E-INT-02** (MUST) Data leaves in the European exchange format, without lock-in. The system exports priority categories (patient summaries, ePrescriptions, images, lab results, discharge reports) in the European electronic health record exchange format, and customers can switch provider without losing data or paying exit fees.  
       Evidence: 
+- [ ] **E-INT-03** (SHOULD) The EHR system follows the EU exchange format recommendation now. Until EHDS implementing acts apply, the system follows the principles and baseline specifications of Commission Recommendation (EU) 2019/243 for patient summaries, ePrescriptions, lab results, images and discharge reports.  
+      Evidence: 
 - [ ] **E-LOG-01** (MUST) People can see who accessed their record. Every access to a person's electronic health data is logged, and the person can see who accessed it and when.  
       Evidence: 
 - [ ] **R-EHD-01** (SHOULD) The maker is ready to be an EHDS data holder. The maker knows whether it will be a health data holder under the EHDS, can describe its datasets, and has a plan for answering health data access bodies, including for wellness data.  

@@ -7,7 +7,7 @@ the [sources](legislation.md) for the current status. Not legal advice.
 
 | Law | What it covers in digital health | Applies | Profiles |
 |---|---|---|---|
-| GDPR | Health data as a special category (Art. 9); DPIA; security; rights | Since 2018 | all |
+| GDPR (RGPD) | Health data as a special category (Art. 9); DPIA; security; rights; automated decisions ([article map](gdpr-map.md)) | Since 2018 | all |
 | ePrivacy Art. 5(3) | Any access to the user's device: SDKs, trackers, identifiers | In force | all |
 | MDR | Software with a medical intended purpose (Rule 11) | Since 2021, transitional periods for legacy devices | M |
 | IVDR | Software that analyses data from samples for a medical purpose | Since 2022, transitional periods | M |

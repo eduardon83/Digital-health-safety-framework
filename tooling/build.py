@@ -32,10 +32,31 @@ from sfe import config as sfe_config  # noqa: E402
 from sfe import markdown as md  # noqa: E402
 
 import checks  # noqa: E402
+import workbench  # noqa: E402
+
+PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"
 
 CFG = sfe_config.load(ROOT / "framework" / "framework.yaml")
 errors: list[str] = []
 PROFILE_FILES = {"core": "core", "W": "profile-w", "M": "profile-m", "E": "profile-e", "R": "profile-r", "T": "profile-t"}
+GDPR_ARTICLES = [
+    ("4", "Definitions: pseudonymisation (5), consent (11), data concerning health (15)"), ("5", "Principles"),
+    ("6", "Lawfulness of processing"), ("7", "Conditions for consent"), ("8", "Child's consent for online services"),
+    ("9", "Special categories, including health, genetic and biometric data"),
+    ("12", "Transparent information, clear and plain language, answer within a month"),
+    ("13", "Information when data is collected from the person"), ("14", "Information when data comes from elsewhere"),
+    ("15", "Right of access"), ("16", "Right to rectification"), ("17", "Right to erasure"), ("18", "Right to restriction"),
+    ("20", "Right to data portability"), ("21", "Right to object"), ("22", "Automated individual decisions"),
+    ("24", "Responsibility of the controller"), ("25", "Data protection by design and by default"),
+    ("26", "Joint controllers"), ("27", "Representatives of controllers outside the EU"), ("28", "Processors"),
+    ("30", "Records of processing activities"), ("32", "Security of processing"),
+    ("33", "Notifying a breach to the authority"), ("34", "Telling people about a breach"),
+    ("35", "Data protection impact assessment"), ("36", "Prior consultation"),
+    ("37", "Data protection officer: when"), ("38", "Data protection officer: position"), ("39", "Data protection officer: tasks"),
+    ("44", "Transfers: general principle"), ("45", "Transfers on the basis of an adequacy decision"),
+    ("46", "Transfers subject to appropriate safeguards"), ("49", "Derogations for specific situations"),
+    ("77", "Right to lodge a complaint with a supervisory authority"), ("89", "Safeguards for research and statistics"),
+]
 GUIDES = [("framework/00-introduction.md", "introduction"), ("framework/01-regulatory-map.md", "regulatory-map"),
           ("framework/02-qualification.md", "qualification"), ("framework/03-using-hdsf.md", "using-hdsf")]
 TYPE_SECTIONS = [("law", "Law in force"), ("law-pending", "Adopted, applying later"), ("proposal", "Proposals"),
@@ -131,6 +152,30 @@ def legislation(version, rules, sources, watch):
     return "\n".join(lines) + "\n"
 
 
+def gdpr_map(version, rules):
+    by, rid_rule = {}, {r["id"]: r for r in rules}
+    for r in rules:
+        for a in r.get("gdpr", []) or []:
+            by.setdefault(str(a).split("(")[0], []).append((r["id"], str(a)))
+    lines = [cat.header(CFG) + "# GDPR (RGPD) map", "",
+             f"Which HDSF v{version} rules apply each article of the General Data Protection Regulation (in Portuguese, RGPD: "
+             "Regulamento Geral sobre a Proteção de Dados) to digital health products. "
+             "Health data is a special category (Art. 9), so most of the GDPR applies with extra care.", "",
+             "In Portugal, Lei n.º 58/2019 adds national rules (Art. 29 on health and genetic data) and the CNPD supervises.", "",
+             "| Article | What it covers | HDSF rules |", "|---|---|---|"]
+    for art, title in GDPR_ARTICLES:
+        hits = by.pop(art, [])
+        cell = ", ".join(f"[{rid}](catalogue/{'core' if rid.startswith('CORE') else 'profile-' + rid[0].lower()}.md#{cat.anchor(rid_rule[rid])})"
+                         + (f" ({a})" if a != art else "") for rid, a in hits) or "not a product rule (organisation-level)"
+        lines.append(f"| Art. {art} | {title} | {cell} |")
+    if by:
+        errors.append(f"gdpr articles without a title in GDPR_ARTICLES: {sorted(by)}")
+    lines += ["", "A rule can apply several articles; the article in brackets is the precise paragraph. "
+              "Articles marked organisation-level still apply to the maker; HDSF covers them through its documents "
+              "(DPIA, records, contracts) rather than product rules.", ""]
+    return "\n".join(lines)
+
+
 # --------------------------------------------------------------------------- site
 CSS = """:root{--ink:#12232e;--muted:#4b5d68;--paper:#fbfcfc;--line:#d9e2e6;--teal:#0f6e6e;--teal-t:#0b5757;--tint:#e8f3f2;--warn:#8a4b00}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -152,7 +197,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 @media (prefers-reduced-motion:no-preference){a{transition:color .15s}}
 """
 NAV = [("", "Home"), ("introduction/", "Introduction"), ("regulatory-map/", "Regulatory map"), ("qualification/", "Device question"),
-       ("catalogue/", "Rules"), ("using-hdsf/", "Use it"), ("legislation/", "Sources")]
+       ("catalogue/", "Rules"), ("gdpr/", "GDPR"), ("workbench/", "Workbench"), ("using-hdsf/", "Use it"), ("legislation/", "Sources")]
 
 
 def page(title, body, version, home, description):
@@ -177,7 +222,8 @@ def site(version, rules, sources, generated):
     files = {}
     docs = ROOT / "docs"
     links = {g: f"../{s}/" for g, s in GUIDES}
-    links.update({"framework/legislation.md": "../legislation/", "framework/catalogue/index.md": "../catalogue/"})
+    links.update({"framework/legislation.md": "../legislation/", "framework/catalogue/index.md": "../catalogue/",
+                  "framework/gdpr-map.md": "../gdpr/", "framework/catalogue/core.md": "../catalogue/core/"})
     for prof, fn in PROFILE_FILES.items():
         links[f"framework/catalogue/{fn}.md"] = f"../catalogue/{fn}/"
     for path, slug in GUIDES:
@@ -192,6 +238,8 @@ def site(version, rules, sources, generated):
         files[docs / "catalogue" / fn / "index.html"] = page(t, body, version, "../../", t)
     t, body, _ = md.render(_strip(generated[ROOT / "framework" / "legislation.md"]), "framework", links, None, CFG.repo, "hdsf.kendirstudios.pt")
     files[docs / "legislation" / "index.html"] = page(t, body, version, "../", "Sources cited by HDSF")
+    t, body, _ = md.render(_strip(generated[ROOT / "framework" / "gdpr-map.md"]), "framework", links, None, CFG.repo, "hdsf.kendirstudios.pt")
+    files[docs / "gdpr" / "index.html"] = page(t, body, version, "../", "GDPR (RGPD) articles and HDSF rules")
     n = len(rules)
     by = {p: sum(1 for r in rules if p in r["profiles"]) for p in PROFILE_FILES}
     cards = "".join(
@@ -212,6 +260,12 @@ def site(version, rules, sources, generated):
             '<h2>Built with CSEF</h2><p>HDSF shares its engine with the <a href="https://csef.kendirstudios.pt">Child-Safe EdTech '
             "Framework</a>. Health products used by children apply both.</p>")
     files[docs / "index.html"] = page("Health Data Safety Framework", home, version, "", "Open rules for digital health products in the EU")
+    nav = "".join(f'<a href="../{h}">{html.escape(tt)}</a>' for h, tt in NAV)
+    tpl = (ROOT / "tooling" / "workbench.template.html").read_text(encoding="utf-8")
+    files[docs / "workbench" / "index.html"] = (tpl.replace("{version}", version).replace("{form}", workbench.form_html())
+                                                .replace("{nav}", nav).replace("{pyodide}", PYODIDE))
+    files[docs / "workbench" / "hdsf-bundle.json"] = workbench.web_bundle(ROOT)
+    files[docs / "workbench" / "example.json"] = workbench.example_bundle(ROOT)
     files[docs / "style.css"] = CSS
     files[docs / "CNAME"] = "hdsf.kendirstudios.pt\n"
     files[docs / ".nojekyll"] = ""
@@ -221,7 +275,7 @@ def site(version, rules, sources, generated):
 def skill_files():
     files = {}
     sk = ROOT / "skill" / "hdsf-review"
-    for f in ("scan.py", "checks.py"):
+    for f in ("scan.py", "checks.py", "docreview.py", "export.py"):
         files[sk / "scripts" / f] = (ROOT / "tooling" / f).read_text(encoding="utf-8")
     for f in sorted((ROOT / "engine" / "sfe").glob("*.py")):
         files[sk / "scripts" / "sfe" / f.name] = f.read_text(encoding="utf-8")
@@ -235,6 +289,7 @@ def generate():
     version, rules, sources, watch = load()
     files = catalogue_files(version, rules, sources)
     files[ROOT / "framework" / "legislation.md"] = legislation(version, rules, sources, watch)
+    files[ROOT / "framework" / "gdpr-map.md"] = gdpr_map(version, rules)
     files[ROOT / "tooling" / "semgrep" / "hdsf.yml"] = cat.semgrep_yaml(CFG, rules)
     files.update(site(version, rules, sources, files))
     files.update(skill_files())

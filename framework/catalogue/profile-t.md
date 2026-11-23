@@ -2,7 +2,7 @@
 
 # Profile T: Telehealth and care delivery
 
-Telehealth and care delivery. HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+Telehealth and care delivery. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|

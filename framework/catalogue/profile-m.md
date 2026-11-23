@@ -2,7 +2,7 @@
 
 # Profile M: Medical device software (MDR or IVDR)
 
-Medical device software (MDR or IVDR). HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+Medical device software (MDR or IVDR). HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -14,6 +14,7 @@ Medical device software (MDR or IVDR). HDSF v0.1.0. Rules marked `core` apply to
 | [M-QMS-01](#m-qms-01-a-quality-management-system-covers-the-software-life-cycle) | A quality management system covers the software life cycle | MUST | 1 | manifest |
 | [M-QUA-01](#m-qua-01-the-class-is-assigned-with-reasons) | The class is assigned with reasons | MUST | 1 | manifest |
 | [M-RSK-01](#m-rsk-01-risk-management-covers-clinical-use-and-security-risks) | Risk management covers clinical, use and security risks | MUST | 1 | manual |
+| [M-USE-01](#m-use-01-usability-engineering-covers-use-errors) | Usability engineering covers use errors | MUST | 2 | manual |
 | [M-WCH-01](#m-wch-01-the-mdr-and-ivdr-revision-is-tracked) | The MDR and IVDR revision is tracked | SHOULD | 3 | manual |
 | [R-CLN-01](#r-cln-01-clinical-investigations-of-devices-follow-the-mdr) | Clinical investigations of devices follow the MDR | MUST | 1 | manual |
 
@@ -112,6 +113,18 @@ Medical device software (MDR or IVDR). HDSF v0.1.0. Rules marked `core` apply to
 **How to improve.** Keep docs/risk-management.md under change control; review it with each release.
 
 **Sources.** [MDR](https://eur-lex.europa.eu/eli/reg/2017/745/oj), [ISO-14971](https://www.iso.org/standard/72704.html)
+
+### M-USE-01: Usability engineering covers use errors
+
+**MUST** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: high
+
+**Requirement.** The manufacturer applies a usability engineering process: user profiles and use environments, use-related risk analysis, formative tests during design and a summative test with representative users before release.
+
+**Why.** MDR Annex I (sections 5 and 22) asks to reduce risks from use errors; IEC 62366-1 is the harmonised standard for doing so.
+
+**How to improve.** Write the usability engineering file; run a summative test with real users before each major release.
+
+**Sources.** [MDR](https://eur-lex.europa.eu/eli/reg/2017/745/oj), [IEC-62366-1](https://webstore.iec.ch/)
 
 ### M-WCH-01: The MDR and IVDR revision is tracked
 

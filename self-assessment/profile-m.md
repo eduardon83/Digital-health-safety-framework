@@ -30,6 +30,8 @@ Product: ____________________  Date: __________  Assessor: ____________________
 
 - [ ] **M-AI-01** (MUST) Medical AI is ready for the AI Act high-risk rules. Medical device AI that needs a notified body meets the AI Act high-risk requirements (risk management, data governance, logging, transparency, human oversight, accuracy and robustness) by 2 Aug 2028, inside one technical file with the MDR documentation.  
       Evidence: 
+- [ ] **M-USE-01** (MUST) Usability engineering covers use errors. The manufacturer applies a usability engineering process: user profiles and use environments, use-related risk analysis, formative tests during design and a summative test with representative users before release.  
+      Evidence: 
 
 ## Level 3: Best practice
 

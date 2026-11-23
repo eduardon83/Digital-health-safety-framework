@@ -1,7 +1,7 @@
 # hdsf.yaml: describe your product for the Health Data Safety Framework (HDSF).
 # Put this file at the root of your repository. Paths are relative to it; URLs are accepted.
 # The scanner reads it to decide which rules apply and to check what code cannot show.
-hdsf_version: "0.1"
+hdsf_version: "0.2"
 
 product:
   name: My health app
@@ -27,6 +27,8 @@ qualification:
   rationale: docs/qualification.md
 
 data:
+  gdpr_role: controller        # controller | processor | joint_controller | mixed
+  records: docs/records.md   # record of processing activities (GDPR Art. 30)
   dpia: docs/dpia.md
   retention: "Account data until deletion; activity data 24 months; backups 35 days"
   purposes:

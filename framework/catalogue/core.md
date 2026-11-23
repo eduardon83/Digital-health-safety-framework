@@ -2,7 +2,7 @@
 
 # Core rules
 
-Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+Every digital health product. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -12,11 +12,15 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 | [CORE-AI-03](#core-ai-03-a-general-chatbot-does-not-diagnose-or-advise-treatment) | A general chatbot does not diagnose or advise treatment | MUST | 1 | manual |
 | [CORE-AI-04](#core-ai-04-ai-providers-do-not-keep-or-train-on-health-data) | AI providers do not keep or train on health data | MUST | 1 | manual |
 | [CORE-AI-05](#core-ai-05-ai-does-not-exploit-illness-age-or-distress) | AI does not exploit illness, age or distress | MUST | 1 | manual |
+| [CORE-AI-06](#core-ai-06-ai-built-with-personal-data-passes-the-edpb-tests) | AI built with personal data passes the EDPB tests | MUST | 2 | manual |
+| [CORE-AI-07](#core-ai-07-no-scraped-health-data-without-an-art-9-condition) | No scraped health data without an Art. 9 condition | MUST | 2 | mixed |
+| [CORE-AI-08](#core-ai-08-health-ai-is-tested-with-its-intended-users) | Health AI is tested with its intended users | SHOULD | 2 | manual |
 | [CORE-CHD-01](#core-chd-01-products-used-by-children-also-meet-the-csef-core) | Products used by children also meet the CSEF core | MUST | 1 | manifest |
 | [CORE-CHD-02](#core-chd-02-teenagers-confidential-health-topics-stay-confidential) | Teenagers' confidential health topics stay confidential | MUST | 2 | manual |
 | [CORE-COM-01](#core-com-01-people-are-told-in-plain-words-what-happens-to-their-health-data) | People are told in plain words what happens to their health data | MUST | 1 | manual |
 | [CORE-COM-02](#core-com-02-no-dark-patterns-around-consent-cancellation-or-worry) | No dark patterns around consent, cancellation or worry | MUST | 1 | manual |
 | [CORE-COM-03](#core-com-03-notifications-do-not-reveal-health-on-the-lock-screen) | Notifications do not reveal health on the lock screen | MUST | 1 | manual |
+| [CORE-COM-04](#core-com-04-consent-and-privacy-screens-avoid-deceptive-design) | Consent and privacy screens avoid deceptive design | MUST | 2 | manual |
 | [CORE-DAT-01](#core-dat-01-health-data-is-identified-including-what-other-data-reveals) | Health data is identified, including what other data reveals | MUST | 1 | manual |
 | [CORE-DAT-02](#core-dat-02-each-use-of-health-data-has-an-art-9-condition) | Each use of health data has an Art. 9 condition | MUST | 1 | manifest |
 | [CORE-DAT-03](#core-dat-03-a-dpia-is-done-before-launch-and-kept-current) | A DPIA is done before launch and kept current | MUST | 1 | manifest |
@@ -29,8 +33,21 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 | [CORE-DAT-10](#core-dat-10-no-health-data-in-logs-crash-reports-or-debug-output) | No health data in logs, crash reports or debug output | MUST | 1 | static |
 | [CORE-DAT-11](#core-dat-11-analytics-and-research-use-pseudonymised-data-with-keys-kept-apart) | Analytics and research use pseudonymised data with keys kept apart | SHOULD | 2 | manual |
 | [CORE-DAT-12](#core-dat-12-health-data-on-the-device-is-encrypted) | Health data on the device is encrypted | MUST | 1 | static |
+| [CORE-DAT-13](#core-dat-13-processing-of-health-data-is-recorded) | Processing of health data is recorded | MUST | 1 | manifest |
+| [CORE-DAT-14](#core-dat-14-no-automated-decision-with-serious-effects-without-safeguards) | No automated decision with serious effects without safeguards | MUST | 1 | manual |
+| [CORE-DAT-15](#core-dat-15-data-protection-roles-are-clear) | Data protection roles are clear | MUST | 1 | manifest |
+| [CORE-DAT-16](#core-dat-16-requests-from-people-are-answered-within-a-month) | Requests from people are answered within a month | MUST | 1 | manual |
+| [CORE-DAT-17](#core-dat-17-data-protection-is-part-of-design-decisions) | Data protection is part of design decisions | SHOULD | 2 | manual |
+| [CORE-DES-01](#core-des-01-risks-and-numbers-are-shown-in-ways-people-understand) | Risks and numbers are shown in ways people understand | SHOULD | 3 | manual |
+| [CORE-DES-02](#core-des-02-saying-no-is-as-easy-as-saying-yes) | Saying no is as easy as saying yes | SHOULD | 3 | manual |
+| [CORE-DES-03](#core-des-03-the-visual-design-is-calm-consistent-and-honest) | The visual design is calm, consistent and honest | SHOULD | 3 | manual |
+| [CORE-DES-04](#core-des-04-quality-is-rated-before-release) | Quality is rated before release | SHOULD | 3 | manual |
+| [CORE-DES-05](#core-des-05-designed-and-tested-with-people-who-find-health-information-hard) | Designed and tested with people who find health information hard | SHOULD | 3 | manual |
+| [CORE-DES-06](#core-des-06-no-guilt-shame-or-fear-to-drive-engagement) | No guilt, shame or fear to drive engagement | SHOULD | 3 | manual |
 | [CORE-GOV-01](#core-gov-01-named-people-are-responsible-for-data-protection-and-safety) | Named people are responsible for data protection and safety | MUST | 1 | manual |
 | [CORE-GOV-02](#core-gov-02-the-manifest-and-the-qualification-are-reviewed-every-year) | The manifest and the qualification are reviewed every year | SHOULD | 2 | manifest |
+| [CORE-LNG-01](#core-lng-01-health-information-is-in-plain-language) | Health information is in plain language | SHOULD | 2 | manual |
+| [CORE-LNG-02](#core-lng-02-the-product-speaks-its-users-languages) | The product speaks its users' languages | SHOULD | 2 | manual |
 | [CORE-QUA-01](#core-qua-01-the-intended-purpose-is-written-down) | The intended purpose is written down | MUST | 1 | manifest |
 | [CORE-QUA-02](#core-qua-02-the-medical-device-question-is-answered-and-recorded) | The medical device question is answered and recorded | MUST | 1 | manifest |
 | [CORE-QUA-03](#core-qua-03-claims-match-the-qualification) | Claims match the qualification | MUST | 1 | mixed |
@@ -38,6 +55,8 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 | [CORE-SAF-01](#core-saf-01-people-can-always-find-urgent-help) | People can always find urgent help | MUST | 2 | manifest |
 | [CORE-SAF-02](#core-saf-02-health-content-is-reviewed-by-a-qualified-person-and-dated) | Health content is reviewed by a qualified person and dated | SHOULD | 2 | manifest |
 | [CORE-SAF-03](#core-saf-03-evidence-of-benefit-fits-the-claims) | Evidence of benefit fits the claims | SHOULD | 3 | manual |
+| [CORE-SAF-04](#core-saf-04-health-recommendations-follow-recognised-guidance) | Health recommendations follow recognised guidance | SHOULD | 2 | manual |
+| [CORE-SAF-05](#core-saf-05-the-evidence-plan-matches-the-products-function-and-risk) | The evidence plan matches the product's function and risk | SHOULD | 3 | manual |
 | [CORE-SEC-01](#core-sec-01-a-security-policy-and-a-way-to-report-vulnerabilities) | A security policy and a way to report vulnerabilities | MUST | 1 | manifest |
 | [CORE-SEC-02](#core-sec-02-all-traffic-is-encrypted) | All traffic is encrypted | MUST | 1 | static |
 | [CORE-SEC-03](#core-sec-03-access-to-health-records-needs-strong-authentication) | Access to health records needs strong authentication | MUST | 1 | manual |
@@ -123,6 +142,42 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 
 **Sources.** [AIA](https://eur-lex.europa.eu/eli/reg/2024/1689/oj), [AIA-GL-PROHIB](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act)
 
+### CORE-AI-06: AI built with personal data passes the EDPB tests
+
+**MUST** · Level 2 (Forward-compliant) · Users: all · Features: ai_generative, ai_clinical · Detection: manual · Effort: medium
+
+**Requirement.** When the maker trains, fine-tunes or evaluates an AI model with personal data, it documents the legal basis (for legitimate interest: the three-step test), checks whether the model can be considered anonymous before claiming so, and checks that any third-party model it uses was not built unlawfully.
+
+**Why.** EDPB Opinion 28/2024 sets the approach supervisory authorities use for AI models. The bar for an anonymous model is high. Health data adds the Art. 9 condition, which the opinion does not cover.
+
+**How to improve.** Keep an AI data sheet per model: data sources, legal basis, Art. 9 condition, anonymity assessment, supplier checks.
+
+**Sources.** [EDPB-AIMODELS](https://edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-AI-07: No scraped health data without an Art. 9 condition
+
+**MUST** · Level 2 (Forward-compliant) · Users: all · Features: ai_generative, ai_clinical, research_use · Detection: mixed · Effort: medium
+
+**Requirement.** The product and its maker do not scrape or extract health data from websites, forums, social media or other apps for AI, analytics or research without an Art. 9(2) condition. Any scraping is limited to reliable, named sources, keeps timestamps, validates the data and is explained to the people concerned.
+
+**Why.** The EDPB's draft guidelines on web scraping for generative AI (03/2026) require both an Art. 6 basis and an Art. 9(2) exception when scraping touches special categories, with attention to purpose limitation and transparency.
+
+**How to improve.** List every external data source; remove scrapers that may collect health data; document the conditions for the rest.
+
+**Sources.** [EDPB-SCRAPE](https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en), [EDPB-AIMODELS](https://edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-AI-08: Health AI is tested with its intended users
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Features: ai_generative, ai_clinical · Detection: manual · Effort: medium
+
+**Requirement.** Before release and after each model change, AI features are tested with the people who will use them, for accuracy, bias across groups, and understanding of the limits. The limits are written in the product.
+
+**Why.** The WHO guidance on large multi-modal models asks developers to design and test for all intended users and to be transparent about limits.
+
+**How to improve.** Build a test set from real (consented) use cases; report results by group; publish a short limits statement.
+
+**Sources.** [WHO-LMM](https://www.who.int/publications-detail-redirect/9789240084759), [AIA](https://eur-lex.europa.eu/eli/reg/2024/1689/oj)
+
 ### CORE-CHD-01: Products used by children also meet the CSEF core
 
 **MUST** · Level 1 (Legal baseline) · Users: children (anyone under 18) · Detection: manifest · Effort: medium
@@ -182,6 +237,18 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 **How to improve.** Use neutral default texts; offer a detailed mode in settings.
 
 **Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-COM-04: Consent and privacy screens avoid deceptive design
+
+**MUST** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests, hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.
+
+**Why.** GDPR Art. 5(1)(a), 7, 12 and 25 as read by the EDPB in Guidelines 03/2022 and 05/2020.
+
+**How to improve.** Review each screen against the EDPB categories; fix the worst first; keep screenshots as evidence.
+
+**Sources.** [EDPB-DECEPTIVE](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en), [EDPB-CONSENT](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-052020-consent-under-regulation-2016679_en), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [DSA](https://eur-lex.europa.eu/eli/reg/2022/2065/oj)
 
 ### CORE-DAT-01: Health data is identified, including what other data reveals
 
@@ -313,7 +380,7 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 
 **How to improve.** Generate product-scoped random codes; keep the mapping in a separate store; document who holds what.
 
-**Sources.** [EDPB-PSEUDO](https://edpb.europa.eu/news/news/2025/edpb-adopts-pseudonymisation-guidelines-and-paves-way-improve-cooperation_en), [CJEU-SRB](https://curia.europa.eu/juris/liste.jsf?num=C-413/23%20P), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [OMNIBUS-DATA](https://www.europarl.europa.eu/legislative-train/theme-a-new-plan-for-europe-s-sustainable-prosperity-and-competitiveness/file-digital-package)
+**Sources.** [EDPB-PSEUDO](https://edpb.europa.eu/news/news/2025/edpb-adopts-pseudonymisation-guidelines-and-paves-way-improve-cooperation_en), [CJEU-SRB](https://curia.europa.eu/juris/liste.jsf?num=C-413/23%20P), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [OMNIBUS-DATA](https://www.europarl.europa.eu/legislative-train/theme-a-new-plan-for-europe-s-sustainable-prosperity-and-competitiveness/file-digital-package), [EDPB-ANON](https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en)
 
 ### CORE-DAT-12: Health data on the device is encrypted
 
@@ -326,6 +393,140 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 **How to improve.** Move health values to encrypted storage; keep only non-health settings in plain storage.
 
 **Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [ISO-27799](https://www.iso.org/search.html?q=27799)
+
+### CORE-DAT-13: Processing of health data is recorded
+
+**MUST** · Level 1 (Legal baseline) · Users: all · Detection: manifest · Effort: low
+
+**Requirement.** The maker keeps a record of processing activities: purposes, categories of people and data (health data marked), recipients, transfers, retention and security measures. It is kept current.
+
+**Why.** GDPR Art. 30. The exemption for small organisations does not apply to processing of special categories such as health data.
+
+**How to improve.** Keep the record (a table is enough) and link it in hdsf.yaml (data.records).
+
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-DAT-14: No automated decision with serious effects without safeguards
+
+**MUST** · Level 1 (Legal baseline) · Users: all · Features: ai_clinical, ai_generative · Detection: manual · Effort: medium
+
+**Requirement.** The product does not take decisions based only on automated processing of health data that have legal or similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person gave explicit consent or the law allows it, and then with human review on request, a way to contest, and clear information about the logic involved.
+
+**Why.** GDPR Art. 22, including Art. 22(4) on special categories; Art. 13(2)(f) on information about the logic.
+
+**How to improve.** Map every automated decision; add human review and a contest route; explain the logic in plain words.
+
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-DAT-15: Data protection roles are clear
+
+**MUST** · Level 1 (Legal baseline) · Users: all · Detection: manifest · Effort: low
+
+**Requirement.** For each use of health data, the maker knows whether it acts as controller, processor or joint controller (for example with a clinic or an insurer), and the contracts say so. A maker outside the EU names an EU representative.
+
+**Why.** GDPR Art. 24, 26, 27 and 28. In digital health, the same app can be the clinic's processor for care and its own controller for analytics.
+
+**How to improve.** Write a roles table per purpose; set data.gdpr_role in hdsf.yaml; sign joint controller arrangements where needed.
+
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-DAT-16: Requests from people are answered within a month
+
+**MUST** · Level 1 (Legal baseline) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** People can ask to correct, restrict, object to or get a copy of their data through a simple route, and get an answer within one month. The product tells them they can complain to the data protection authority.
+
+**Why.** GDPR Art. 12(3), 16, 18, 21 and 77.
+
+**How to improve.** Add a privacy request form or address; track requests and answer times.
+
+**National note.** Portugal: the supervisory authority is the CNPD (Comissão Nacional de Proteção de Dados).
+
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [PT-LEI-58-2019](https://diariodarepublica.pt/dr/detalhe/lei/58-2019-123815982)
+
+### CORE-DAT-17: Data protection is part of design decisions
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** Design reviews ask what data each feature needs, choose the most protective default, and record the choice. Privacy-friendly settings are on by default; more sharing is opt-in.
+
+**Why.** GDPR Art. 25 and the EDPB guidelines on data protection by design and by default.
+
+**How to improve.** Add a data question to the design review template; list the defaults and why.
+
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [EDPB-DPBD](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-42019-article-25-data-protection-design-and_en)
+
+### CORE-DES-01: Risks and numbers are shown in ways people understand
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** Risks and results use natural frequencies ("3 in 100 people") and icon arrays, not only percentages or relative risk. The same denominator is used across comparisons.
+
+**Why.** Icon arrays improved understanding of medical risks for people with low and high numeracy, including older adults (Galesic 2009).
+
+**How to improve.** Replace percentage-only risk displays with frequency statements and an icon array of 100.
+
+**Sources.** [R-GALESIC2009](https://pure.mpg.de/pubman/item/item_2099767_5/component/file_2562291/MG_Using_2009.pdf), [R-HLS-EU2015](https://doi.org/10.1093/eurpub/ckv043)
+
+### CORE-DES-02: Saying no is as easy as saying yes
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** On the first consent screen, "refuse" has the same size, colour weight and position as "accept", and the choices for each purpose are on the first screen.
+
+**Why.** Removing the opt-out from the first page raised consent by 22 to 23 points; granular first-page choices lowered it by 8 to 20 points (Nouwens 2020). Real choice needs equal buttons.
+
+**How to improve.** Redesign the consent screen with equal buttons and per-purpose toggles off by default.
+
+**Sources.** [R-NOUWENS2020](https://doi.org/10.1145/3313831.3376321), [EDPB-DECEPTIVE](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en)
+
+### CORE-DES-03: The visual design is calm, consistent and honest
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** The visual design is consistent, readable and calm. Good looks are used to make the product clearer, never to make a risk, a cost or a data choice look smaller. Aesthetic changes are tested with users.
+
+**Why.** Perceived beauty shapes perceived usability, even more than actual usability (Tractinsky 2000). This is a strength for trust and a risk for over-trust. MARS rates aesthetics as one of four quality dimensions.
+
+**How to improve.** Keep a design system; check that warnings and costs stay visible in every theme; test redesigns.
+
+**Sources.** [R-TRACTINSKY2000](https://doi.org/10.1016/S0953-5438(00)00031-X), [R-MARS2015](https://doi.org/10.2196/mhealth.3422)
+
+### CORE-DES-04: Quality is rated before release
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** Before major releases, experts rate the product with MARS and users with uMARS (engagement, functionality, aesthetics, information quality), and the team acts on low scores.
+
+**Why.** MARS is a reliable, widely used scale for health app quality (Stoyanov 2015).
+
+**How to improve.** Add a MARS rating to the release checklist; track scores over versions.
+
+**Sources.** [R-MARS2015](https://doi.org/10.2196/mhealth.3422), [ISO-82304-2](https://www.iso.org/standard/78182.html)
+
+### CORE-DES-05: Designed and tested with people who find health information hard
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** User research and tests include people with limited health literacy, older adults and people with disabilities. Key information has an easy-to-read version.
+
+**Why.** Limited health literacy is common and higher among people with low education, financial deprivation or old age (HLS-EU 2015). Easy-to-read helps people with low literacy or cognitive disabilities (Publications Office).
+
+**How to improve.** Recruit these groups for every test round; write easy-to-read versions of onboarding, consent and safety texts.
+
+**Sources.** [R-HLS-EU2015](https://doi.org/10.1093/eurpub/ckv043), [OP-PLAIN](https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read), [WCAG22](https://www.w3.org/TR/WCAG22/)
+
+### CORE-DES-06: No guilt, shame or fear to drive engagement
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** The product does not use guilt, shame, fear or loss streaks about health to keep people using it or to sell. Success is measured by health outcomes and user goals, not time in the app.
+
+**Why.** Emotional steering is a deceptive pattern (EDPB 03/2022); exploiting vulnerability is banned for AI (AI Act Art. 5). CSEF applies the same rule to children.
+
+**How to improve.** Remove guilt messages and loss streaks; replace engagement KPIs with outcome KPIs.
+
+**Sources.** [EDPB-DECEPTIVE](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en), [AIA-GL-PROHIB](https://digital-strategy.ec.europa.eu/en/library/commission-publishes-guidelines-prohibited-artificial-intelligence-ai-practices-defined-ai-act), [CSEF](https://csef.kendirstudios.pt)
 
 ### CORE-GOV-01: Named people are responsible for data protection and safety
 
@@ -350,6 +551,30 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 **How to improve.** Set review.last_reviewed in hdsf.yaml and a calendar reminder.
 
 **Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [EHDS](https://eur-lex.europa.eu/eli/reg/2025/327/oj), [MDR-REV](https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2025/0404(COD))
+
+### CORE-LNG-01: Health information is in plain language
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: low
+
+**Requirement.** Health information, instructions and notices use short sentences, common words, the active voice and explained terms. Medical terms are explained the first time.
+
+**Why.** Almost half of people in an eight-country EU survey had limited health literacy (HLS-EU). The Commission's clear writing guide and the Publications Office plain language guide set the EU approach. GDPR Art. 12 already requires clear and plain language for privacy information.
+
+**How to improve.** Run the Workbench language check on your texts; rewrite long sentences; keep a glossary.
+
+**Sources.** [EC-CLEAR](https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/translation/clear-writing-europe_en), [OP-PLAIN](https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read), [R-HLS-EU2015](https://doi.org/10.1093/eurpub/ckv043), [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj)
+
+### CORE-LNG-02: The product speaks its users' languages
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** The product is offered in the languages of the countries where it is used. Health content and safety messages are translated or reviewed by a qualified person, not only by machine translation.
+
+**Why.** Information people cannot read is not information. ISO/TS 82304-2 assesses whether health information is understandable for the intended users.
+
+**How to improve.** List countries and languages in hdsf.yaml; record who reviewed each translation of health content.
+
+**Sources.** [OP-PLAIN](https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read), [ISO-82304-2](https://www.iso.org/standard/78182.html)
 
 ### CORE-QUA-01: The intended purpose is written down
 
@@ -434,6 +659,30 @@ Every digital health product. HDSF v0.1.0. Rules marked `core` apply to every pr
 **How to improve.** Keep an evidence register per claim; prefer outcomes over engagement.
 
 **Sources.** [ISO-82304-2](https://www.iso.org/standard/78182.html), [MDCG-2020-1](https://health.ec.europa.eu/medical-devices-sector/new-regulations/guidance-mdcg-endorsed-documents-and-other-guidance_en), [LABEL2ENABLE](https://cordis.europa.eu/project/id/101057522)
+
+### CORE-SAF-04: Health recommendations follow recognised guidance
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** Advice the product gives (exercise, diet, sleep, medication reminders, mental health tips) follows recognised guidance from public health bodies or clinical guidelines, and shows its source and date to the user.
+
+**Why.** ISO/TS 82304-2 assesses the quality and sources of health information; the WHO guidance asks for transparency about where AI health answers come from.
+
+**How to improve.** Link each recommendation to its guideline in the content register; show "Source and date" in the product.
+
+**Sources.** [ISO-82304-2](https://www.iso.org/standard/78182.html), [WHO-LMM](https://www.who.int/publications-detail-redirect/9789240084759)
+
+### CORE-SAF-05: The evidence plan matches the product's function and risk
+
+**SHOULD** · Level 3 (Best practice) · Users: all · Detection: manual · Effort: medium
+
+**Requirement.** The maker classifies its product by function (from system services to treatment) and plans the evidence that fits: higher risk functions need stronger evidence of effect.
+
+**Why.** The NICE evidence standards framework sets evidence tiers by function and risk; health systems and buyers in Europe use similar logic.
+
+**How to improve.** Place the product in the NICE functional classes; write the evidence plan; review it each year.
+
+**Sources.** [NICE-ESF](https://www.nice.org.uk/corporate/ecd7), [ISO-82304-2](https://www.iso.org/standard/78182.html)
 
 ### CORE-SEC-01: A security policy and a way to report vulnerabilities
 

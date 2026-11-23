@@ -2,14 +2,14 @@
 
 # Rule catalogue
 
-HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best practice.
+HDSF v0.2.0: 94 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best practice.
 
 | Profile | File | Rules |
 |---|---|---|
-| core: Every digital health product | [core.md](core.md) | 44 |
+| core: Every digital health product | [core.md](core.md) | 63 |
 | W: Wellness and lifestyle (no medical purpose) | [profile-w.md](profile-w.md) | 8 |
-| M: Medical device software (MDR or IVDR) | [profile-m.md](profile-m.md) | 10 |
-| E: EHR systems and the European Health Data Space | [profile-e.md](profile-e.md) | 6 |
+| M: Medical device software (MDR or IVDR) | [profile-m.md](profile-m.md) | 11 |
+| E: EHR systems and the European Health Data Space | [profile-e.md](profile-e.md) | 7 |
 | R: Research and secondary use of health data | [profile-r.md](profile-r.md) | 5 |
 | T: Telehealth and care delivery | [profile-t.md](profile-t.md) | 5 |
 
@@ -21,11 +21,15 @@ HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best
 | CORE-AI-03 | A general chatbot does not diagnose or advise treatment | core | MUST | 1 | all |
 | CORE-AI-04 | AI providers do not keep or train on health data | core | MUST | 1 | all |
 | CORE-AI-05 | AI does not exploit illness, age or distress | core | MUST | 1 | all |
+| CORE-AI-06 | AI built with personal data passes the EDPB tests | core | MUST | 2 | all |
+| CORE-AI-07 | No scraped health data without an Art. 9 condition | core | MUST | 2 | all |
+| CORE-AI-08 | Health AI is tested with its intended users | core | SHOULD | 2 | all |
 | CORE-CHD-01 | Products used by children also meet the CSEF core | core | MUST | 1 | children (anyone under 18) |
 | CORE-CHD-02 | Teenagers' confidential health topics stay confidential | core | MUST | 2 | children (anyone under 18) |
 | CORE-COM-01 | People are told in plain words what happens to their health data | core | MUST | 1 | all |
 | CORE-COM-02 | No dark patterns around consent, cancellation or worry | core | MUST | 1 | all |
 | CORE-COM-03 | Notifications do not reveal health on the lock screen | core | MUST | 1 | all |
+| CORE-COM-04 | Consent and privacy screens avoid deceptive design | core | MUST | 2 | all |
 | CORE-DAT-01 | Health data is identified, including what other data reveals | core | MUST | 1 | all |
 | CORE-DAT-02 | Each use of health data has an Art. 9 condition | core | MUST | 1 | all |
 | CORE-DAT-03 | A DPIA is done before launch and kept current | core | MUST | 1 | all |
@@ -38,8 +42,21 @@ HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best
 | CORE-DAT-10 | No health data in logs, crash reports or debug output | core | MUST | 1 | all |
 | CORE-DAT-11 | Analytics and research use pseudonymised data with keys kept apart | core | SHOULD | 2 | all |
 | CORE-DAT-12 | Health data on the device is encrypted | core | MUST | 1 | all |
+| CORE-DAT-13 | Processing of health data is recorded | core | MUST | 1 | all |
+| CORE-DAT-14 | No automated decision with serious effects without safeguards | core | MUST | 1 | all |
+| CORE-DAT-15 | Data protection roles are clear | core | MUST | 1 | all |
+| CORE-DAT-16 | Requests from people are answered within a month | core | MUST | 1 | all |
+| CORE-DAT-17 | Data protection is part of design decisions | core | SHOULD | 2 | all |
+| CORE-DES-01 | Risks and numbers are shown in ways people understand | core | SHOULD | 3 | all |
+| CORE-DES-02 | Saying no is as easy as saying yes | core | SHOULD | 3 | all |
+| CORE-DES-03 | The visual design is calm, consistent and honest | core | SHOULD | 3 | all |
+| CORE-DES-04 | Quality is rated before release | core | SHOULD | 3 | all |
+| CORE-DES-05 | Designed and tested with people who find health information hard | core | SHOULD | 3 | all |
+| CORE-DES-06 | No guilt, shame or fear to drive engagement | core | SHOULD | 3 | all |
 | CORE-GOV-01 | Named people are responsible for data protection and safety | core | MUST | 1 | all |
 | CORE-GOV-02 | The manifest and the qualification are reviewed every year | core | SHOULD | 2 | all |
+| CORE-LNG-01 | Health information is in plain language | core | SHOULD | 2 | all |
+| CORE-LNG-02 | The product speaks its users' languages | core | SHOULD | 2 | all |
 | CORE-QUA-01 | The intended purpose is written down | core | MUST | 1 | all |
 | CORE-QUA-02 | The medical device question is answered and recorded | core | MUST | 1 | all |
 | CORE-QUA-03 | Claims match the qualification | core | MUST | 1 | all |
@@ -47,6 +64,8 @@ HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best
 | CORE-SAF-01 | People can always find urgent help | core | MUST | 2 | all |
 | CORE-SAF-02 | Health content is reviewed by a qualified person and dated | core | SHOULD | 2 | all |
 | CORE-SAF-03 | Evidence of benefit fits the claims | core | SHOULD | 3 | all |
+| CORE-SAF-04 | Health recommendations follow recognised guidance | core | SHOULD | 2 | all |
+| CORE-SAF-05 | The evidence plan matches the product's function and risk | core | SHOULD | 3 | all |
 | CORE-SEC-01 | A security policy and a way to report vulnerabilities | core | MUST | 1 | all |
 | CORE-SEC-02 | All traffic is encrypted | core | MUST | 1 | all |
 | CORE-SEC-03 | Access to health records needs strong authentication | core | MUST | 1 | all |
@@ -62,6 +81,7 @@ HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best
 | E-DAT-01 | Professionals see records only in a care relationship | E, T | MUST | 1 | all |
 | E-INT-01 | The EHR system meets the EHDS essential requirements | E | MUST | 2 | all |
 | E-INT-02 | Data leaves in the European exchange format, without lock-in | E | MUST | 2 | all |
+| E-INT-03 | The EHR system follows the EU exchange format recommendation now | E | SHOULD | 2 | all |
 | E-LOG-01 | People can see who accessed their record | E | MUST | 2 | all |
 | M-AI-01 | Medical AI is ready for the AI Act high-risk rules | M | MUST | 2 | all |
 | M-AI-02 | Changes to models are controlled | M | MUST | 1 | all |
@@ -71,6 +91,7 @@ HDSF v0.1.0: 73 rules. Level 1 = Legal baseline, 2 = Forward-compliant, 3 = Best
 | M-QMS-01 | A quality management system covers the software life cycle | M | MUST | 1 | all |
 | M-QUA-01 | The class is assigned with reasons | M | MUST | 1 | all |
 | M-RSK-01 | Risk management covers clinical, use and security risks | M | MUST | 1 | all |
+| M-USE-01 | Usability engineering covers use errors | M | MUST | 2 | all |
 | M-WCH-01 | The MDR and IVDR revision is tracked | M | SHOULD | 3 | all |
 | R-CLN-01 | Clinical investigations of devices follow the MDR | R, M | MUST | 1 | patients (people under care or treatment), public (people managing their own health or wellbeing) |
 | R-DAT-01 | Research uses have a legal basis and approval | R, core | MUST | 1 | all |

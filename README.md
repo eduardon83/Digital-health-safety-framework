@@ -3,9 +3,9 @@
 Open, checkable rules for digital health products in the European Union: wellness and lifestyle apps, medical device
 software, electronic health record systems, research platforms and telehealth.
 
-> **Status:** v0.1.0, first draft for public comment (November 2026). Not legal or regulatory advice.
+> **Status:** v0.2.0, draft for public comment (November 2026). Not legal or regulatory advice.
 
-Digital health sits where the GDPR, the MDR and IVDR, the European Health Data Space, the AI Act, the Cyber
+Digital health sits where the GDPR (RGPD), the MDR and IVDR, the European Health Data Space, the AI Act, the Cyber
 Resilience Act, NIS2, the Data Act and the new Product Liability Directive meet. HDSF puts what they ask of a product
 in one place, with sources and dates, and checks what can be checked.
 
@@ -13,13 +13,15 @@ in one place, with sources and dates, and checks what can be checked.
 
 | Part | What it is |
 |---|---|
-| **Rules** | 73 rules in [framework/catalogue/](framework/catalogue/index.md). Each says what to do, why (with sources), how to improve, the effort, and how it is checked. |
+| **Rules** | 94 rules in three layers (law; EU recommendations; research on design and UX) in [framework/catalogue/](framework/catalogue/index.md). Each says what to do, why (with sources), how to improve, the effort, and how it is checked. |
 | **The device question** | [framework/02-qualification.md](framework/02-qualification.md): is your software a medical device? Everything else depends on it. |
 | **Regulatory map** | [framework/01-regulatory-map.md](framework/01-regulatory-map.md): which law applies to which product, from when. Portugal included. |
 | **Manifest** | [templates/hdsf.yaml](templates/hdsf.yaml): the product on one page: intended purpose, qualification, data flows, documents. |
-| **Scanner** | `tooling/scan.py`: reads the manifest and the code; Markdown, JSON and SARIF reports. |
+| **Workbench** | <https://hdsf.kendirstudios.pt/workbench/>: for designers, decision makers and researchers. Describe the product, add documents, get checks, a document review, design recommendations and reports. No code; nothing uploaded. |
+| **GDPR (RGPD) map** | [framework/gdpr-map.md](framework/gdpr-map.md): each article and the rules that apply it. |
+| **Scanner** | `tooling/scan.py`: reads the manifest and the code; Markdown, JSON and SARIF; `--docs` adds the document review (`tooling/docreview.py`); `--export html,pdf,docx` writes an interactive dashboard, PDF and Word (`tooling/export.py`). |
 | **Checklists** | [self-assessment/](self-assessment/core.md): tick by hand, per profile and level. |
-| **Sources** | [framework/legislation.md](framework/legislation.md): 44 sources with status, date and verification. |
+| **Sources** | [framework/legislation.md](framework/legislation.md): 61 sources with status, date and verification. |
 | **Claude skill** | `skill/hdsf-review/`: runs the scan with you and drafts missing documents. |
 
 ## Profiles and levels
@@ -27,8 +29,8 @@ in one place, with sources and dates, and checks what can be checked.
 Every product meets the **core** rules, then adds profiles: **W** wellness and lifestyle, **M** medical device
 software, **E** EHR systems and the EHDS, **R** research and secondary use, **T** telehealth and care delivery.
 
-Levels: **1** legal baseline (meet now), **2** forward-compliant (EHDS, CRA and AI Act dates, guidance, standards),
-**3** best practice.
+Levels (layers): **1** law (meet now); **2** EU recommendations and forward compliance (EDPB, Commission, WHO, standards; EHDS,
+CRA and AI Act dates); **3** best practice from research on design, UX, aesthetics and evidence.
 
 ## Quick start
 
@@ -59,7 +61,8 @@ framework/        framework.yaml, rules.yaml, sources.yaml, watch.yaml (sources 
                   and legislation.md
 templates/        hdsf.yaml, qualification record, DPIA outline
 self-assessment/  generated checklists
-tooling/          scan.py, checks.py (manifest checks), build.py, sync_engine.py, generated Semgrep rules
+tooling/          scan.py, checks.py (manifest checks), docreview.py, export.py, workbench.py (+ page template), build.py,
+                  sync_engine.py, generated Semgrep rules
 engine/           pinned copy of the Safety Framework Engine (sfe) from CSEF, with ENGINE.lock
 skill/            hdsf-review skill for Claude (SKILL.md + generated copies)
 examples/         compliant and non-compliant example apps (fictional)

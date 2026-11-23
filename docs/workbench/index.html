@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workbench · HDSF</title>
+<meta name="description" content="Check a digital health product without code: describe it, add your documents, get checks, design recommendations and reports. Nothing is uploaded.">
+<link rel="stylesheet" href="../style.css">
+<style>
+.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin:22px 0}
+.step-h{display:flex;gap:14px;align-items:flex-start}.num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;font-weight:700;display:grid;place-items:center}
+.step h2{margin:2px 0 4px}fieldset{border:1px solid var(--line);border-radius:10px;padding:12px 16px 4px;margin:14px 0}legend{font-weight:700;padding:0 6px}
+.field{display:inline-flex;flex-direction:column;width:calc(50% - 12px);margin:0 8px 14px 0;vertical-align:top}.field.wide{width:calc(100% - 12px)}
+.lab{font-weight:600;font-size:.95rem;margin-bottom:4px}.hint{color:var(--muted);font-size:.84rem;margin:2px 0 4px}
+input,select,textarea{font:inherit;padding:8px 10px;border:1px solid #b9c7cd;border-radius:7px;background:#fff;width:100%}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.chks{display:flex;flex-wrap:wrap;gap:6px 14px}.chk{font-size:.93rem;display:flex;gap:6px;align-items:center;width:auto}.chk input{width:auto}
+.btns{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:12px 0}
+.btn{display:inline-flex;gap:8px;align-items:center;font:inherit;font-weight:600;padding:9px 16px;border-radius:8px;border:1px solid var(--teal);background:#fff;color:var(--teal-t);cursor:pointer;text-decoration:none}
+.btn.p{background:var(--teal);color:#fff}.btn:disabled{opacity:.55;cursor:wait}.fmt{font-size:.72rem;border:1px solid currentColor;border-radius:4px;padding:0 5px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#drop{border:2px dashed #9fb3bb;border-radius:12px;padding:26px;text-align:center;color:var(--muted)}#drop.over{background:var(--tint);border-color:var(--teal)}
+#files{list-style:none;padding:0;margin:12px 0}#files li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:6px 0}
+#files button{font:inherit;font-size:.85rem;background:none;border:none;color:#b42318;cursor:pointer}
+.status{margin:12px 0;padding:10px 14px;border-radius:8px;background:var(--tint)}.status.ok{background:#e8f5ec}.status.err{background:#fdecea}
+.res{border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:12px 0}.res-h{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.cnt{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}.cnt div{border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.85rem}.cnt b{display:block;font-size:1.3rem}
+#gaps{background:#fff8ec;border:1px solid #f0d9b5;border-radius:8px;padding:10px 14px 10px 30px}
+details.more summary{cursor:pointer;font-weight:600}
+@media (max-width:760px){.field{width:100%}.cnt{grid-template-columns:repeat(2,1fr)}}
+</style></head>
+<body data-pyodide="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/">
+<header class="top"><div class="in"><a class="brand" href="../">HD<span>SF</span></a><nav aria-label="Main"><a href="../">Home</a><a href="../introduction/">Introduction</a><a href="../regulatory-map/">Regulatory map</a><a href="../qualification/">Device question</a><a href="../catalogue/">Rules</a><a href="../gdpr/">GDPR</a><a href="../workbench/">Workbench</a><a href="../using-hdsf/">Use it</a><a href="../legislation/">Sources</a></nav></div></header>
+<main class="in"><article>
+<p class="meta"><span class="pill">HDSF v0.2.0 · Workbench</span></p>
+<h1>Workbench</h1>
+<p class="lead" style="font-size:1.15rem;color:var(--muted)">For designers, product owners, decision makers and researchers. Describe your product, add your documents (design documents,
+privacy notice, store texts, onboarding, help pages), and get checks, design recommendations and reports. No code needed. Nothing leaves this page.</p>
+<div class="btns"><button class="btn" id="example" type="button">Try the example (Calm Steps, a fictional wellness app)</button><span class="note" id="engine">Loading the tools in the background...</span></div>
+
+<section class="step" aria-labelledby="s1"><div class="step-h"><span class="num">1</span><div><h2 id="s1">Describe your product</h2>
+<p>Answer what you know. Empty answers show up as gaps in the report, not as errors.</p></div></div>
+<div class="btns"><label class="btn" for="loadyaml">I already have an hdsf.yaml</label><input id="loadyaml" type="file" accept=".yaml,.yml" class="sr"></div>
+<fieldset><legend>About the product</legend>
+<div class="field"><label class="lab" for="f-product-name">Product name</label><input id="f-product-name" type="text" data-f="product.name"></div>
+<div class="field"><label class="lab" for="f-product-maker">Maker (company)</label><input id="f-product-maker" type="text" data-f="product.maker"></div>
+<div class="field"><label class="lab" for="f-product-contact">Privacy contact (email)</label><input id="f-product-contact" type="text" data-f="product.contact"></div>
+<div class="field wide"><label class="lab" for="f-intended-purpose">Intended purpose</label><span class="hint">One or two full sentences: what it is for, for whom, what it claims. Everything else depends on it.</span><textarea id="f-intended-purpose" data-f="intended_purpose" rows="3"></textarea></div>
+<div class="field"><label class="lab" for="f-countries">Countries where it is used</label><input id="f-countries" type="text" data-f="countries"><span class="hint">Two-letter codes, separated by commas, for example PT, ES</span></div>
+</fieldset>
+<fieldset><legend>What kind of product</legend>
+<div class="field"><span class="lab">What kind of product</span><div class="chks"><label class="chk"><input type="checkbox" data-f="profiles" value="W"> Wellness and lifestyle (no medical purpose)</label><label class="chk"><input type="checkbox" data-f="profiles" value="M"> Medical device software (MDR or IVDR)</label><label class="chk"><input type="checkbox" data-f="profiles" value="E"> EHR system or patient portal (EHDS)</label><label class="chk"><input type="checkbox" data-f="profiles" value="R"> Research or secondary use of health data</label><label class="chk"><input type="checkbox" data-f="profiles" value="T"> Telehealth or care delivery</label></div></div>
+<div class="field"><span class="lab">Who uses it</span><div class="chks"><label class="chk"><input type="checkbox" data-f="users" value="public"> People managing their own health</label><label class="chk"><input type="checkbox" data-f="users" value="patients"> Patients under care</label><label class="chk"><input type="checkbox" data-f="users" value="professionals"> Health and care professionals</label><label class="chk"><input type="checkbox" data-f="users" value="children"> Children (under 18)</label></div></div>
+<div class="field"><span class="lab">What it does</span><div class="chks"><label class="chk"><input type="checkbox" data-f="features" value="accounts"> User accounts</label><label class="chk"><input type="checkbox" data-f="features" value="health_records"> Stores health records</label><label class="chk"><input type="checkbox" data-f="features" value="sensors"> Phone or device sensors</label><label class="chk"><input type="checkbox" data-f="features" value="wearables"> Wearables</label><label class="chk"><input type="checkbox" data-f="features" value="symptom_input"> People enter symptoms</label><label class="chk"><input type="checkbox" data-f="features" value="medication"> Medication or reminders</label><label class="chk"><input type="checkbox" data-f="features" value="mental_health"> Mental health</label><label class="chk"><input type="checkbox" data-f="features" value="reproductive_health"> Cycle, fertility or sexual health</label><label class="chk"><input type="checkbox" data-f="features" value="genetic"> Genetic data</label><label class="chk"><input type="checkbox" data-f="features" value="location"> Location</label><label class="chk"><input type="checkbox" data-f="features" value="notifications"> Notifications</label><label class="chk"><input type="checkbox" data-f="features" value="chat"> Chat between people</label><label class="chk"><input type="checkbox" data-f="features" value="community"> Community or forum</label><label class="chk"><input type="checkbox" data-f="features" value="telehealth"> Video or remote consultations</label><label class="chk"><input type="checkbox" data-f="features" value="payments"> Payments</label><label class="chk"><input type="checkbox" data-f="features" value="ads"> Shows advertising</label><label class="chk"><input type="checkbox" data-f="features" value="analytics"> Product analytics</label><label class="chk"><input type="checkbox" data-f="features" value="ai_generative"> Generative AI (chatbot, summaries)</label><label class="chk"><input type="checkbox" data-f="features" value="ai_clinical"> AI with a clinical purpose (risk scores, triage, imaging)</label><label class="chk"><input type="checkbox" data-f="features" value="sharing_with_professionals"> Sharing with professionals</label><label class="chk"><input type="checkbox" data-f="features" value="research_use"> Data used for research</label><label class="chk"><input type="checkbox" data-f="features" value="emergency_content"> Emergency or crisis content</label></div></div>
+</fieldset>
+<fieldset><legend>The device question</legend>
+<div class="field"><label class="lab" for="f-qualification-medical-device">Is it a medical device?</label><select id="f-qualification-medical-device" data-f="qualification.medical_device"><option value="undecided">Not decided yet</option><option value="none">No</option><option value="mdsw">Yes, medical device software (MDR)</option><option value="ivd">Yes, in vitro diagnostic software (IVDR)</option><option value="annex_xvi">Annex XVI product</option></select></div>
+<div class="field"><label class="lab" for="f-qualification-class">Device class</label><select id="f-qualification-class" data-f="qualification.class"><option value="">Not a device</option><option value="I">MDR class I</option><option value="IIa">MDR class IIa</option><option value="IIb">MDR class IIb</option><option value="III">MDR class III</option><option value="A">IVDR class A</option><option value="B">IVDR class B</option><option value="C">IVDR class C</option><option value="D">IVDR class D</option></select></div>
+<div class="field"><label class="lab" for="f-qualification-notified-body">Notified body</label><input id="f-qualification-notified-body" type="text" data-f="qualification.notified_body"><span class="hint">Name and number, or &#x27;planned&#x27;</span></div>
+</fieldset>
+<fieldset><legend>Data (GDPR / RGPD)</legend>
+<div class="field"><label class="lab" for="f-data-gdpr-role">Your GDPR (RGPD) role</label><select id="f-data-gdpr-role" data-f="data.gdpr_role"><option value="">Choose</option><option value="controller">Controller</option><option value="processor">Processor (for clinics or others)</option><option value="joint_controller">Joint controller</option><option value="mixed">Different roles per purpose</option></select></div>
+<div class="field wide"><label class="lab" for="f-data-purposes">Purposes of processing</label><span class="hint">One per line: purpose | legal basis | Art. 9 condition | uses health data (yes or no). For example: provide the service | contract | explicit_consent | yes</span><textarea id="f-data-purposes" data-f="data.purposes" rows="3"></textarea></div>
+<div class="field"><label class="lab" for="f-data-retention">How long data is kept</label><input id="f-data-retention" type="text" data-f="data.retention"></div>
+<div class="field"><label class="lab" for="f-data-storage-regions">Where data is stored</label><input id="f-data-storage-regions" type="text" data-f="data.storage_regions"><span class="hint">Regions or countries, separated by commas, for example eu-west-1</span></div>
+<div class="field wide"><label class="lab" for="f-data-third-parties">Who receives data</label><span class="hint">One per line: name | purpose | country | health data yes or no | contract (DPA) document</span><textarea id="f-data-third-parties" data-f="data.third_parties" rows="3"></textarea></div>
+<div class="field"><label class="lab" for="f-data-tracking-on-health-screens">Trackers or ad SDKs on screens with health data?</label><select id="f-data-tracking-on-health-screens" data-f="data.tracking_on_health_screens"><option value="">Choose</option><option value="false">No</option><option value="true">Yes</option></select></div>
+<div class="field"><label class="lab" for="f-data-ads">Advertising</label><select id="f-data-ads" data-f="data.ads"><option value="none">No advertising</option><option value="contextual">Contextual only (not based on the person)</option><option value="targeted">Targeted</option></select></div>
+<div class="field"><label class="lab" for="f-data-rights-access">Where people see their data</label><input id="f-data-rights-access" type="text" data-f="data.rights.access"><span class="hint">For example: in the app, Profile &gt; My data</span></div>
+<div class="field"><label class="lab" for="f-data-rights-export">Where people download their data</label><input id="f-data-rights-export" type="text" data-f="data.rights.export"></div>
+<div class="field"><label class="lab" for="f-data-rights-delete">Where people delete their account and data</label><input id="f-data-rights-delete" type="text" data-f="data.rights.delete"></div>
+</fieldset>
+<fieldset><legend>Safety, security and health records</legend>
+<div class="field"><label class="lab" for="f-safety-emergency-route">Route to urgent help</label><input id="f-safety-emergency-route" type="text" data-f="safety.emergency_route"><span class="hint">Where the product shows how to get urgent help</span></div>
+<div class="field"><label class="lab" for="f-security-sbom">Software bill of materials</label><input id="f-security-sbom" type="text" data-f="security.sbom"><span class="hint">A document, or &#x27;ci&#x27; if your build produces it</span></div>
+<div class="field"><label class="lab" for="f-ehds-ehr-system">Is it an EHR system?</label><select id="f-ehds-ehr-system" data-f="ehds.ehr_system"><option value="false">No</option><option value="true">Yes</option></select></div>
+<div class="field"><label class="lab" for="f-ehds-claims-ehr-interoperability">Does it claim it works with health records?</label><select id="f-ehds-claims-ehr-interoperability" data-f="ehds.claims_ehr_interoperability"><option value="false">No</option><option value="true">Yes</option></select></div>
+<div class="field"><label class="lab" for="f-nis2-status">NIS2 status (care providers, some manufacturers)</label><select id="f-nis2-status" data-f="nis2.status"><option value="">Choose</option><option value="not_in_scope">Not in scope</option><option value="important">Important entity</option><option value="essential">Essential entity</option></select></div>
+<div class="field"><label class="lab" for="f-review-last-reviewed">Last reviewed</label><input id="f-review-last-reviewed" type="date" data-f="review.last_reviewed"></div>
+</fieldset>
+<fieldset><legend>Documents you have</legend>
+<p class="note">Pick the file from your documents (step 2), or type a link. Leave empty if you do not have it yet.</p>
+<div class="field"><label class="lab" for="f-qualification-rationale">Qualification record (is it a medical device?)</label><input id="f-qualification-rationale" data-f="qualification.rationale" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-data-dpia">DPIA</label><input id="f-data-dpia" data-f="data.dpia" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-data-records">Record of processing activities (GDPR Art. 30)</label><input id="f-data-records" data-f="data.records" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-security-policy">Security policy</label><input id="f-security-policy" data-f="security.policy" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-security-incident-plan">Incident and breach plan</label><input id="f-security-incident-plan" data-f="security.incident_plan" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-safety-content-review">Health content review register</label><input id="f-safety-content-review" data-f="safety.content_review" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-ai-inventory">AI inventory</label><input id="f-ai-inventory" data-f="ai.inventory" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-ai-risk-file">AI risk file (medical device AI)</label><input id="f-ai-risk-file" data-f="ai.risk_file" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-clinical-qms">Quality management system</label><input id="f-clinical-qms" data-f="clinical.qms" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-clinical-evaluation">Clinical or performance evaluation</label><input id="f-clinical-evaluation" data-f="clinical.evaluation" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-clinical-pms-plan">Post-market surveillance plan</label><input id="f-clinical-pms-plan" data-f="clinical.pms_plan" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-ehds-label">EHDS label and EU database entry</label><input id="f-ehds-label" data-f="ehds.label" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-ehds-conformity">EHDS conformity evidence</label><input id="f-ehds-conformity" data-f="ehds.conformity" list="doclist" placeholder="docs/..."></div>
+<div class="field"><label class="lab" for="f-children-csef-report">CSEF report (products for children)</label><input id="f-children-csef-report" data-f="children.csef_report" list="doclist" placeholder="docs/..."></div>
+</fieldset>
+<datalist id="doclist"></datalist>
+<details class="more"><summary>See and edit the hdsf.yaml this form makes</summary>
+<textarea id="yaml" rows="14" spellcheck="false" style="font-family:ui-monospace,monospace;font-size:.85rem;margin-top:8px"></textarea>
+<div class="btns"><button class="btn" id="fromyaml" type="button">Update the form from this text</button><button class="btn" id="dlyaml" type="button">Download hdsf.yaml</button></div></details>
+</section>
+
+<section class="step" aria-labelledby="s2"><div class="step-h"><span class="num">2</span><div><h2 id="s2">Add your documents</h2>
+<p>Privacy notice, store listing, onboarding and help texts, design documents, DPIA, qualification record. Formats: PDF, Word (.docx), Markdown, text, HTML, JSON or string files.</p></div></div>
+<div id="drop">Drop files or a folder here
+<div class="btns" style="justify-content:center"><label class="btn" for="addfiles">Choose files</label><input id="addfiles" type="file" multiple class="sr">
+<label class="btn" for="addfolder">Choose a folder</label><input id="addfolder" type="file" webkitdirectory multiple class="sr"></div></div>
+<ul id="files" aria-live="polite"></ul>
+</section>
+
+<section class="step" aria-labelledby="s3"><div class="step-h"><span class="num">3</span><div><h2 id="s3">Run the checks</h2>
+<p>You get one report with: the rules that apply and what the description shows; a review of your documents (privacy notice against GDPR/RGPD
+Art. 13 and 14, medical claims, safety and AI wording, plain language, risky wording); EU recommendations that apply (layer 2); and design
+recommendations from research (layer 3).</p></div></div>
+<div class="field"><label class="lab" for="level">Level</label><select id="level"><option value="1">1: Legal baseline</option><option value="2" selected>2: Forward-compliant</option><option value="3">3: Best practice</option></select></div>
+<div class="btns"><button class="btn p" id="run" type="button">Run the checks</button></div>
+<ul id="gaps" hidden></ul>
+<div id="status" class="status" hidden role="status"></div>
+<div id="results"></div>
+</section>
+
+<section class="step" aria-labelledby="s4"><h2 id="s4">How this page handles your files</h2>
+<p>The HDSF tools are Python programs. This page runs them inside your browser with <a href="https://pyodide.org/">Pyodide</a>, downloaded from the jsDelivr CDN the
+first time. Your files are read by the browser and never sent anywhere: no server, no account, no analytics. Close the tab and everything is gone; download what you want to keep.
+To save the report as PDF, open it and use "Print or save as PDF".</p>
+<p class="note">Organisations that block CDNs can host Pyodide themselves and open this page with <code>?pyodide=https://their-host/pyodide/</code>. Developers get the
+same results, plus the code checks, with <code>tooling/workbench.py</code> and <code>tooling/scan.py</code>.</p>
+<p class="note">Signs, not proof. Not legal or regulatory advice.</p>
+</section>
+</article></main>
+<footer><div class="in">Health Data Safety Framework (HDSF) v0.2.0, maintained by Kendir Studios with contributors. Content CC BY 4.0, code Apache-2.0.</div></footer>
+<script>
+(() => {
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const qp = new URLSearchParams(location.search);
+const PYODIDE = qp.get('pyodide') || document.body.dataset.pyodide;
+const docs = new Map();
+let PY = null, loading = null, yamlText = '';
+
+function setEngine(m) { $('#engine').textContent = m; }
+async function engine() {
+  if (PY) return PY;
+  if (loading) return loading;
+  loading = (async () => {
+    setEngine('Loading the tools...');
+    const { loadPyodide } = await import(PYODIDE + 'pyodide.mjs');
+    const py = await loadPyodide({ indexURL: PYODIDE });
+    await py.loadPackage(['pyyaml', 'micropip']);
+    let docx = true;
+    try { await py.loadPackage(['lxml']); } catch (x) { docx = false; }
+    const b = await (await fetch('hdsf-bundle.json', {cache: 'no-cache'})).json();
+    for (const [path, text] of Object.entries(b.files)) { const full = '/hdsf/' + path;
+      py.FS.mkdirTree(full.slice(0, full.lastIndexOf('/'))); py.FS.writeFile(full, text); }
+    py.globals.set('WHEELS', [docx ? new URL('vendor/python_docx-1.1.2-py3-none-any.whl', location.href).href : '',
+                              new URL('vendor/pypdf-5.1.0-py3-none-any.whl', location.href).href].filter(Boolean));
+    try { await py.runPythonAsync('import micropip\nfor w in WHEELS:\n    await micropip.install(w, deps=False)'); }
+    catch (x) { console.warn('Word or PDF reading unavailable', x); }
+    await py.runPythonAsync('import sys, json\nsys.path.insert(0, "/hdsf/tooling")\nimport workbench');
+    PY = py; setEngine('Tools ready. Nothing leaves this page.');
+    return py;
+  })();
+  try { return await loading; } catch (x) { loading = null; setEngine('The tools could not load. Check the internet connection and reload the page.'); throw x; }
+}
+
+function readForm() {
+  const f = {};
+  for (const el of $$('[data-f]')) {
+    const k = el.dataset.f;
+    if (el.type === 'checkbox') { f[k] = f[k] || []; if (el.checked) f[k].push(el.value); }
+    else f[k] = el.value;
+  }
+  return f;
+}
+function fillForm(f) {
+  for (const el of $$('[data-f]')) {
+    const k = el.dataset.f, v = f[k];
+    if (el.type === 'checkbox') el.checked = (v || []).includes(el.value);
+    else if (v !== undefined && v !== null) el.value = v;
+  }
+}
+async function syncYaml() {
+  const py = await engine();
+  py.globals.set('Y', $('#yaml').value || yamlText); py.globals.set('F', JSON.stringify(readForm()));
+  yamlText = await py.runPythonAsync('workbench.form_to_manifest(Y, json.loads(F))');
+  $('#yaml').value = yamlText; return yamlText;
+}
+async function yamlToForm(text) {
+  const py = await engine(); py.globals.set('Y', text);
+  fillForm(JSON.parse(await py.runPythonAsync('json.dumps(workbench.manifest_to_form(Y))')));
+  yamlText = text; $('#yaml').value = text;
+}
+$('#loadyaml').addEventListener('change', async e => { const f = e.target.files[0]; if (f) await yamlToForm(await f.text()); e.target.value = ''; });
+$('#fromyaml').addEventListener('click', () => yamlToForm($('#yaml').value));
+$('details.more').addEventListener('toggle', e => { if (e.target.open) syncYaml(); });
+$('#dlyaml').addEventListener('click', async () => download('hdsf.yaml', new Blob([await syncYaml()], {type: 'text/yaml'})));
+
+function fmtSize(n) { return n > 1e6 ? (n / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1e3)) + ' kB'; }
+function renderFiles() {
+  const ul = $('#files'); ul.innerHTML = '';
+  for (const [path, f] of docs) {
+    const li = document.createElement('li');
+    li.innerHTML = `<span><code>${esc(path)}</code> <span class="note">${fmtSize(typeof f === 'string' ? f.length : f.size)}</span></span><button type="button">Remove</button>`;
+    const b = li.querySelector('button'); b.setAttribute('aria-label', 'Remove ' + path);
+    b.addEventListener('click', () => { docs.delete(path); renderFiles(); });
+    ul.appendChild(li);
+  }
+  $('#doclist').innerHTML = [...docs.keys()].map(p => `<option value="${esc(p)}">`).join('');
+}
+function addFile(f, rel) {
+  let path = (rel || f.webkitRelativePath || f.name).replace(/^\/+/, '');
+  if (!rel && f.webkitRelativePath) path = 'docs/' + (path.split('/').slice(1).join('/') || f.name);
+  else if (!rel) path = 'docs/' + f.name;
+  if (/(^|\/)hdsf\.ya?ml$/i.test(path)) { f.text().then(yamlToForm); return; }
+  docs.set(path, f);
+}
+$('#addfiles').addEventListener('change', e => { [...e.target.files].forEach(f => addFile(f)); e.target.value = ''; renderFiles(); });
+$('#addfolder').addEventListener('change', e => { [...e.target.files].forEach(f => addFile(f)); e.target.value = ''; renderFiles(); });
+const drop = $('#drop');
+drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+drop.addEventListener('drop', async e => {
+  e.preventDefault(); drop.classList.remove('over');
+  const walk = (entry, prefix) => new Promise(res => {
+    if (entry.isFile) entry.file(f => { addFile(f, 'docs/' + prefix + f.name); res(); });
+    else entry.createReader().readEntries(async es => { for (const x of es) await walk(x, prefix + entry.name + '/'); res(); });
+  });
+  for (const it of [...e.dataTransfer.items].map(i => i.webkitGetAsEntry && i.webkitGetAsEntry()).filter(Boolean)) await walk(it, '');
+  renderFiles();
+});
+
+$('#example').addEventListener('click', async () => {
+  $('#example').disabled = true;
+  try {
+    const ex = await (await fetch('example.json', {cache: 'no-cache'})).json();
+    docs.clear();
+    for (const [path, text] of Object.entries(ex)) if (path !== 'hdsf.yaml') docs.set(path, text);
+    renderFiles(); await yamlToForm(ex['hdsf.yaml']);
+    status('The example is loaded: Calm Steps, a fictional wellness app. Press "Run the checks".', 'ok');
+  } catch (x) { console.error(x); status('The example could not load.', 'err'); }
+  finally { $('#example').disabled = false; }
+});
+
+function status(msg, kind) { const s = $('#status'); s.hidden = false; s.className = 'status' + (kind ? ' ' + kind : ''); s.textContent = msg; }
+async function bytes(f) { return typeof f === 'string' ? new TextEncoder().encode(f) : new Uint8Array(await f.arrayBuffer()); }
+function put(py, path, data) { py.FS.mkdirTree(path.slice(0, path.lastIndexOf('/'))); py.FS.writeFile(path, data); }
+function download(name, blob) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+const TYPES = {html: 'text/html', zip: 'application/zip', json: 'application/json', md: 'text/markdown', yaml: 'text/yaml',
+               docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'};
+const LABEL = {'report.html': 'Open the report', 'report.docx': 'Word report', 'hdsf-report.md': 'Rules report (Markdown)',
+               'review.md': 'Document review (Markdown)', 'findings.json': 'Findings (JSON)', 'review.json': 'Review (JSON)', 'hdsf.yaml': 'hdsf.yaml'};
+$('#run').addEventListener('click', async () => {
+  $('#run').disabled = true; $('#results').innerHTML = ''; $('#gaps').hidden = true;
+  try {
+    status('Getting the tools ready...');
+    const py = await engine();
+    const y = await syncYaml();
+    py.globals.set('Y', y);
+    const gaps = JSON.parse(await py.runPythonAsync('json.dumps(workbench.check_form(Y))'));
+    if (gaps.length) { $('#gaps').innerHTML = gaps.map(g => `<li>${esc(g)}</li>`).join(''); $('#gaps').hidden = false; }
+    status('Reading your files...');
+    await py.runPythonAsync('import shutil\nfor d in ("/work", "/out"):\n    shutil.rmtree(d, ignore_errors=True)');
+    put(py, '/work/hdsf.yaml', new TextEncoder().encode(y));
+    for (const [path, f] of docs) put(py, '/work/' + path, await bytes(f));
+    status('Running the checks. This can take a minute; the page may pause.');
+    await new Promise(r => setTimeout(r, 60));
+    py.globals.set('LEVEL', $('#level').value);
+    const res = JSON.parse(await py.runPythonAsync('json.dumps(workbench.run("/work", "/out/hdsf", {"level": int(LEVEL)}))'));
+    show(py, res);
+    status('Done. Open the report, or download everything.', 'ok');
+  } catch (x) { console.error(x); status('Something went wrong: ' + (x.message || x).toString().split('\n').slice(-2).join(' '), 'err'); }
+  finally { $('#run').disabled = false; }
+});
+function show(py, res) {
+  const s = res.summary, c = s.counts, box = $('#results');
+  const links = res.results.map(f => {
+    const url = URL.createObjectURL(new Blob([py.FS.readFile(f.path)], {type: TYPES[f.kind] || 'application/octet-stream'}));
+    return f.kind === 'html' ? `<a class="btn p" href="${url}" target="_blank" rel="noopener"><span class="fmt">HTML</span>${esc(LABEL[f.name] || f.name)}</a>`
+                             : `<a class="btn" href="${url}" download="${esc(f.name)}"><span class="fmt">${esc(f.kind.toUpperCase())}</span>${esc(LABEL[f.name] || f.name)}</a>`;
+  }).join('');
+  const zip = URL.createObjectURL(new Blob([py.FS.readFile(res.zip)], {type: 'application/zip'}));
+  box.innerHTML = `<div class="res"><div class="res-h"><b>${esc(s.verdict)}</b></div>
+    <div class="cnt">${['BLOCK','REVIEW','WARN','HUMAN','WAIVED'].map(k => `<div><b>${c[k]}</b>${k}</div>`).join('')}</div>
+    <p>${s.rules} rules apply. ${s.docs} document(s) read: ${s.doc_gaps} gap(s) in the documents, ${s.recommendations} recommendation(s) from EU guidance and research.
+    ${s.docx ? '' : 'Word export was not available in this browser.'}</p>
+    <div class="btns">${links}</div>
+    <div class="btns"><a class="btn" href="${zip}" download="hdsf-results.zip"><span class="fmt">ZIP</span>Download everything</a><span class="note">The zip includes your hdsf.yaml, so you can come back and continue.</span></div></div>`;
+}
+setTimeout(() => engine().catch(() => {}), 400);
+})();
+</script>
+</body></html>

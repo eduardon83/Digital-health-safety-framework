@@ -2,7 +2,7 @@
 
 # Profile E: EHR systems and the European Health Data Space
 
-EHR systems and the European Health Data Space. HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+EHR systems and the European Health Data Space. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -10,6 +10,7 @@ EHR systems and the European Health Data Space. HDSF v0.1.0. Rules marked `core`
 | [E-DAT-01](#e-dat-01-professionals-see-records-only-in-a-care-relationship) | Professionals see records only in a care relationship | MUST | 1 | manual |
 | [E-INT-01](#e-int-01-the-ehr-system-meets-the-ehds-essential-requirements) | The EHR system meets the EHDS essential requirements | MUST | 2 | manifest |
 | [E-INT-02](#e-int-02-data-leaves-in-the-european-exchange-format-without-lock-in) | Data leaves in the European exchange format, without lock-in | MUST | 2 | manual |
+| [E-INT-03](#e-int-03-the-ehr-system-follows-the-eu-exchange-format-recommendation-now) | The EHR system follows the EU exchange format recommendation now | SHOULD | 2 | manual |
 | [E-LOG-01](#e-log-01-people-can-see-who-accessed-their-record) | People can see who accessed their record | MUST | 2 | manual |
 | [R-EHD-01](#r-ehd-01-the-maker-is-ready-to-be-an-ehds-data-holder) | The maker is ready to be an EHDS data holder | SHOULD | 2 | manual |
 
@@ -62,6 +63,18 @@ EHR systems and the European Health Data Space. HDSF v0.1.0. Rules marked `core`
 **How to improve.** Implement the exchange format (FHIR based where specified); document the exit plan for customers.
 
 **Sources.** [EHDS](https://eur-lex.europa.eu/eli/reg/2025/327/oj), [DATA-ACT](https://eur-lex.europa.eu/eli/reg/2023/2854/oj), [HL7-FHIR](https://hl7.org/fhir/)
+
+### E-INT-03: The EHR system follows the EU exchange format recommendation now
+
+**SHOULD** · Level 2 (Forward-compliant) · Users: all · Detection: manual · Effort: high
+
+**Requirement.** Until EHDS implementing acts apply, the system follows the principles and baseline specifications of Commission Recommendation (EU) 2019/243 for patient summaries, ePrescriptions, lab results, images and discharge reports.
+
+**Why.** The recommendation is the basis for the European EHR exchange format that the EHDS makes binding.
+
+**How to improve.** Map your data model to the recommended specifications; plan the gaps.
+
+**Sources.** [EC-REC-EHRXF](https://eur-lex.europa.eu/eli/reco/2019/243/oj), [HL7-FHIR](https://hl7.org/fhir/)
 
 ### E-LOG-01: People can see who accessed their record
 

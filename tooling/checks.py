@@ -198,6 +198,17 @@ def ads_with_health_data(m, repo, p):
     return []
 
 
+def records_missing(m, repo, p):
+    return _need_doc(m, repo, "data.records", "the record of processing activities (Art. 30)")
+
+
+def roles_missing(m, repo, p):
+    r = _get(m, "data.gdpr_role")
+    if r not in ("controller", "processor", "joint_controller", "mixed"):
+        return ["data.gdpr_role is not set (controller, processor, joint_controller or mixed)"]
+    return []
+
+
 def security_policy_missing(m, repo, p):
     return _need_doc(m, repo, "security.policy", "SECURITY.md or a security page")
 

@@ -98,6 +98,86 @@ sources:
     notes: "Commission page and timeline: https://health.ec.europa.eu/ehealth-digital-health-and-care/european-health-data-space-regulation-ehds_en"
     verified: 2026-11-22
 
+  - id: EDPB-AIMODELS
+    title: "EDPB Opinion 28/2024 on certain data protection aspects related to the processing of personal data in the context of AI models"
+    type: guidance
+    jurisdiction: EU
+    status: "Adopted 17 Dec 2024. When an AI model can be considered anonymous (high bar, case by case); how to use legitimate interest for developing and deploying models (three-step test); effects of unlawful training data on later use. Does not cover Art. 9 special categories"
+    url: "https://edpb.europa.eu/system/files/2024-12/edpb_opinion_202428_ai-models_en.pdf"
+    verified: 2026-11-23
+
+  - id: EDPB-SCRAPE
+    title: "EDPB Guidelines 03/2026 on web scraping in the context of generative AI"
+    type: guidance
+    jurisdiction: EU
+    status: "Adopted 8 Jul 2026 for public consultation (until 30 Oct 2026); not final. Scraping that includes special categories needs both an Art. 6 basis and an Art. 9(2) exception; purpose limitation and transparency need particular attention; scrape only from reliable sources, record timestamps, validate data"
+    url: "https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en"
+    verified: 2026-11-23
+
+  - id: EDPB-ANON
+    title: "EDPB Guidelines on anonymisation (2026)"
+    type: guidance
+    jurisdiction: EU
+    status: "Adopted 8 Jul 2026 for public consultation (until 30 Oct 2026); not final. Clarifies when data can be considered anonymous and gives a framework to check whether anonymisation worked"
+    url: "https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en"
+    verified: 2026-11-23
+
+  - id: EDPB-DECEPTIVE
+    title: "EDPB Guidelines 03/2022 on deceptive design patterns in social media platform interfaces: how to recognise and avoid them, version 2.0"
+    type: guidance
+    jurisdiction: EU
+    status: "Final version adopted 14 Feb 2023 after consultation. Written for social media but its categories of deceptive patterns (overloading, skipping, stirring, obstructing, fickle, left in the dark) apply to any consent and privacy interface"
+    url: "https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-032022-deceptive-design-patterns-social-media_en"
+    verified: 2026-11-23
+
+  - id: EDPB-CONSENT
+    title: "EDPB Guidelines 05/2020 on consent under Regulation 2016/679"
+    type: guidance
+    jurisdiction: EU
+    status: "Adopted May 2020. Freely given, specific, informed, unambiguous consent; explicit consent for Art. 9; no consent walls; withdrawal as easy as giving consent"
+    url: "https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-052020-consent-under-regulation-2016679_en"
+    verified: pending
+
+  - id: EDPB-DPBD
+    title: "EDPB Guidelines 4/2019 on Article 25 Data Protection by Design and by Default, version 2.0"
+    type: guidance
+    jurisdiction: EU
+    status: "Adopted Oct 2020. How to build data protection into design choices and defaults"
+    url: "https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-42019-article-25-data-protection-design-and_en"
+    verified: pending
+
+  - id: WHO-LMM
+    title: "WHO, Ethics and governance of artificial intelligence for health: guidance on large multi-modal models (ISBN 978-92-4-008475-9)"
+    type: guidance
+    jurisdiction: international
+    status: "Published 18 Jan 2024. Over 40 recommendations for governments, technology companies and health care providers on generative AI in health: transparency, testing with intended users, limits of use, accountability, equity"
+    url: "https://www.who.int/publications-detail-redirect/9789240084759"
+    verified: 2026-11-23
+
+  - id: EC-REC-EHRXF
+    title: "Commission Recommendation (EU) 2019/243 of 6 February 2019 on a European Electronic Health Record exchange format"
+    type: guidance
+    jurisdiction: EU
+    status: "Recommendation (not binding), OJ L 39, 11.2.2019. Principles and baseline technical specifications for a European EHR exchange format (patient summaries, ePrescriptions, lab results, images, discharge reports); now taken further by the EHDS"
+    url: "https://eur-lex.europa.eu/eli/reco/2019/243/oj"
+    verified: 2026-11-23
+
+  - id: EC-CLEAR
+    title: "European Commission, How to write clearly (Clear writing for Europe)"
+    type: guidance
+    jurisdiction: EU
+    status: "Current. The Commission's plain language guide, in 24 official languages: think of the reader, short sentences, active verbs, no jargon"
+    url: "https://commission.europa.eu/about-european-commission/departments-and-executive-agencies/translation/clear-writing-europe_en"
+    verified: 2026-11-23
+
+  - id: OP-PLAIN
+    title: "Publications Office of the EU, Web Guide: Plain language and Easy-to-read"
+    type: guidance
+    jurisdiction: EU
+    status: "Last updated 7 Oct 2026. Recommendations for plain language for the general public and Easy-to-read for people with intellectual or learning disabilities, low literacy or cognitive disabilities: simple words, explain difficult ones, active voice, literal wording"
+    url: "https://op.europa.eu/en/web/webguide/plain-language-and-easy-to-read"
+    verified: 2026-11-23
+
   # ------------------------------------------------------------------ medical devices
   - id: MDR
     title: "Regulation (EU) 2017/745 on medical devices (MDR)"
@@ -320,6 +400,14 @@ sources:
     url: "https://hl7.org/fhir/"
     verified: pending
 
+  - id: IEC-62366-1
+    title: "IEC 62366-1, Medical devices, Part 1: Application of usability engineering to medical devices"
+    type: standard
+    jurisdiction: international
+    status: "Harmonised standard for usability engineering of medical devices: use specification, use-related risk analysis, formative and summative evaluation"
+    url: "https://webstore.iec.ch/"
+    verified: pending
+
   - id: EN301549
     title: "EN 301 549, Accessibility requirements for ICT products and services"
     type: standard
@@ -352,6 +440,54 @@ sources:
     status: "Peer reviewed. Of 36 top-ranked apps, 29 sent data to Facebook or Google services; only 12 disclosed this in a privacy policy"
     url: "https://doi.org/10.1001/jamanetworkopen.2019.2542"
     verified: 2026-11-22
+
+  - id: R-MARS2015
+    title: "Stoyanov SR, Hides L, Kavanagh DJ, Zelenko O, Tjondronegoro D, Mani M. Mobile App Rating Scale: a new tool for assessing the quality of health mobile apps. JMIR mHealth uHealth 2015;3(1):e27"
+    type: literature
+    jurisdiction: international
+    status: "Peer reviewed. 23-item scale with four objective subscales (engagement, functionality, aesthetics, information quality) and a subjective one; excellent internal consistency (alpha .90). A user version (uMARS) followed in 2016"
+    url: "https://doi.org/10.2196/mhealth.3422"
+    verified: 2026-11-23
+
+  - id: R-GALESIC2009
+    title: "Galesic M, Garcia-Retamero R, Gigerenzer G. Using icon arrays to communicate medical risks: overcoming low numeracy. Health Psychology 2009;28(2):210-216"
+    type: literature
+    jurisdiction: international
+    status: "Peer reviewed. Icon arrays increased accuracy of understanding for people with low and high numeracy, including older adults"
+    url: "https://pure.mpg.de/pubman/item/item_2099767_5/component/file_2562291/MG_Using_2009.pdf"
+    verified: 2026-11-23
+
+  - id: R-NOUWENS2020
+    title: "Nouwens M, Liccardi I, Veale M, Karger D, Kagal L. Dark patterns after the GDPR: scraping consent pop-ups and demonstrating their influence. CHI 2020"
+    type: literature
+    jurisdiction: international
+    status: "Peer reviewed. Only 11.8% of consent pop-ups on 680 UK sites met minimal EU-law requirements; removing the opt-out button from the first page raised consent by 22 to 23 percentage points; granular controls on the first page lowered it by 8 to 20 points"
+    url: "https://doi.org/10.1145/3313831.3376321"
+    verified: 2026-11-23
+
+  - id: R-TRACTINSKY2000
+    title: "Tractinsky N, Katz AS, Ikar D. What is beautiful is usable. Interacting with Computers 2000;13(2):127-145"
+    type: literature
+    jurisdiction: international
+    status: "Peer reviewed. Perceived aesthetics strongly correlated with perceived usability before and after use; the system's aesthetics affected post-use perceptions of usability, while actual usability did not"
+    url: "https://doi.org/10.1016/S0953-5438(00)00031-X"
+    verified: 2026-11-23
+
+  - id: R-HLS-EU2015
+    title: "Sørensen K, Pelikan JM, Röthlin F et al. Health literacy in Europe: comparative results of the European health literacy survey (HLS-EU). Eur J Public Health 2015;25(6):1053-1058"
+    type: literature
+    jurisdiction: EU
+    status: "Peer reviewed; 8,000 people in eight countries. 12% had insufficient and 47% limited health literacy, varying from 29% to 62% by country; higher among people with financial deprivation, low education or old age"
+    url: "https://doi.org/10.1093/eurpub/ckv043"
+    verified: 2026-11-23
+
+  - id: NICE-ESF
+    title: "NICE, Evidence standards framework for digital health technologies (ECD7)"
+    type: literature
+    jurisdiction: UK
+    status: "Published Dec 2018, updated Aug 2022 (AI and adaptive algorithms, alignment with regulation). UK framework, used here as international best practice: evidence expected rises with the technology's function and risk"
+    url: "https://www.nice.org.uk/corporate/ecd7"
+    verified: 2026-11-23
 
   - id: LABEL2ENABLE
     title: "Label2Enable (Horizon Europe project 101057522): an EU health app quality label based on ISO/TS 82304-2"

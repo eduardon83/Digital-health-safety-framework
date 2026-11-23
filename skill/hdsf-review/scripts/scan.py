@@ -1,7 +1,7 @@
 """Check a digital health product against HDSF.
 
   python3 tooling/scan.py --repo PATH [--level 1|2|3] [--out-dir DIR] [--format md,json,sarif]
-                          [--description-only] [--fail-on block|review]
+                          [--export html,pdf,docx] [--docs DIR ...] [--description-only] [--fail-on block|review]
 
 Reads the product's hdsf.yaml (templates/hdsf.yaml), works out which rules apply (profiles, users, features,
 level), looks for signs in the code (regex and dependencies) and in the manifest, and writes a report. With
@@ -25,11 +25,15 @@ for p in (ROOT / "engine", HERE):  # repository layout, then the skill layout (s
         break
 sys.path.insert(0, str(HERE))
 from sfe import config as sfe_config  # noqa: E402
+from sfe import export as sfe_export  # noqa: E402
 from sfe import patterns, scanner  # noqa: E402
 
 import checks  # noqa: E402
+import docreview  # noqa: E402
 
-TOOL_VERSION = "0.1.0"
+ACCENT = "#0f6e6e"
+
+TOOL_VERSION = "0.2.0"
 
 
 def load_framework(root: Path):
@@ -73,7 +77,9 @@ def main(argv=None) -> int:
     ap.add_argument("--out-dir")
     ap.add_argument("--format", default="md")
     ap.add_argument("--description-only", action="store_true")
-    ap.add_argument("--fail-on", choices=["block", "review"], default=None)
+    ap.add_argument("--fail-on", choices=["block", "review", "never"], default=None)
+    ap.add_argument("--export", default="", help="comma-separated: html,pdf,docx (needs --out-dir)")
+    ap.add_argument("--docs", action="append", default=[], help="folder or file to review (repeatable)")
     a = ap.parse_args(argv)
     repo = Path(a.repo).resolve()
     cfg, rules, sources, result, product = run(repo, a.level, a.manifest, a.description_only)
@@ -87,6 +93,17 @@ def main(argv=None) -> int:
         names = {"md": "hdsf-report.md", "json": "findings.json", "sarif": "hdsf.sarif"}
         for f in fmts:
             (d / names[f]).write_text(out[f], encoding="utf-8")
+        sections = None
+        if a.docs:
+            mp = find_manifest(repo, cfg.manifest_names, a.manifest)
+            sections = docreview.run(a.docs, mp)
+            (d / "review.md").write_text(docreview.to_markdown(sections), encoding="utf-8")
+            (d / "review.json").write_text(__import__("json").dumps(sections, indent=2, ensure_ascii=False), encoding="utf-8")
+        exp = [x.strip() for x in a.export.split(",") if x.strip()]
+        if exp:
+            import json as _json
+            written = sfe_export.export(cfg, _json.loads(out["json"]), {r["id"]: r for r in rules}, sources, exp, d, sections, ACCENT)
+            print("Exported: " + ", ".join(p.name for p in written.values()))
         print(f"{scanner.verdict(result)} Report in {d}")
     else:
         print(out[fmts[0]])

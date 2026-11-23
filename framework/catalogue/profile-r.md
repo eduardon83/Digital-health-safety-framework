@@ -2,7 +2,7 @@
 
 # Profile R: Research and secondary use of health data
 
-Research and secondary use of health data. HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+Research and secondary use of health data. HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|
@@ -58,7 +58,7 @@ Research and secondary use of health data. HDSF v0.1.0. Rules marked `core` appl
 
 **How to improve.** Set minimum group sizes; add a disclosure check to the publication step.
 
-**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [EHDS](https://eur-lex.europa.eu/eli/reg/2025/327/oj)
+**Sources.** [GDPR](https://eur-lex.europa.eu/eli/reg/2016/679/oj), [EHDS](https://eur-lex.europa.eu/eli/reg/2025/327/oj), [EDPB-ANON](https://www.edpb.europa.eu/news/edpb-sheds-light-on-anonymisation-and-web-scraping-for-generative-ai-and-adopts-final-version_en)
 
 ### R-EHD-01: The maker is ready to be an EHDS data holder
 

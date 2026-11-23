@@ -10,7 +10,7 @@
 #
 # HDSF is not legal or regulatory advice. Whether software is a medical device is the manufacturer's decision under
 # the MDR or IVDR, and often needs a regulatory expert or a notified body.
-version: "0.1.0"
+version: "0.2.0"
 retired: []
 
 rules:
@@ -117,6 +117,7 @@ rules:
     improvement: Add a health flag to each field in the data inventory; treat "reveals health" fields like health data.
     effort: medium
     sources: [GDPR, CJEU-LINDEN]
+    gdpr: ['4(15)', '9', '30']
     detection:
       method: manual
 
@@ -134,6 +135,7 @@ rules:
     improvement: Fill data.purposes in hdsf.yaml with basis and art9 for each purpose.
     effort: low
     sources: [GDPR]
+    gdpr: ['6', '9']
     detection:
       method: manifest
       patterns:
@@ -152,6 +154,7 @@ rules:
     improvement: Write docs/dpia.md (templates/dpia-health.md) and link it in hdsf.yaml (data.dpia).
     effort: medium
     sources: [GDPR]
+    gdpr: ['35', '36']
     detection:
       method: manifest
       patterns:
@@ -171,6 +174,7 @@ rules:
     improvement: Show one consent screen per optional purpose and a "your choices" page in settings.
     effort: medium
     sources: [GDPR]
+    gdpr: ['4(11)', '7', '9(2)(a)']
     detection:
       method: manual
 
@@ -188,6 +192,7 @@ rules:
     improvement: Remove fields without a purpose; make the rest optional where possible; summarise on the device.
     effort: medium
     sources: [GDPR]
+    gdpr: ['5(1)(c)', '25']
     detection:
       method: manual
 
@@ -204,6 +209,7 @@ rules:
     improvement: Set data.retention in hdsf.yaml and test the deletion job.
     effort: medium
     sources: [GDPR]
+    gdpr: ['5(1)(e)']
     detection:
       method: manifest
       patterns:
@@ -222,6 +228,7 @@ rules:
     improvement: List data.third_parties in hdsf.yaml with receives_health_data and a link to the DPA.
     effort: low
     sources: [GDPR]
+    gdpr: ['28', '30']
     detection:
       method: manifest
       patterns:
@@ -240,6 +247,7 @@ rules:
     improvement: Choose EEA regions; record any non-EEA processor with its transfer tool in hdsf.yaml.
     effort: medium
     sources: [GDPR]
+    gdpr: ['44', '45', '46', '49']
     detection:
       method: manifest
       patterns:
@@ -260,6 +268,7 @@ rules:
     improvement: Add export (JSON or FHIR) and delete to account settings; link them in hdsf.yaml (data.rights).
     effort: medium
     sources: [GDPR, DATA-ACT, EHDS]
+    gdpr: ['15', '17', '20']
     detection:
       method: manifest
       patterns:
@@ -278,6 +287,7 @@ rules:
     improvement: Log identifiers and event names only; scrub payloads before they reach the crash reporter.
     effort: low
     sources: [GDPR]
+    gdpr: ['5(1)(f)', '32']
     detection:
       method: static
       patterns:
@@ -299,7 +309,8 @@ rules:
       the definition; HDSF does not rely on that change.
     improvement: Generate product-scoped random codes; keep the mapping in a separate store; document who holds what.
     effort: medium
-    sources: [EDPB-PSEUDO, CJEU-SRB, GDPR, OMNIBUS-DATA]
+    sources: [EDPB-PSEUDO, CJEU-SRB, GDPR, OMNIBUS-DATA, EDPB-ANON]
+    gdpr: ['4(5)', '25', '89']
     detection:
       method: manual
 
@@ -316,6 +327,7 @@ rules:
     improvement: Move health values to encrypted storage; keep only non-health settings in plain storage.
     effort: medium
     sources: [GDPR, ISO-27799]
+    gdpr: ['32']
     detection:
       method: static
       patterns:
@@ -338,6 +350,7 @@ rules:
     improvement: Remove ad and attribution SDKs from health products; gate any remaining SDK behind consent and keep it off health screens.
     effort: medium
     sources: [EPRIV, EDPB-ART53, GDPR, R-HUCKVALE2019, R-TANGARI2021]
+    gdpr: ['6', '9']
     detection:
       method: mixed
       patterns:
@@ -357,6 +370,7 @@ rules:
     improvement: Use neutral event names ("entry_saved") and keep health detail in the product's own protected store.
     effort: low
     sources: [GDPR, CJEU-LINDEN]
+    gdpr: ['9']
     detection:
       method: static
       patterns:
@@ -377,6 +391,7 @@ rules:
     improvement: Remove health-based audiences and segments; state in the privacy notice that health data is never used for ads.
     effort: low
     sources: [GDPR, DSA]
+    gdpr: ['9', '21']
     detection:
       method: manifest
       patterns:
@@ -395,6 +410,7 @@ rules:
     improvement: Add a traffic check (for example with a proxy) to the release checklist; keep the capture with the release.
     effort: medium
     sources: [GDPR, R-TANGARI2021, R-HUCKVALE2019]
+    gdpr: ['13', '30']
     detection:
       method: manual
 
@@ -414,6 +430,7 @@ rules:
     improvement: Add SECURITY.md and a security.txt on the website; link it in hdsf.yaml (security.policy).
     effort: low
     sources: [GDPR, CRA, NIS2, IEC-82304-1]
+    gdpr: ['32']
     detection:
       method: manifest
       patterns:
@@ -430,6 +447,7 @@ rules:
     improvement: Replace http:// endpoints with https://; enable HSTS and block cleartext traffic in the app config.
     effort: low
     sources: [GDPR]
+    gdpr: ['32']
     detection:
       method: static
       patterns:
@@ -448,6 +466,7 @@ rules:
     improvement: Enable MFA for staff and professionals; add rate limiting and session timeouts.
     effort: medium
     sources: [GDPR, NIS2, ISO-27799]
+    gdpr: ['32']
     detection:
       method: manual
 
@@ -465,6 +484,7 @@ rules:
     improvement: Write docs/incident-plan.md and link it in hdsf.yaml (security.incident_plan).
     effort: medium
     sources: [GDPR, NIS2, CRA]
+    gdpr: ['33', '34']
     detection:
       method: manifest
       patterns:
@@ -501,6 +521,7 @@ rules:
     improvement: Move secrets to the platform's secret store; rotate any key that was ever committed.
     effort: low
     sources: [GDPR]
+    gdpr: ['32']
     detection:
       method: static
       patterns:
@@ -519,6 +540,7 @@ rules:
     improvement: Add an audit log for record access; review it monthly; keep it tamper-evident.
     effort: medium
     sources: [GDPR, EHDS, ISO-27799]
+    gdpr: ['5(2)', '32']
     detection:
       method: manual
 
@@ -539,6 +561,7 @@ rules:
     improvement: Create docs/ai-inventory.md and link it in hdsf.yaml (ai.inventory).
     effort: low
     sources: [AIA, GDPR]
+    gdpr: ['30', '35']
     detection:
       method: manifest
       patterns:
@@ -601,6 +624,7 @@ rules:
     improvement: Choose enterprise or zero-retention settings; record them in the AI inventory.
     effort: low
     sources: [GDPR]
+    gdpr: ['9', '28']
     detection:
       method: manual
 
@@ -694,6 +718,7 @@ rules:
     improvement: Add a one-screen summary before onboarding asks for health data; test it with users.
     effort: low
     sources: [GDPR, R-TANGARI2021]
+    gdpr: ['12', '13', '14']
     detection:
       method: manual
 
@@ -710,6 +735,7 @@ rules:
     improvement: Review flows against a dark pattern checklist; make refusing and cancelling one step.
     effort: low
     sources: [GDPR, DSA]
+    gdpr: ['7']
     detection:
       method: manual
 
@@ -727,6 +753,7 @@ rules:
     improvement: Use neutral default texts; offer a detailed mode in settings.
     effort: low
     sources: [GDPR]
+    gdpr: ['5(1)(f)', '25']
     detection:
       method: manual
 
@@ -764,6 +791,7 @@ rules:
     improvement: Record the names in hdsf.yaml (governance) and in the privacy notice.
     effort: low
     sources: [GDPR, MDR]
+    gdpr: ['37', '38', '39']
     detection:
       method: manual
 
@@ -778,6 +806,7 @@ rules:
     improvement: Set review.last_reviewed in hdsf.yaml and a calendar reminder.
     effort: low
     sources: [GDPR, EHDS, MDR-REV]
+    gdpr: ['24', '35']
     detection:
       method: manifest
       patterns:
@@ -798,6 +827,7 @@ rules:
     improvement: Run the CSEF scan or the CSEF Workbench; link the report in hdsf.yaml (children.csef_report).
     effort: medium
     sources: [GDPR, CSEF]
+    gdpr: ['8']
     detection:
       method: manifest
       patterns:
@@ -819,6 +849,7 @@ rules:
     improvement: Map national ages and rules per country; give teenagers a private space for confidential topics.
     effort: medium
     sources: [GDPR, CSEF]
+    gdpr: ['8', '12']
     detection:
       method: manual
 
@@ -890,6 +921,7 @@ rules:
     improvement: Add a share screen with data choices; log each share; allow stopping future shares.
     effort: medium
     sources: [EHDS, EDPB-EDPS-EHDS]
+    gdpr: ['7']
     detection:
       method: manual
 
@@ -945,6 +977,7 @@ rules:
     improvement: Make local storage the default; add an explained opt-in for sync with end-to-end encryption.
     effort: high
     sources: [GDPR, R-HUCKVALE2019]
+    gdpr: ['9', '25', '32']
     detection:
       method: manual
 
@@ -1155,6 +1188,7 @@ rules:
     improvement: Expose the access log in the patient portal; alert on unusual access.
     effort: medium
     sources: [EHDS, GDPR]
+    gdpr: ['15']
     detection:
       method: manual
 
@@ -1187,6 +1221,7 @@ rules:
     improvement: Tie access rights to care episodes; review access rights monthly.
     effort: medium
     sources: [GDPR, PT-LEI-12-2005, PT-LEI-58-2019]
+    gdpr: ['9(2)(h)', '9(3)']
     detection:
       method: manual
 
@@ -1206,6 +1241,7 @@ rules:
     improvement: Record each study in hdsf.yaml (research) with basis, approval and protocol.
     effort: medium
     sources: [GDPR, EDPB-RESEARCH]
+    gdpr: ['9(2)(j)', '89']
     detection:
       method: manifest
       patterns:
@@ -1224,6 +1260,7 @@ rules:
     improvement: Build an extract pipeline with field selection and codes; restrict research environments.
     effort: medium
     sources: [GDPR, EDPB-PSEUDO, CJEU-SRB]
+    gdpr: ['25', '89']
     detection:
       method: manual
 
@@ -1239,7 +1276,8 @@ rules:
     rationale: GDPR Art. 89; EHDS secondary use allows only anonymised or pseudonymised data in secure processing environments.
     improvement: Set minimum group sizes; add a disclosure check to the publication step.
     effort: medium
-    sources: [GDPR, EHDS]
+    sources: [GDPR, EHDS, EDPB-ANON]
+    gdpr: ['89']
     detection:
       method: manual
 
@@ -1290,6 +1328,7 @@ rules:
     improvement: Use a health-grade video provider under a DPA; turn recording off by default.
     effort: medium
     sources: [GDPR, ISO-27799]
+    gdpr: ['9(2)(h)', '28', '32']
     detection:
       method: manual
 
@@ -1307,6 +1346,7 @@ rules:
     improvement: Integrate the consultation notes with the record system; give patients access.
     effort: medium
     sources: [GDPR, PT-LEI-12-2005]
+    gdpr: ['15']
     detection:
       method: manual
 
@@ -1341,5 +1381,381 @@ rules:
     improvement: Check against the national register (Ordem dos Médicos and others in Portugal); show the licence in the profile.
     effort: medium
     sources: [ISO-82304-2]
+    detection:
+      method: manual
+
+  # ======================================================================= GDPR (RGPD) gaps, v0.2
+  - id: CORE-DAT-13
+    title: Processing of health data is recorded
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The maker keeps a record of processing activities: purposes, categories of people and data (health data
+      marked), recipients, transfers, retention and security measures. It is kept current.
+    rationale: GDPR Art. 30. The exemption for small organisations does not apply to processing of special categories such as health data.
+    improvement: Keep the record (a table is enough) and link it in hdsf.yaml (data.records).
+    effort: low
+    sources: [GDPR]
+    gdpr: ['30']
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: records_missing, confidence: high}
+
+  - id: CORE-DAT-14
+    title: No automated decision with serious effects without safeguards
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    features: [ai_clinical, ai_generative]
+    requirement: >
+      The product does not take decisions based only on automated processing of health data that have legal or
+      similarly significant effects on a person (access to care, priority, cover, eligibility), unless the person
+      gave explicit consent or the law allows it, and then with human review on request, a way to contest, and
+      clear information about the logic involved.
+    rationale: GDPR Art. 22, including Art. 22(4) on special categories; Art. 13(2)(f) on information about the logic.
+    improvement: Map every automated decision; add human review and a contest route; explain the logic in plain words.
+    effort: medium
+    sources: [GDPR]
+    gdpr: ['13(2)(f)', '22']
+    detection:
+      method: manual
+
+  - id: CORE-DAT-15
+    title: Data protection roles are clear
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      For each use of health data, the maker knows whether it acts as controller, processor or joint controller
+      (for example with a clinic or an insurer), and the contracts say so. A maker outside the EU names an EU
+      representative.
+    rationale: GDPR Art. 24, 26, 27 and 28. In digital health, the same app can be the clinic's processor for care and its own controller for analytics.
+    improvement: Write a roles table per purpose; set data.gdpr_role in hdsf.yaml; sign joint controller arrangements where needed.
+    effort: low
+    sources: [GDPR]
+    gdpr: ['24', '26', '27', '28']
+    detection:
+      method: manifest
+      patterns:
+        - {type: manifest, check: roles_missing, confidence: medium}
+
+  - id: CORE-DAT-16
+    title: Requests from people are answered within a month
+    level: MUST
+    tier: 1
+    profiles: [core]
+    users: [all]
+    requirement: >
+      People can ask to correct, restrict, object to or get a copy of their data through a simple route, and get an
+      answer within one month. The product tells them they can complain to the data protection authority.
+    rationale: GDPR Art. 12(3), 16, 18, 21 and 77.
+    notes:
+      - "Portugal: the supervisory authority is the CNPD (Comissão Nacional de Proteção de Dados)."
+    improvement: Add a privacy request form or address; track requests and answer times.
+    effort: low
+    sources: [GDPR, PT-LEI-58-2019]
+    gdpr: ['12', '16', '18', '21', '77']
+    detection:
+      method: manual
+
+  - id: CORE-DAT-17
+    title: Data protection is part of design decisions
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Design reviews ask what data each feature needs, choose the most protective default, and record the choice.
+      Privacy-friendly settings are on by default; more sharing is opt-in.
+    rationale: GDPR Art. 25 and the EDPB guidelines on data protection by design and by default.
+    improvement: Add a data question to the design review template; list the defaults and why.
+    effort: low
+    sources: [GDPR, EDPB-DPBD]
+    gdpr: ['25']
+    detection:
+      method: manual
+
+  # ======================================================================= Layer 2: EU recommendations and guidance
+  - id: CORE-AI-06
+    title: AI built with personal data passes the EDPB tests
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical]
+    requirement: >
+      When the maker trains, fine-tunes or evaluates an AI model with personal data, it documents the legal basis
+      (for legitimate interest: the three-step test), checks whether the model can be considered anonymous before
+      claiming so, and checks that any third-party model it uses was not built unlawfully.
+    rationale: >
+      EDPB Opinion 28/2024 sets the approach supervisory authorities use for AI models. The bar for an anonymous
+      model is high. Health data adds the Art. 9 condition, which the opinion does not cover.
+    improvement: "Keep an AI data sheet per model: data sources, legal basis, Art. 9 condition, anonymity assessment, supplier checks."
+    effort: medium
+    sources: [EDPB-AIMODELS, GDPR]
+    gdpr: ['5', '6', '9', '35']
+    detection:
+      method: manual
+
+  - id: CORE-AI-07
+    title: No scraped health data without an Art. 9 condition
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical, research_use]
+    requirement: >
+      The product and its maker do not scrape or extract health data from websites, forums, social media or other
+      apps for AI, analytics or research without an Art. 9(2) condition. Any scraping is limited to reliable,
+      named sources, keeps timestamps, validates the data and is explained to the people concerned.
+    rationale: >
+      The EDPB's draft guidelines on web scraping for generative AI (03/2026) require both an Art. 6 basis and an
+      Art. 9(2) exception when scraping touches special categories, with attention to purpose limitation and
+      transparency.
+    improvement: List every external data source; remove scrapers that may collect health data; document the conditions for the rest.
+    effort: medium
+    sources: [EDPB-SCRAPE, EDPB-AIMODELS, GDPR]
+    gdpr: ['5(1)(b)', '6', '9', '14']
+    detection:
+      method: mixed
+      patterns:
+        - {type: dependency, confidence: medium, names: [scrapy, beautifulsoup4, bs4, cheerio, crawlee, apify-client, newspaper3k, trafilatura, snscrape]}
+
+  - id: CORE-AI-08
+    title: Health AI is tested with its intended users
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    features: [ai_generative, ai_clinical]
+    requirement: >
+      Before release and after each model change, AI features are tested with the people who will use them, for
+      accuracy, bias across groups, and understanding of the limits. The limits are written in the product.
+    rationale: The WHO guidance on large multi-modal models asks developers to design and test for all intended users and to be transparent about limits.
+    improvement: Build a test set from real (consented) use cases; report results by group; publish a short limits statement.
+    effort: medium
+    sources: [WHO-LMM, AIA]
+    detection:
+      method: manual
+
+  - id: CORE-LNG-01
+    title: Health information is in plain language
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Health information, instructions and notices use short sentences, common words, the active voice and
+      explained terms. Medical terms are explained the first time.
+    rationale: >
+      Almost half of people in an eight-country EU survey had limited health literacy (HLS-EU). The Commission's
+      clear writing guide and the Publications Office plain language guide set the EU approach. GDPR Art. 12
+      already requires clear and plain language for privacy information.
+    improvement: Run the Workbench language check on your texts; rewrite long sentences; keep a glossary.
+    effort: low
+    sources: [EC-CLEAR, OP-PLAIN, R-HLS-EU2015, GDPR]
+    gdpr: ['12']
+    detection:
+      method: manual
+
+  - id: CORE-LNG-02
+    title: The product speaks its users' languages
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product is offered in the languages of the countries where it is used. Health content and safety messages
+      are translated or reviewed by a qualified person, not only by machine translation.
+    rationale: Information people cannot read is not information. ISO/TS 82304-2 assesses whether health information is understandable for the intended users.
+    improvement: List countries and languages in hdsf.yaml; record who reviewed each translation of health content.
+    effort: medium
+    sources: [OP-PLAIN, ISO-82304-2]
+    detection:
+      method: manual
+
+  - id: CORE-SAF-04
+    title: Health recommendations follow recognised guidance
+    level: SHOULD
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Advice the product gives (exercise, diet, sleep, medication reminders, mental health tips) follows recognised
+      guidance from public health bodies or clinical guidelines, and shows its source and date to the user.
+    rationale: ISO/TS 82304-2 assesses the quality and sources of health information; the WHO guidance asks for transparency about where AI health answers come from.
+    improvement: Link each recommendation to its guideline in the content register; show "Source and date" in the product.
+    effort: medium
+    sources: [ISO-82304-2, WHO-LMM]
+    detection:
+      method: manual
+
+  - id: CORE-COM-04
+    title: Consent and privacy screens avoid deceptive design
+    level: MUST
+    tier: 2
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Consent, privacy settings and sign-up screens avoid the deceptive patterns the EDPB names: too many requests,
+      hidden options, emotional steering, obstructed choices, inconsistent wording, and missing information.
+    rationale: GDPR Art. 5(1)(a), 7, 12 and 25 as read by the EDPB in Guidelines 03/2022 and 05/2020.
+    improvement: Review each screen against the EDPB categories; fix the worst first; keep screenshots as evidence.
+    effort: medium
+    sources: [EDPB-DECEPTIVE, EDPB-CONSENT, GDPR, DSA]
+    gdpr: ['5(1)(a)', '7', '12', '25']
+    detection:
+      method: manual
+
+  - id: E-INT-03
+    title: The EHR system follows the EU exchange format recommendation now
+    level: SHOULD
+    tier: 2
+    profiles: [E]
+    users: [all]
+    requirement: >
+      Until EHDS implementing acts apply, the system follows the principles and baseline specifications of
+      Commission Recommendation (EU) 2019/243 for patient summaries, ePrescriptions, lab results, images and
+      discharge reports.
+    rationale: The recommendation is the basis for the European EHR exchange format that the EHDS makes binding.
+    improvement: Map your data model to the recommended specifications; plan the gaps.
+    effort: high
+    sources: [EC-REC-EHRXF, HL7-FHIR]
+    detection:
+      method: manual
+
+  - id: M-USE-01
+    title: Usability engineering covers use errors
+    level: MUST
+    tier: 2
+    profiles: [M]
+    users: [all]
+    requirement: >
+      The manufacturer applies a usability engineering process: user profiles and use environments, use-related
+      risk analysis, formative tests during design and a summative test with representative users before release.
+    rationale: MDR Annex I (sections 5 and 22) asks to reduce risks from use errors; IEC 62366-1 is the harmonised standard for doing so.
+    improvement: Write the usability engineering file; run a summative test with real users before each major release.
+    effort: high
+    sources: [MDR, IEC-62366-1]
+    detection:
+      method: manual
+
+  # ======================================================================= Layer 3: research on design, UX and aesthetics
+  - id: CORE-DES-01
+    title: Risks and numbers are shown in ways people understand
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Risks and results use natural frequencies ("3 in 100 people") and icon arrays, not only percentages or
+      relative risk. The same denominator is used across comparisons.
+    rationale: Icon arrays improved understanding of medical risks for people with low and high numeracy, including older adults (Galesic 2009).
+    improvement: Replace percentage-only risk displays with frequency statements and an icon array of 100.
+    effort: low
+    sources: [R-GALESIC2009, R-HLS-EU2015]
+    detection:
+      method: manual
+
+  - id: CORE-DES-02
+    title: Saying no is as easy as saying yes
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      On the first consent screen, "refuse" has the same size, colour weight and position as "accept", and the
+      choices for each purpose are on the first screen.
+    rationale: Removing the opt-out from the first page raised consent by 22 to 23 points; granular first-page choices lowered it by 8 to 20 points (Nouwens 2020). Real choice needs equal buttons.
+    improvement: Redesign the consent screen with equal buttons and per-purpose toggles off by default.
+    effort: low
+    sources: [R-NOUWENS2020, EDPB-DECEPTIVE]
+    detection:
+      method: manual
+
+  - id: CORE-DES-03
+    title: The visual design is calm, consistent and honest
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The visual design is consistent, readable and calm. Good looks are used to make the product clearer, never to
+      make a risk, a cost or a data choice look smaller. Aesthetic changes are tested with users.
+    rationale: >
+      Perceived beauty shapes perceived usability, even more than actual usability (Tractinsky 2000). This is a
+      strength for trust and a risk for over-trust. MARS rates aesthetics as one of four quality dimensions.
+    improvement: Keep a design system; check that warnings and costs stay visible in every theme; test redesigns.
+    effort: medium
+    sources: [R-TRACTINSKY2000, R-MARS2015]
+    detection:
+      method: manual
+
+  - id: CORE-DES-04
+    title: Quality is rated before release
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      Before major releases, experts rate the product with MARS and users with uMARS (engagement, functionality,
+      aesthetics, information quality), and the team acts on low scores.
+    rationale: MARS is a reliable, widely used scale for health app quality (Stoyanov 2015).
+    improvement: Add a MARS rating to the release checklist; track scores over versions.
+    effort: low
+    sources: [R-MARS2015, ISO-82304-2]
+    detection:
+      method: manual
+
+  - id: CORE-DES-05
+    title: Designed and tested with people who find health information hard
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      User research and tests include people with limited health literacy, older adults and people with
+      disabilities. Key information has an easy-to-read version.
+    rationale: Limited health literacy is common and higher among people with low education, financial deprivation or old age (HLS-EU 2015). Easy-to-read helps people with low literacy or cognitive disabilities (Publications Office).
+    improvement: Recruit these groups for every test round; write easy-to-read versions of onboarding, consent and safety texts.
+    effort: medium
+    sources: [R-HLS-EU2015, OP-PLAIN, WCAG22]
+    detection:
+      method: manual
+
+  - id: CORE-DES-06
+    title: No guilt, shame or fear to drive engagement
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The product does not use guilt, shame, fear or loss streaks about health to keep people using it or to sell.
+      Success is measured by health outcomes and user goals, not time in the app.
+    rationale: Emotional steering is a deceptive pattern (EDPB 03/2022); exploiting vulnerability is banned for AI (AI Act Art. 5). CSEF applies the same rule to children.
+    improvement: Remove guilt messages and loss streaks; replace engagement KPIs with outcome KPIs.
+    effort: low
+    sources: [EDPB-DECEPTIVE, AIA-GL-PROHIB, CSEF]
+    detection:
+      method: manual
+
+  - id: CORE-SAF-05
+    title: The evidence plan matches the product's function and risk
+    level: SHOULD
+    tier: 3
+    profiles: [core]
+    users: [all]
+    requirement: >
+      The maker classifies its product by function (from system services to treatment) and plans the evidence that
+      fits: higher risk functions need stronger evidence of effect.
+    rationale: The NICE evidence standards framework sets evidence tiers by function and risk; health systems and buyers in Europe use similar logic.
+    improvement: Place the product in the NICE functional classes; write the evidence plan; review it each year.
+    effort: medium
+    sources: [NICE-ESF, ISO-82304-2]
     detection:
       method: manual

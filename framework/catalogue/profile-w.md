@@ -2,7 +2,7 @@
 
 # Profile W: Wellness and lifestyle (no medical purpose)
 
-Wellness and lifestyle (no medical purpose). HDSF v0.1.0. Rules marked `core` apply to every product; read them first.
+Wellness and lifestyle (no medical purpose). HDSF v0.2.0. Rules marked `core` apply to every product; read them first.
 
 | ID | Rule | Strength | Level | Detection |
 |---|---|---|---|---|

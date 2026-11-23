@@ -1,5 +1,5 @@
 # Fictional example: a symptom app with many problems, to show what HDSF finds.
-hdsf_version: "0.1"
+hdsf_version: "0.2"
 product:
   name: SymptomPal (example)
   version: 0.9.0
