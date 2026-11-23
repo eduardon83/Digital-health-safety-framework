@@ -31,6 +31,7 @@ from sfe import catalogue as cat  # noqa: E402
 from sfe import config as sfe_config  # noqa: E402
 from sfe import markdown as md  # noqa: E402
 
+import brand  # noqa: E402
 import checks  # noqa: E402
 import workbench  # noqa: E402
 
@@ -225,10 +226,12 @@ def gdpr_map(version, rules):
 # --------------------------------------------------------------------------- site
 LIGHT = {"ink": "#12232e", "muted": "#4b5d68", "paper": "#fbfcfc", "panel": "#ffffff", "line": "#d9e2e6", "code": "#eef3f4",
          "teal": "#0f6e6e", "teal-t": "#0b5757", "on-teal": "#ffffff", "tint": "#e8f3f2", "warn": "#8a4b00", "note-bg": "#fff8ec",
-         "note-line": "#f0d9b5", "field": "#b9c7cd", "ok-bg": "#e8f5ec", "err-bg": "#fdecea", "danger": "#b42318", "drop": "#9fb3bb"}
+         "note-line": "#f0d9b5", "field": "#b9c7cd", "ok-bg": "#e8f5ec", "err-bg": "#fdecea", "danger": "#b42318", "drop": "#9fb3bb",
+         "sky": brand.LIGHT["sky"], "indigo": brand.LIGHT["indigo"], "lilac": brand.LIGHT["lilac"], "coral": brand.LIGHT["coral"]}
 DARK = {"ink": "#e6eef0", "muted": "#a6b8c0", "paper": "#0f1a20", "panel": "#16252d", "line": "#2a3d47", "code": "#1d2f38",
         "teal": "#3fb8a8", "teal-t": "#6fd3c4", "on-teal": "#0b1418", "tint": "#16343a", "warn": "#f2c47a", "note-bg": "#2e2616",
-        "note-line": "#5a4520", "field": "#3d5560", "ok-bg": "#173b2b", "err-bg": "#45201f", "danger": "#ff8a80", "drop": "#4f6872"}
+        "note-line": "#5a4520", "field": "#3d5560", "ok-bg": "#173b2b", "err-bg": "#45201f", "danger": "#ff8a80", "drop": "#4f6872",
+        "sky": brand.DARK["sky"], "indigo": brand.DARK["indigo"], "lilac": brand.DARK["lilac"], "coral": brand.DARK["coral"]}
 
 
 def _vars(d):
@@ -239,6 +242,20 @@ TOKENS = (":root{" + _vars(LIGHT) + ";color-scheme:light}"
           "@media (prefers-color-scheme:dark){:root:not([data-theme=light]){" + _vars(DARK) + ";color-scheme:dark}}"
           ":root[data-theme=dark]{" + _vars(DARK) + ";color-scheme:dark}"
           "@media print{:root,:root[data-theme=dark]{" + _vars(LIGHT) + ";color-scheme:light}.theme{display:none}}\n")
+BRAND_LINK = '<a class="brand" href="{home}" aria-label="HDSF home">' + brand.inline_mark(30) + '<span class="wm">HD<span>SF</span></span></a>'
+
+
+def head_meta(home, title, description, path=""):
+    e = html.escape
+    return (f'<link rel="icon" href="{home}favicon.svg" type="image/svg+xml"><link rel="icon" href="{home}favicon-32.png" sizes="32x32">'
+            f'<link rel="apple-touch-icon" href="{home}apple-touch-icon.png"><meta name="theme-color" content="#0f6e6e">'
+            f'<meta property="og:type" content="website"><meta property="og:site_name" content="HDSF">'
+            f'<meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}">'
+            f'<meta property="og:image" content="{CFG.site}/social-preview.png">'
+            f'<meta property="og:image:width" content="1280"><meta property="og:image:height" content="640">'
+            f'<meta name="twitter:card" content="summary_large_image">')
+
+
 THEME_HEAD = ("<script>try{var t=localStorage.getItem('hdsf-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>")
 THEME_JS = ("<script>(function(){var r=document.documentElement,b=document.querySelector('[data-theme-toggle]');if(!b)return;"
             "function dark(){return r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches}"
@@ -251,7 +268,7 @@ a{color:var(--teal-t)}a:focus-visible{outline:3px solid var(--teal);outline-offs
 .in{max-width:1080px;margin:0 auto;padding:0 24px}header.top{border-bottom:1px solid var(--line);background:var(--panel)}
 header.top .in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:14px 24px}
 .brand{font-weight:700;letter-spacing:.02em;color:var(--ink);text-decoration:none;font-size:20px}.brand span{color:var(--teal)}
-nav{display:flex;gap:6px 20px;flex-wrap:wrap}nav a{color:var(--ink);text-decoration:none;font-weight:500;padding:8px 0}nav a:hover{color:var(--teal)}
+nav{display:flex;gap:4px 16px;flex-wrap:wrap;font-size:.96rem}nav a{color:var(--ink);text-decoration:none;font-weight:500;padding:8px 0}@media (min-width:1000px){header.top .in{flex-wrap:nowrap}}nav a:hover{color:var(--teal)}
 main{padding:32px 0 64px}article{max-width:820px}h1{font-size:2.1rem;line-height:1.2;margin:.2em 0 .5em}h2{margin-top:2em;font-size:1.45rem}h3{font-size:1.1rem;margin-top:1.6em}
 .tbl{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.92rem;margin:1em 0}th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}th{background:var(--tint)}td:first-child a{white-space:nowrap}
 code{background:var(--code);padding:1px 5px;border-radius:4px;font-size:.9em}pre{background:#0f1c24;color:#e6eef2;padding:14px;border-radius:8px;overflow-x:auto}pre code{background:none;color:inherit;padding:0}
@@ -263,6 +280,7 @@ blockquote{margin:1em 0;padding:8px 16px;border-left:4px solid var(--teal);backg
 .note{border:1px solid var(--note-line);background:var(--note-bg);color:var(--warn);border-radius:8px;padding:12px 16px;font-size:.95rem}
 footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:.88rem}
 @media (prefers-reduced-motion:no-preference){a{transition:color .15s}}
+.brand{display:inline-flex;align-items:center;gap:10px}.brand svg{flex:0 0 auto}.brand .wm{color:var(--ink)}.brand .wm span{color:var(--teal)}
 .theme{font:inherit;font-size:.9rem;font-weight:600;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--panel);color:var(--ink);cursor:pointer}
 .theme:hover{border-color:var(--teal)}
 """
@@ -275,8 +293,8 @@ def page(title, body, version, home, description):
     nav = "".join(f'<a href="{home}{h}">{e(t)}</a>' for h, t in NAV)
     return ("<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
             f"<title>{e(title)} · HDSF</title><meta name=\"description\" content=\"{e(description)}\">"
-            f"<link rel=\"stylesheet\" href=\"{home}style.css\">{THEME_HEAD}</head>\n"
-            f'<body><header class="top"><div class="in"><a class="brand" href="{home}">HD<span>SF</span></a><nav aria-label="Main">{nav}</nav><button class="theme" type="button" data-theme-toggle>Dark</button></div></header>\n'
+            f"<link rel=\"stylesheet\" href=\"{home}style.css\">{head_meta(home, title + ' · HDSF', description)}{THEME_HEAD}</head>\n"
+            f'<body><header class="top"><div class="in">{BRAND_LINK.replace("{home}", home)}<nav aria-label="Main">{nav}</nav><button class="theme" type="button" data-theme-toggle>Dark</button></div></header>\n'
             f'<main class="in"><article>{body}</article></main>\n'
             f'<footer><div class="in">Health Data Safety Framework (HDSF) v{e(version)}, maintained by Kendir Studios with contributors. '
             f'Content CC BY 4.0, code Apache-2.0. Not legal or regulatory advice. '
@@ -335,7 +353,8 @@ def site(version, rules, sources, generated):
     tpl = (ROOT / "tooling" / "workbench.template.html").read_text(encoding="utf-8")
     files[docs / "workbench" / "index.html"] = (tpl.replace("{version}", version).replace("{form}", workbench.form_html())
                                                 .replace("{nav}", nav).replace("{pyodide}", PYODIDE)
-                                                .replace("{theme_head}", THEME_HEAD).replace("{theme_js}", THEME_JS))
+                                                .replace("{theme_head}", head_meta("../", "Workbench · HDSF", "Check a digital health product without code. Nothing is uploaded.", "workbench/") + THEME_HEAD)
+                                                .replace("{theme_js}", THEME_JS).replace("{brand}", BRAND_LINK.replace("{home}", "../")))
     files[docs / "workbench" / "hdsf-bundle.json"] = workbench.web_bundle(ROOT)
     files[docs / "workbench" / "example.json"] = workbench.example_bundle(ROOT)
     files[docs / "workbench" / "templates.json"] = workbench.templates_bundle(ROOT)
@@ -343,6 +362,9 @@ def site(version, rules, sources, generated):
         t2, body, _ = md.render(_strip(generated[ROOT / "framework" / "catalogue" / f"{fn}.md"]), "framework/catalogue", sub_links, None, CFG.repo, "hdsf.kendirstudios.pt")
         files[docs / "catalogue" / fn / "index.html"] = page(t2, body, version, "../../", title)
     files[docs / "style.css"] = CSS
+    files[docs / "favicon.svg"] = brand.svg_icon(brand.LIGHT)
+    for name, text in brand.files().items():
+        files[ROOT / "brand" / "svg" / name] = text
     files[docs / "CNAME"] = "hdsf.kendirstudios.pt\n"
     files[docs / ".nojekyll"] = ""
     return files

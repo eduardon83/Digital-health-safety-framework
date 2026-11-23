@@ -1,9 +1,11 @@
+<img src="brand/svg/hdsf-lockup-on-light.svg" alt="HDSF, Health Data Safety Framework" width="360">
+
 # Health Data Safety Framework (HDSF)
 
 Open, checkable rules for digital health products in the European Union: wellness and lifestyle apps, medical device
 software, electronic health record systems, research platforms and telehealth.
 
-> **Status:** v0.3.0, draft for public comment (November 2026). Not legal or regulatory advice.
+> **Status:** v0.3.1, draft for public comment (November 2026). Not legal or regulatory advice.
 
 Digital health sits where the GDPR (RGPD), the MDR and IVDR, the European Health Data Space, the AI Act, the Cyber
 Resilience Act, NIS2, the Data Act and the new Product Liability Directive meet. HDSF puts what they ask of a product
@@ -66,6 +68,7 @@ self-assessment/  generated checklists
 tooling/          scan.py, checks.py (manifest checks), docreview.py, export.py, workbench.py (+ page template), build.py,
                   sync_engine.py, generated Semgrep rules
 engine/           pinned copy of the Safety Framework Engine (sfe) from CSEF, with ENGINE.lock
+brand/            logo files and colours (brand/README.md)
 skill/            hdsf-review skill for Claude (SKILL.md + generated copies)
 examples/         compliant and non-compliant example apps (fictional)
 tests/            test suite

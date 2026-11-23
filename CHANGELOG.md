@@ -2,6 +2,12 @@
 
 Newest first. Open items and what we are watching: [legislation.md, watch list](framework/legislation.md#open-discussions-and-watch-list).
 
+## v0.3.1 (2026-11-23)
+
+- **Logo.** A shield holding a plus of rounded blocks, in the CSEF family's colours ([brand/](brand/README.md)): mark,
+  lockup, icon and social preview, each for light and dark backgrounds, with PNG renders. The site header shows the
+  mark in both modes; pages have favicons and link previews.
+
 ## v0.3.0 (2026-11-23)
 
 - **Packs, as in CSEF.** A Portugal pack ([packs/pt.yaml](packs/pt.yaml)) loads by itself when `countries` lists PT:

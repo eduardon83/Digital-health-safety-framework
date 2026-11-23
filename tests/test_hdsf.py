@@ -257,3 +257,12 @@ def test_workbench_templates_built():
 def test_texts_follow_the_style_guide():
     import stylecheck
     assert stylecheck.check() == []
+
+
+def test_brand_files_and_site_icons():
+    for f in ("hdsf-mark-on-light.svg", "hdsf-lockup-on-dark.svg", "hdsf-icon-on-light.svg", "hdsf-social-preview-on-light.svg"):
+        assert (ROOT / "brand" / "svg" / f).read_text().startswith("<svg")
+    for f in ("favicon.svg", "favicon-32.png", "apple-touch-icon.png", "social-preview.png"):
+        assert (ROOT / "docs" / f).exists(), f
+    home = (ROOT / "docs" / "index.html").read_text()
+    assert 'og:image' in home and "favicon.svg" in home and "var(--coral)" in home
